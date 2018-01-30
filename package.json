@@ -4,7 +4,8 @@
   "description": "wesbsite with lots of animations",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "bundle": "webpack --config webpack.config.js"
   },
   "repository": {
     "type": "git",
@@ -17,6 +18,7 @@
   },
   "homepage": "https://github.com/Lewington-pitsos/flowers#readme",
   "dependencies": {
-    "express": "^4.16.2"
+    "express": "^4.16.2",
+    "webpack": "^3.10.0"
   }
 }
