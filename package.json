@@ -1,0 +1,22 @@
+{
+  "name": "flowers",
+  "version": "1.0.0",
+  "description": "wesbsite with lots of animations",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Lewington-pitsos/flowers.git"
+  },
+  "author": "Louka Ewington-Pitsos",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Lewington-pitsos/flowers/issues"
+  },
+  "homepage": "https://github.com/Lewington-pitsos/flowers#readme",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
+}
