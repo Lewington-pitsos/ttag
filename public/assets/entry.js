@@ -8,3 +8,4 @@ require('jquery')
 
 // css
 require('./stylesheets/bootstrap.min.css')
+require('./stylesheets/main.sass')
