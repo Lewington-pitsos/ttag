@@ -80,4 +80,6 @@ const config = {
 };
 
 // to actually get Webpack to DO STUFF it provides a CLI. Only issue is that this cli has to be run through npm, so you should create a "script" in package.json
+
+//If you specify $ webpack --watch (npm run watch for this app) then webpack will auto-reload whenever it detects a change
 module.exports = config;
