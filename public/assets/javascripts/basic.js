@@ -1,15 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import $ from 'jquery';
 
 class Layout extends React.Component {
-  render() {
+  render(word) {
     return(
-      <h1>Please sir, can I have some</h1>
+      <div className='text-xs-center'>
+        <h1>CUNT {word}</h1>
+        <h1 className="text-xs-right">dasdasd {word}</h1>
+      </div>
     );
   }
 }
 
 const app = document.getElementById('app')
+
+console.log(<Layout/>);
 
 ReactDOM.render(<Layout/>, app);

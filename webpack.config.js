@@ -3,6 +3,9 @@
 // plugins (more on these below) need to be required in here before use (and after installation through npm)
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
+// this is so we can use the ProvidePlugin below
+var webpack = require('webpack');
+
 
 const config = {
   // I don't know eaxctly what "module" means
@@ -84,7 +87,14 @@ const config = {
   // a webpack plugin is just a fancy javascript object that has been configured to interact nicely with webpack. These generally tend to just automate stuff for you, like uglifying for instance.
   plugins: [
     // webpack wants to use the classically inherited versions of these objects, so we have to create new instances
-    new UglifyJsPlugin()
+    //new UglifyJsPlugin(),
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery',
+      Tether: 'tether',
+      "window.jQuery": "jquery",
+      "window.Tether": 'tether'
+    })
   ]
 };
 
