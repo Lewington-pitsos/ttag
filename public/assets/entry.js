@@ -2,7 +2,8 @@
 
 // js
 require('jquery')
-
+require('react')
+require('./javascripts/basic.js')
 
 
 

@@ -46,6 +46,15 @@ const config = {
           },
           { loader: 'sass-loader' }
         ]
+      },
+
+      // this is so we can read in/use ecmascript6 sytax
+      {
+        test: /\.js$/,
+        loader: 'babel-loader',
+        query: {
+            presets: ['react']
+        }
       }
     ]
   },
