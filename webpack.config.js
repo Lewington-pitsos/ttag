@@ -1,5 +1,8 @@
-
 // basically this is the configuration (basic setup/options) that Webpack is going to be running under.
+
+// plugins (more on these below) need to be required in here before use (and after installation through npm)
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+
 
 const config = {
   // I don't know eaxctly what "module" means
@@ -16,7 +19,7 @@ const config = {
         use: [
 
           // the css loader allows Webpack to interprate css, without it webpack would try to read it as JS and fail
-          
+
           // the style loader allows webpack to put the interpreted css into a JS file and have it still work as css when it gets used the html you'll be feeding the browser. This way we can put everything we require into one single JS file
 
           // NOTE: they MUST go in THIS order!!!!! order is super important for some gay reason
@@ -52,7 +55,13 @@ const config = {
   node: {
     net: 'empty',
     fs: 'empty'
-  }
+  },
+
+  // a webpack plugin is just a fancy javascript object that has been configured to interact nicely with webpack. These generally tend to just automate stuff for you, like uglifying for instance.
+  plugins: [
+    // webpack wants to use the classically inherited versions of these objects, so we have to create new instances
+    new UglifyJsPlugin()
+  ]
 };
 
 // to actually get Webpack to DO STUFF it provides a CLI. Only issue is that this cli has to be run through npm, so you should create a "script" in package.json
