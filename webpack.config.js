@@ -8,7 +8,7 @@ const config = {
   // I don't know eaxctly what "module" means
   module: {
 
-    // but "rules" lets you interprate (and hence ultimately bundle) different file types differently.
+    // but "rules" lets you interprate (and hence ultimately bundle) different file types differently. It is an array of rule objects.
     // if you want to use a different bundling process you have to use a "loader", which in turn need to be installed through npm
     rules: [
       {
@@ -31,7 +31,10 @@ const config = {
             }
           }
         ],
-      }, {
+      },
+
+      // you should have one "rules" object for every file-type that has to be processed differently (except the default type: javascript)
+      {
         test: /\.sass/,
         use: [
           { loader: 'style-loader' },
