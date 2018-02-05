@@ -16,4 +16,4 @@ const app = document.getElementById('app')
 
 console.log(<Layout/>);
 
-ReactDOM.render(<Layout/>, app);
+//ReactDOM.render(<Layout/>, app);

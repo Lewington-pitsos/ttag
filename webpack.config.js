@@ -1,19 +1,40 @@
 // basically this is the configuration (basic setup/options) that Webpack is going to be running under.
 
 // plugins (more on these below) need to be required in here before use (and after installation through npm)
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+
 
 // this is so we can use the ProvidePlugin below
 var webpack = require('webpack');
-
+const autoprefixer = require('autoprefixer');
+const precss = require('precss');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const config = {
-  // I don't know eaxctly what "module" means
   module: {
 
     // but "rules" lets you interprate (and hence ultimately bundle) different file types differently. It is an array of rule objects.
     // if you want to use a different bundling process you have to use a "loader", which in turn need to be installed through npm
     rules: [
+      {
+        test: /\.(scss)|(sass)$/,
+        use: [{
+          loader: 'style-loader', // inject CSS to page
+        }, {
+          loader: 'css-loader', // translates CSS into CommonJS modules
+        }, {
+          loader: 'postcss-loader', // Run post css actions
+          options: {
+            plugins: function () { // post css plugins, can be exported to postcss.config.js
+              return [
+                require('precss'),
+                require('autoprefixer')
+              ];
+            }
+          }
+        }, {
+          loader: 'sass-loader' // compiles Sass to CSS
+        }]
+      },
       {
 
         // first we tell Webpack which file to look for
@@ -27,28 +48,8 @@ const config = {
 
           // NOTE: they MUST go in THIS order!!!!! order is super important for some gay reason
           { loader: 'style-loader' },
-          {
-            loader: 'css-loader',
-            options: {
-              modules: true
-            }
-          }
+          { loader: 'css-loader'   }
         ],
-      },
-
-      // you should have one "rules" object for every file-type that has to be processed differently (except the default type: javascript)
-      {
-        test: /\.sass/,
-        use: [
-          { loader: 'style-loader' },
-          {
-            loader: 'css-loader',
-            options: {
-              modules: true
-            }
-          },
-          { loader: 'sass-loader' }
-        ]
       },
 
       // this is so we can read in/use ecmascript6 sytax
@@ -92,7 +93,6 @@ const config = {
       $: 'jquery',
       jQuery: 'jquery',
       Tether: 'tether',
-      "window.jQuery": "jquery",
       "window.Tether": 'tether'
     })
   ]
