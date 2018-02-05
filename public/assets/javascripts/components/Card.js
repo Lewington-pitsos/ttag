@@ -23,9 +23,14 @@ export default class Card extends React.Component {
   render() {
     // renders the outside containers of the card div and a CardText component
     return(
-      <div className="col-md-6">
-        <div className='card' onClick={this.updateText}>
-          <CardText content={this.props.dialogue[this.state.currentDialogue]}/>
+      <div class='flip-container' ontouchstart="this.classList.toggle('hover');">
+       <div class='flipper'>
+          <div className='card front' onClick={this.updateText}>
+            <CardText content={this.props.dialogue[this.state.currentDialogue]}/>
+          </div>
+          <div className='card back' onClick={this.updateText}>
+            <CardText content={this.props.dialogue[this.state.currentDialogue]}/>
+          </div>
         </div>
       </div>
     );

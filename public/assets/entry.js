@@ -2,7 +2,8 @@
 
 // css
 import './stylesheets/main.sass';
-import './stylesheets/animate.css'
+import './stylesheets/animate.css';
+import './stylesheets/flip.css';
 
 // js
 import 'bootstrap'; // yeah, this is just bootstrap js
