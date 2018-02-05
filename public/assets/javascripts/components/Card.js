@@ -37,8 +37,9 @@ export default class Card extends React.Component {
 
   render() {
     // renders the outside containers of the card div and a CardText component
+    var fadein = 'fadeIn' + this.props.entryDirection + 'Big';
     return(
-      <div className={`vertical flip-container card-flipper ${this.props.size}-card`} id={this.props.id}>
+      <div className={`vertical flip-container card-flipper ${this.props.size}-card animated ${fadein}`} id={this.props.id}>
        <div className='flipper'>
           <div className='card front' onClick={this.updateText}>
             <CardText content={this.props.dialogue[this.state.frontTextIndex]}/>
@@ -56,9 +57,12 @@ Card.propTypes = {
   // raises warnings if the correct props aren't passed in
   dialogue: PropTypes.array.isRequired,
   id: PropTypes.string.isRequired,
-  size: PropTypes.string
+  size: PropTypes.string.isRequired,
+  entryDirection: PropTypes.string.isRequired
 }
 
 Card.defaultProps = {
-  size: 'med'
+  // sets default prop values
+  size: 'med',
+  entryDirection: 'Top'
 }

@@ -8,7 +8,7 @@ export default class CardHolder extends React.Component {
   render() {
     // renders a simple card holding row with a Card component inside
     return(
-      <div className={'d-flex flex-wrap flex-column align-items-center card-holder animated fadeIn' + this.props.entryDirection + 'Big'}>
+      <div className={'d-flex flex-wrap flex-column align-items-center card-holder'}>
         {this.props.children}
       </div>
     );

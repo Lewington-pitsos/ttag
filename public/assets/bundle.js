@@ -1487,9 +1487,10 @@ class Card extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 
   render() {
     // renders the outside containers of the card div and a CardText component
+    var fadein = 'fadeIn' + this.props.entryDirection + 'Big';
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
-      { className: `vertical flip-container card-flipper ${this.props.size}-card`, id: this.props.id },
+      { className: `vertical flip-container card-flipper ${this.props.size}-card animated ${fadein}`, id: this.props.id },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
         { className: 'flipper' },
@@ -1514,11 +1515,14 @@ Card.propTypes = {
   // raises warnings if the correct props aren't passed in
   dialogue: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.array.isRequired,
   id: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.string.isRequired,
-  size: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.string
+  size: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.string.isRequired,
+  entryDirection: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.string.isRequired
 };
 
 Card.defaultProps = {
-  size: 'med'
+  // sets default prop values
+  size: 'med',
+  entryDirection: 'Top'
 };
 
 /***/ }),
@@ -17218,8 +17222,8 @@ var cardTwoDialogue = ["He's not coming back you know", "Curses! I have been Van
 __WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
   __WEBPACK_IMPORTED_MODULE_3__components_CardHolder_js__["a" /* default */],
   { entryDirection: 'Left' },
-  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__components_EasyCard_js__["a" /* default */], { dialogue: cardOneDialogue, id: 'nice-card', size: 'medium' }),
-  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__components_EasyCard_js__["a" /* default */], { dialogue: cardTwoDialogue, id: 'mean-card', size: 'small' })
+  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__components_EasyCard_js__["a" /* default */], { dialogue: cardOneDialogue, id: 'nice-card', size: 'medium', entryDirection: 'Down' }),
+  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__components_EasyCard_js__["a" /* default */], { dialogue: cardTwoDialogue, id: 'mean-card', size: 'small', entryDirection: 'Up' })
 ), main);
 
 /***/ }),
@@ -24429,7 +24433,7 @@ class CardHolder extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component
     // renders a simple card holding row with a Card component inside
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
-      { className: 'd-flex flex-wrap flex-column align-items-center card-holder animated fadeIn' + this.props.entryDirection + 'Big' },
+      { className: 'd-flex flex-wrap flex-column align-items-center card-holder' },
       this.props.children
     );
   }
