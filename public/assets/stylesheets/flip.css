@@ -8,8 +8,8 @@
 	}
 
 .flip-container, .front, .back {
-	width: 320px;
-	height: 480px;
+	width: 300px;
+	height: 300px;
 }
 
 /* flip speed goes here */
@@ -53,7 +53,7 @@
 	}
 
 	.vertical.flip-container .flipper {
-		transform-origin: 100% 213.5px; /* half of height */
+		transform-origin: 100% 150px; /* half of height */
 	}
 
 	.vertical.flip-container.hover .flipper {
