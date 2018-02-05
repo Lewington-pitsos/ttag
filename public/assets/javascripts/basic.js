@@ -1,20 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-class Card extends React.Component {
+import Card from './components/Card.js';
+
+class CardHolder extends React.Component {
   render() {
     return(
-      <div className='text-center card'>
-
+      <div className="row align-items-center card-holder">
+        <Card text={this.props.words}/>
       </div>
     );
   }
 }
 
-const content = document.getElementById('main')
+const main = document.getElementById('main')
 
-console.log(document);
+console.log(main);
 
-console.log(<Card/>);
-
-ReactDOM.render(<Card/>, content);
+ReactDOM.render(<CardHolder words="ui facit eorum claritatem. Investigationes ninja demonstraverunt lectores legere me" />, main);
