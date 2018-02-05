@@ -27,7 +27,8 @@ export default class Card extends React.Component {
   }
 
   nextIndex(num) {
-    // returns one greater than the number passed, in or the same number if num is equal or higher than limit
+    // returns one greater than the number passed, in or one less if num is equal or higher than limit.
+    // This way if one of the leapfrogging indicies reaches the second-last index, it will stay there, and the other will always remain the "highest" of the two
     var limit = this.props.dialogue.length - 1;
     return num < limit ? num + 1 : num - 1
   }

@@ -1477,7 +1477,8 @@ class Card extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
   }
 
   nextIndex(num) {
-    // returns one greater than the number passed, in or the same number if num is equal or higher than limit
+    // returns one greater than the number passed, in or one less if num is equal or higher than limit.
+    // This way if one of the leapfrogging indicies reaches the second-last index, it will stay there, and the other will always remain the "highest" of the two
     var limit = this.props.dialogue.length - 1;
     return num < limit ? num + 1 : num - 1;
   }
@@ -17205,11 +17206,15 @@ const main = document.getElementById('main');
 
 console.log(main);
 
-var cardOneDialogue = ["Gaaaaah *gasp* Aaaaaah! Help me *splutter* I'm in terrible pain! Quick, flip me over", "Phew, christ that's better, thanks for that. Ok, ok, you can flip me back now.", '...', ':D'];
+var cardOneDialogue = ["Gaaaaah *gasp* Aaaaaah! Help me *splutter* I'm in terrible pain! Quick, flip me over", "Phew, christ that's better, thanks for that. Ok, ok, you can flip me back now.", '...'];
 
 var cardTwoDialogue = ["He's not coming back you know", "Curses! I have ben Vanquished. *splutter* *gasp* *fade*"];
 
-__WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__components_CardHolder_js__["a" /* default */], { dialogue: cardOneDialogue, entryDirection: 'Left' }), main);
+__WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+  __WEBPACK_IMPORTED_MODULE_3__components_CardHolder_js__["a" /* default */],
+  { entryDirection: 'Left' },
+  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__components_Card_js__["a" /* default */], { dialogue: cardOneDialogue })
+), main);
 
 /***/ }),
 /* 29 */
@@ -24419,7 +24424,7 @@ class CardHolder extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
       { className: 'd-flex justify-content-center align-items-center card-holder animated fadeIn' + this.props.entryDirection + 'Big' },
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__Card__["a" /* default */], { dialogue: this.props.dialogue })
+      this.props.children
     );
   }
 }
@@ -24428,7 +24433,7 @@ class CardHolder extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component
 
 CardHolder.propTypes = {
   // raises warnings if an array isn's passed in
-  dialogue: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.array.isRequired
+  entryDirection: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.string.isRequired
 };
 
 /***/ }),

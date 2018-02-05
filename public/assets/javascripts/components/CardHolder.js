@@ -9,7 +9,7 @@ export default class CardHolder extends React.Component {
     // renders a simple card holding row with a Card component inside
     return(
       <div className={'d-flex justify-content-center align-items-center card-holder animated fadeIn' + this.props.entryDirection + 'Big'}>
-        <Card dialogue={this.props.dialogue}/>
+        {this.props.children}
       </div>
     );
   }
@@ -17,5 +17,5 @@ export default class CardHolder extends React.Component {
 
 CardHolder.propTypes = {
   // raises warnings if an array isn's passed in
-  dialogue: PropTypes.array.isRequired
+  entryDirection: PropTypes.string.isRequired
 }
