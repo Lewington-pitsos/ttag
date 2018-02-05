@@ -1,12 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-class Layout extends React.Component {
+class Card extends React.Component {
   render() {
     return(
-      <div className='text-center'>
-        <h1>CUNT </h1>
-        <h1 className="text-right">dasdasd </h1>
+      <div className='text-center card'>
+
       </div>
     );
   }
@@ -16,6 +15,6 @@ const content = document.getElementById('main')
 
 console.log(document);
 
-console.log(<Layout/>);
+console.log(<Card/>);
 
-ReactDOM.render(<Layout/>, content);
+ReactDOM.render(<Card/>, content);
