@@ -1444,7 +1444,7 @@ module.exports = focusNode;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__CardText__ = __webpack_require__(40);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types__ = __webpack_require__(9);
@@ -1472,8 +1472,8 @@ class Card extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
       this.setState({ frontTextIndex: this.nextIndex(highest) });
     }
 
-    // we also flip the cards
-    $('.flip-container').toggleClass('hover');
+    // we also flip the card, but different cards will have different flipping interactions, so the speficis will be left up to the class
+    this.cardSpecificFlip();
   }
 
   nextIndex(num) {
@@ -1487,7 +1487,7 @@ class Card extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
     // renders the outside containers of the card div and a CardText component
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
-      { className: 'vertical flip-container' },
+      { className: 'vertical flip-container', id: this.props.id },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
         { className: 'flipper' },
@@ -1512,7 +1512,6 @@ Card.propTypes = {
   // raises warnings if an array isn's passed in
   dialogue: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.array.isRequired
 };
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(26)))
 
 /***/ }),
 /* 19 */
@@ -17194,7 +17193,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! tether 1.4
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(31);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Card_js__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_EasyCard_js__ = __webpack_require__(46);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_CardHolder_js__ = __webpack_require__(43);
 
 
@@ -17204,8 +17203,6 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! tether 1.4
 
 const main = document.getElementById('main');
 
-console.log(main);
-
 var cardOneDialogue = ["Gaaaaah *gasp* Aaaaaah! Help me *splutter* I'm in terrible pain! Quick, flip me over", "Phew, christ that's better, thanks for that. Ok, ok, you can flip me back now.", '...'];
 
 var cardTwoDialogue = ["He's not coming back you know", "Curses! I have ben Vanquished. *splutter* *gasp* *fade*"];
@@ -17213,7 +17210,8 @@ var cardTwoDialogue = ["He's not coming back you know", "Curses! I have ben Vanq
 __WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
   __WEBPACK_IMPORTED_MODULE_3__components_CardHolder_js__["a" /* default */],
   { entryDirection: 'Left' },
-  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__components_Card_js__["a" /* default */], { dialogue: cardOneDialogue })
+  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__components_EasyCard_js__["a" /* default */], { dialogue: cardOneDialogue, id: 'nice-card' }),
+  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__components_EasyCard_js__["a" /* default */], { dialogue: cardTwoDialogue, id: 'mean-card' })
 ), main);
 
 /***/ }),
@@ -24499,6 +24497,30 @@ exports.push([module.i, "/* entire container, keeps perspective */\n.flip-contai
 
 // exports
 
+
+/***/ }),
+/* 46 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Card__ = __webpack_require__(18);
+
+
+
+class EasyCard extends __WEBPACK_IMPORTED_MODULE_1__Card__["a" /* default */] {
+  constructor(props) {
+    super(props);
+  }
+
+  cardSpecificFlip() {
+    $(`#${this.props.id}.flip-container`).toggleClass('hover');
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = EasyCard;
+
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(26)))
 
 /***/ })
 /******/ ]);

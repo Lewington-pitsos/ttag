@@ -22,8 +22,8 @@ export default class Card extends React.Component {
         this.setState({frontTextIndex: this.nextIndex(highest)});
       }
 
-    // we also flip the cards
-    $('.flip-container').toggleClass('hover');
+    // we also flip the card, but different cards will have different flipping interactions, so the speficis will be left up to the class
+    this.cardSpecificFlip()
   }
 
   nextIndex(num) {
@@ -36,7 +36,7 @@ export default class Card extends React.Component {
   render() {
     // renders the outside containers of the card div and a CardText component
     return(
-      <div className='vertical flip-container'>
+      <div className='vertical flip-container' id={this.props.id}>
        <div className='flipper'>
           <div className='card front' onClick={this.updateText}>
             <CardText content={this.props.dialogue[this.state.frontTextIndex]}/>

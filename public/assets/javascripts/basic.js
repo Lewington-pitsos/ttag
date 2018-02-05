@@ -1,12 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import Card from './components/Card.js';
+import EasyCard from './components/EasyCard.js';
 import CardHolder from './components/CardHolder.js';
 
 const main = document.getElementById('main')
-
-console.log(main);
 
 var cardOneDialogue = [
   "Gaaaaah *gasp* Aaaaaah! Help me *splutter* I'm in terrible pain! Quick, flip me over",
@@ -21,7 +19,8 @@ var cardTwoDialogue =  [
 
 ReactDOM.render(
   <CardHolder entryDirection={'Left'}>
-    <Card dialogue={cardOneDialogue} />
+    <EasyCard dialogue={cardOneDialogue} id="nice-card"/>
+    <EasyCard dialogue={cardTwoDialogue} id="mean-card"/>
   </CardHolder>
   , main
 );
