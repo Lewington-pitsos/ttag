@@ -4,5 +4,5 @@
 import './stylesheets/main.sass';
 
 // js
-import './javascripts/basic.js';
 import 'bootstrap'; // yeah, this is just bootstrap js
+import './javascripts/basic.js';

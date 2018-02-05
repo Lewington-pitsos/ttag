@@ -2,18 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 class Layout extends React.Component {
-  render(word) {
+  render() {
     return(
-      <div className='text-xs-center'>
-        <h1>CUNT {word}</h1>
-        <h1 className="text-xs-right">dasdasd {word}</h1>
+      <div className='text-center'>
+        <h1>CUNT </h1>
+        <h1 className="text-right">dasdasd </h1>
       </div>
     );
   }
 }
 
-const app = document.getElementById('app')
+const content = document.getElementById('main')
+
+console.log(document);
 
 console.log(<Layout/>);
 
-//ReactDOM.render(<Layout/>, app);
+ReactDOM.render(<Layout/>, content);
