@@ -11,5 +11,5 @@ export default class CardText extends React.Component{
 }
 
 CardText.propTypes = {
-  content: PropTypes.string.isRequired
+  content: PropTypes.string
 }
