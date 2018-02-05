@@ -29,7 +29,7 @@ export default class Card extends React.Component {
   nextIndex(num) {
     // returns one greater than the number passed, in or the same number if num is equal or higher than limit
     var limit = this.props.dialogue.length - 1;
-    return num < limit ? num + 1 : num
+    return num < limit ? num + 1 : num - 1
   }
 
   render() {

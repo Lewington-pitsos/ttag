@@ -1479,7 +1479,7 @@ class Card extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
   nextIndex(num) {
     // returns one greater than the number passed, in or the same number if num is equal or higher than limit
     var limit = this.props.dialogue.length - 1;
-    return num < limit ? num + 1 : num;
+    return num < limit ? num + 1 : num - 1;
   }
 
   render() {
@@ -17205,7 +17205,9 @@ const main = document.getElementById('main');
 
 console.log(main);
 
-var cardOneDialogue = ["Gaaaaah *gasp* Aaaaaah! Help me *splutter* I'm in terrible pain! Quick, flip me over", "Phew, christ that's better, thanks for that. Ok, ok, you can flip me back now.", "..."];
+var cardOneDialogue = ["Gaaaaah *gasp* Aaaaaah! Help me *splutter* I'm in terrible pain! Quick, flip me over", "Phew, christ that's better, thanks for that. Ok, ok, you can flip me back now.", '...', ':D'];
+
+var cardTwoDialogue = ["He's not coming back you know", "Curses! I have ben Vanquished. *splutter* *gasp* *fade*"];
 
 __WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__components_CardHolder_js__["a" /* default */], { dialogue: cardOneDialogue, entryDirection: 'Left' }), main);
 
