@@ -7,6 +7,6 @@ export default class EasyCard extends Card {
   }
 
   cardSpecificFlip() {
-    $(`#${this.props.id}.flip-container`).toggleClass('hover');
+    this.flip()
   }
 }

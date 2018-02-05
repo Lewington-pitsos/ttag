@@ -11367,7 +11367,7 @@ module.exports = focusNode;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(2);
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__CardText__ = __webpack_require__(43);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types__ = __webpack_require__(11);
@@ -11389,6 +11389,7 @@ class Card extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
       // This binding is necessary to make `this` work in the callback
     };this.updateText = this.updateText.bind(this);
     this.nextIndex = this.nextIndex.bind(this);
+    this.flip = this.flip.bind(this);
   }
 
   updateText() {
@@ -11405,6 +11406,11 @@ class Card extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
     this.cardSpecificFlip();
   }
 
+  flip() {
+    // flips the card over. Depends on the current height of the card
+    $(`#${this.props.id}.flip-container`).toggleClass('hover');
+  }
+
   nextIndex(num) {
     // returns one greater than the number passed, in or one less if num is equal or higher than limit.
     // This way if one of the leapfrogging indicies reaches the second-last index, it will stay there, and the other will always remain the "highest" of the two
@@ -11413,6 +11419,7 @@ class Card extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
   }
 
   render() {
+    // we should have possible children on the front and back of each of the cards
     // renders the outside containers of the card div and a CardText component
     var fadein = 'fadeIn' + this.props.entryDirection + 'Big';
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -11451,6 +11458,7 @@ Card.defaultProps = {
   size: 'med',
   entryDirection: 'Top'
 };
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(12)))
 
 /***/ }),
 /* 20 */
@@ -23881,7 +23889,7 @@ module.exports = camelize;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Card__ = __webpack_require__(19);
 
@@ -23893,12 +23901,11 @@ class EasyCard extends __WEBPACK_IMPORTED_MODULE_1__Card__["a" /* default */] {
   }
 
   cardSpecificFlip() {
-    $(`#${this.props.id}.flip-container`).toggleClass('hover');
+    this.flip();
   }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = EasyCard;
 
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(12)))
 
 /***/ }),
 /* 43 */

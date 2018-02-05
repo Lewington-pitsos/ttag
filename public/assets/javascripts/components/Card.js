@@ -15,6 +15,7 @@ export default class Card extends React.Component {
     // This binding is necessary to make `this` work in the callback
     this.updateText = this.updateText.bind(this);
     this.nextIndex = this.nextIndex.bind(this);
+    this.flip = this.flip.bind(this);
   }
 
   updateText() { //TODO we want to fire an event when the last dialogue string is visible
@@ -31,6 +32,11 @@ export default class Card extends React.Component {
     this.cardSpecificFlip()
   }
 
+  flip() {
+    // flips the card over. Depends on the current height of the card
+    $(`#${this.props.id}.flip-container`).toggleClass('hover');
+  }
+
   nextIndex(num) {
     // returns one greater than the number passed, in or one less if num is equal or higher than limit.
     // This way if one of the leapfrogging indicies reaches the second-last index, it will stay there, and the other will always remain the "highest" of the two
@@ -38,7 +44,7 @@ export default class Card extends React.Component {
     return num < limit ? num + 1 : num - 1
   }
 
-  render() {
+  render() { // we should have possible children on the front and back of each of the cards
     // renders the outside containers of the card div and a CardText component
     var fadein = 'fadeIn' + this.props.entryDirection + 'Big';
     return(
