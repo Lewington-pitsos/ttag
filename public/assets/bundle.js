@@ -17090,7 +17090,7 @@ console.log(main);
 
 var cardOneDialogue = ["Gaaaaah *gasp* Aaaaaah! Help me *splutter* I'm in terrible pain! Quick, flip me over", "Phew, christ that's better, thanks for that. Ok, ok, you can flip me back now.", "..."];
 
-__WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__components_CardHolder_js__["a" /* default */], { dialogue: cardOneDialogue }), main);
+__WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__components_CardHolder_js__["a" /* default */], { dialogue: cardOneDialogue, entryDirection: 'Left' }), main);
 
 /***/ }),
 /* 26 */
@@ -24322,12 +24322,13 @@ module.exports = function () {
 
 
 class CardHolder extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
-  // requires a dialogue to be passed in as a prop
+  // prop: dialogue (array)
+  // prop: entryDirection (string) animation entry direction
   render() {
     // renders a simple card holding row with a Card component inside
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
-      { className: 'row justify-content-center no-gutters card-holder animated fadeInDownBig' },
+      { className: "row justify-content-center no-gutters card-holder animated fadeIn" + `${this.props.entryDirection}Big` },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__Card__["a" /* default */], { dialogue: this.props.dialogue })
     );
   }

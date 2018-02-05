@@ -15,4 +15,4 @@ var cardOneDialogue = [
 ];
 
 
-ReactDOM.render(<CardHolder dialogue={cardOneDialogue} />, main);
+ReactDOM.render(<CardHolder dialogue={cardOneDialogue} entryDirection={'Left'} />, main);
