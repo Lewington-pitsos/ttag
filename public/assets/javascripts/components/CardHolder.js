@@ -4,7 +4,7 @@ import Card from './Card'; // NOTE: relative path is requird or EMS assumes it's
 export default class CardHolder extends React.Component {
   render() {
     return(
-      <div className="row align-items-center card-holder">
+      <div className="row justify-content-center no-gutters card-holder">
         <Card text={this.props.words}/>
       </div>
     );
