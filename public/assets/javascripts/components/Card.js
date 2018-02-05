@@ -3,6 +3,8 @@ import CardText from './CardText';
 import PropTypes from 'prop-types';
 
 export default class Card extends React.Component {
+  // prop: dialogue (array)
+  // prop: id (string)
   constructor(props) {
     super(props);
     this.state = {frontTextIndex: 0, backTextIndex: -1}
@@ -36,7 +38,7 @@ export default class Card extends React.Component {
   render() {
     // renders the outside containers of the card div and a CardText component
     return(
-      <div className='vertical flip-container' id={this.props.id}>
+      <div className={`vertical flip-container card-flipper ${this.props.size}-card`} id={this.props.id}>
        <div className='flipper'>
           <div className='card front' onClick={this.updateText}>
             <CardText content={this.props.dialogue[this.state.frontTextIndex]}/>
@@ -51,6 +53,12 @@ export default class Card extends React.Component {
 }
 
 Card.propTypes = {
-  // raises warnings if an array isn's passed in
-  dialogue: PropTypes.array.isRequired
+  // raises warnings if the correct props aren't passed in
+  dialogue: PropTypes.array.isRequired,
+  id: PropTypes.string.isRequired,
+  size: PropTypes.string
+}
+
+Card.defaultProps = {
+  size: 'med'
 }

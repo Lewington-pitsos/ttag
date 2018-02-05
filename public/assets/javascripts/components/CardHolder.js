@@ -3,12 +3,12 @@ import Card from './Card'; // NOTE: relative path is requird or EMS assumes it's
 import PropTypes from 'prop-types'
 
 export default class CardHolder extends React.Component {
-  // prop: dialogue (array)
+  // this is currently just a wrapper for all the card objects
   // prop: entryDirection (string) animation entry direction
   render() {
     // renders a simple card holding row with a Card component inside
     return(
-      <div className={'d-flex justify-content-center align-items-center card-holder animated fadeIn' + this.props.entryDirection + 'Big'}>
+      <div className={'d-flex flex-wrap flex-column align-items-center card-holder animated fadeIn' + this.props.entryDirection + 'Big'}>
         {this.props.children}
       </div>
     );

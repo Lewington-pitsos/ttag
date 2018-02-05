@@ -14,13 +14,13 @@ var cardOneDialogue = [
 
 var cardTwoDialogue =  [
   "He's not coming back you know",
-  "Curses! I have ben Vanquished. *splutter* *gasp* *fade*"
+  "Curses! I have been Vanquished."
 ]
 
 ReactDOM.render(
   <CardHolder entryDirection={'Left'}>
-    <EasyCard dialogue={cardOneDialogue} id="nice-card"/>
-    <EasyCard dialogue={cardTwoDialogue} id="mean-card"/>
+    <EasyCard dialogue={cardOneDialogue} id="nice-card" size="medium"/>
+    <EasyCard dialogue={cardTwoDialogue} id="mean-card" size="small"/>
   </CardHolder>
   , main
 );
