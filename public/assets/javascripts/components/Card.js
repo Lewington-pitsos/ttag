@@ -5,22 +5,27 @@ import PropTypes from 'prop-types';
 export default class Card extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {currentDialogue: 0}
 
     // This binding is necessary to make `this` work in the callback
     this.updateText = this.updateText.bind(this);
   }
 
   updateText() {
-    console.log(this.props.currentDialogue);
-    console.log(this.props);
-    this.props.currentDialogue += 1;
+    // on a click, the currentDialogue of this card object is increased, unless it's already at the end of the Dialogue array
+    if (this.state.currentDialogue < (this.props.dialogue.length - 1)) {
+      this.setState(prevState => ({
+        currentDialogue: prevState.currentDialogue + 1
+      }));
+    }
   }
 
   render() {
+    // renders the outside containers of the card div and a CardText component
     return(
       <div className="col-md-6">
         <div className='card' onClick={this.updateText}>
-          <CardText content={this.props.dialogue[this.props.currentDialogue]}/>
+          <CardText content={this.props.dialogue[this.state.currentDialogue]}/>
         </div>
       </div>
     );
@@ -28,9 +33,6 @@ export default class Card extends React.Component {
 }
 
 Card.propTypes = {
-  currentDialogue: PropTypes.number.isRequired
-}
-
-Card.defaultProps = {
-  currentDialogue: 0
+  // raises warnings if an array isn's passed in
+  dialogue: PropTypes.array.isRequired
 }

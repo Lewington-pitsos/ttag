@@ -966,25 +966,30 @@ module.exports = focusNode;
 class Card extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
   constructor(props) {
     super(props);
+    this.state = { currentDialogue: 0
 
-    // This binding is necessary to make `this` work in the callback
-    this.updateText = this.updateText.bind(this);
+      // This binding is necessary to make `this` work in the callback
+    };this.updateText = this.updateText.bind(this);
   }
 
   updateText() {
-    console.log(this.props.currentDialogue);
-    console.log(this.props);
-    this.props.currentDialogue += 1;
+    // on a click, the currentDialogue of this card object is increased, unless it's already at the end of the Dialogue array
+    if (this.state.currentDialogue < this.props.dialogue.length - 1) {
+      this.setState(prevState => ({
+        currentDialogue: prevState.currentDialogue + 1
+      }));
+    }
   }
 
   render() {
+    // renders the outside containers of the card div and a CardText component
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
       { className: 'col-md-6' },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
         { className: 'card', onClick: this.updateText },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__CardText__["a" /* default */], { content: this.props.dialogue[this.props.currentDialogue] })
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__CardText__["a" /* default */], { content: this.props.dialogue[this.state.currentDialogue] })
       )
     );
   }
@@ -993,11 +998,8 @@ class Card extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 
 
 Card.propTypes = {
-  currentDialogue: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.number.isRequired
-};
-
-Card.defaultProps = {
-  currentDialogue: 0
+  // raises warnings if an array isn's passed in
+  dialogue: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.array.isRequired
 };
 
 /***/ }),
@@ -23669,9 +23671,13 @@ module.exports = camelize;
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(38);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
+
 
 
 class CardText extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+  // expects content a string to be passed in to Props
   render() {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'p',
@@ -23682,6 +23688,10 @@ class CardText extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = CardText;
 
+
+CardText.propTypes = {
+  content: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string.isRequired
+};
 
 /***/ }),
 /* 38 */
@@ -24302,11 +24312,16 @@ module.exports = function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Card__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types__ = __webpack_require__(38);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_prop_types__);
  // We need to import React as well as Card, because all that we get from Card is the card class, REMEMBER js importing and exporting works different and is shit.
  // NOTE: relative path is requird or EMS assumes it's a module
 
+
 class CardHolder extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+  // requires a dialogue to be passed in as a prop
   render() {
+    // renders a simple card holding row with a Card component inside
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
       { className: 'row justify-content-center no-gutters card-holder' },
@@ -24316,6 +24331,11 @@ class CardHolder extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = CardHolder;
 
+
+CardHolder.propTypes = {
+  // raises warnings if an array isn's passed in
+  dialogue: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.array.isRequired
+};
 
 /***/ })
 /******/ ]);
