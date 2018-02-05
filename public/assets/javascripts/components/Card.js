@@ -43,7 +43,8 @@ export default class Card extends React.Component {
     var fadein = 'fadeIn' + this.props.entryDirection + 'Big';
     return(
       <div className={`vertical flip-container card-flipper ${this.props.size}-card animated ${fadein} ${this.props.hidden}`} id={this.props.id}>
-       <div className='flipper'>
+        {this.props.children}
+        <div className='flipper'>
           <div className='card front' onClick={this.updateText}>
             <CardText content={this.props.dialogue[this.state.frontTextIndex]}/>
           </div>

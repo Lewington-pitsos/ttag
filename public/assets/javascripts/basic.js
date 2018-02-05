@@ -20,7 +20,12 @@ var cardTwoDialogue =  [
 ReactDOM.render(
   <CardHolder entryDirection={'Left'}>
     <EasyCard dialogue={cardOneDialogue} id="nice-card" size="medium" entryDirection="Down"/>
-    <EasyCard dialogue={cardTwoDialogue} id="mean-card" size="small" entryDirection="Up" hidden="hidden"/>
+    <EasyCard dialogue={cardTwoDialogue} id="mean-card" size="small" entryDirection="Up">
+      <div  class="clicker one"></div>
+      <div  class="clicker two"></div>
+      <div  class="clicker three"></div>
+      <div  class="clicker four"></div>
+    </EasyCard>
   </CardHolder>
   , main
 );

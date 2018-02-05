@@ -9,6 +9,28 @@
 
 .card-flipper
   margin: 10px
+  position: relative
+
+.clicker
+  z-index: 999
+  position: absolute
+  width: 16px
+  height: 16px
+  background: red
+  &.one
+    top: 0
+    left: 0
+  &.two
+    top: 0
+    right: 0
+  &.three
+    bottom: 0
+    right: 0
+  &.four
+    bottom: 0
+    left: 0
+  &:hover
+    cursor: pointer
 
 // @mixin light-shadow
 //   box-shadow: 0 13px 12px 0 rgba(0,0,0,.1), 0 20px 39px 0 rgba(0,0,0,.11)
