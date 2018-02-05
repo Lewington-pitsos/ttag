@@ -7,7 +7,7 @@ export default class CardHolder extends React.Component {
   render() {
     // renders a simple card holding row with a Card component inside
     return(
-      <div className="row justify-content-center no-gutters card-holder">
+      <div className="row justify-content-center no-gutters card-holder animated fadeInDownBig">
         <Card dialogue={this.props.dialogue}/>
       </div>
     );

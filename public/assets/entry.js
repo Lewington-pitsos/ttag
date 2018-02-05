@@ -2,6 +2,7 @@
 
 // css
 import './stylesheets/main.sass';
+import './stylesheets/animate.css'
 
 // js
 import 'bootstrap'; // yeah, this is just bootstrap js
