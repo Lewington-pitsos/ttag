@@ -8,4 +8,4 @@ const main = document.getElementById('main')
 
 console.log(main);
 
-ReactDOM.render(<CardHolder words="ui facit eorum claritatem. Investigationes ninja demonstraverunt lectores legere me" />, main);
+ReactDOM.render(<CardHolder dialogue="ui facit eorum claritatem. Investigationes ninja demonstraverunt lectores legere me" />, main);

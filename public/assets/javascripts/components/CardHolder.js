@@ -5,7 +5,7 @@ export default class CardHolder extends React.Component {
   render() {
     return(
       <div className="row justify-content-center no-gutters card-holder">
-        <Card text={this.props.words}/>
+        <Card dialogue={this.props.dialogue}/>
       </div>
     );
   }

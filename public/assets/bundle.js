@@ -17014,7 +17014,7 @@ const main = document.getElementById('main');
 
 console.log(main);
 
-__WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__components_CardHolder_js__["a" /* default */], { words: 'ui facit eorum claritatem. Investigationes ninja demonstraverunt lectores legere me' }), main);
+__WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__components_CardHolder_js__["a" /* default */], { dialogue: 'ui facit eorum claritatem. Investigationes ninja demonstraverunt lectores legere me' }), main);
 
 /***/ }),
 /* 24 */
@@ -23616,6 +23616,8 @@ module.exports = camelize;
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__CardText__ = __webpack_require__(38);
+
 
 
 class Card extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
@@ -23626,11 +23628,7 @@ class Card extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
         { className: 'card' },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'p',
-          null,
-          this.props.text
-        )
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__CardText__["a" /* default */], { content: this.props.dialogue })
       )
     );
   }
@@ -23654,11 +23652,32 @@ class CardHolder extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
       { className: 'row justify-content-center no-gutters card-holder' },
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__Card__["a" /* default */], { text: this.props.words })
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__Card__["a" /* default */], { dialogue: this.props.dialogue })
     );
   }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = CardHolder;
+
+
+/***/ }),
+/* 38 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+
+
+class CardText extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+  render() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'p',
+      null,
+      this.props.content
+    );
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = CardText;
 
 
 /***/ })
