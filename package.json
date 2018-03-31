@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/Lewington-pitsos/flowers#readme",
   "dependencies": {
+    "ssri": "^5.2.2",
     "autoprefixer": "^7.2.5",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
