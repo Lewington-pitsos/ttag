@@ -17136,7 +17136,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! tether 1.4
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(31);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Title_js__ = __webpack_require__(40);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_App_js__ = __webpack_require__(40);
 
 
 
@@ -17144,11 +17144,10 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! tether 1.4
 
 const main = document.getElementById('main');
 
-__WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-  __WEBPACK_IMPORTED_MODULE_2__components_Title_js__["a" /* default */],
-  null,
-  'Fuck you'
-), main // i.e. main is the element that everything is being inserted into
+/*
+Literally just renders the Main component to the DOM.
+*/
+__WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__components_App_js__["a" /* default */], null), main // i.e. main is the element that everything is being inserted into
 );
 
 /***/ }),
@@ -23753,14 +23752,21 @@ module.exports = camelize;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 
 
+/*
+Displays two components:
+
+  - About (a bit of intro text that we don't want clogging up anything else)
+  - Display (the actual content of the app)
+
+Relies on one store:
+
+  - AboutStore: which tracks whether or not to display the About component
+
+*/
 class App extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
-   render() {
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-         "h1",
-         { className: "animated bounce" },
-         this.props.children
-      );
-   }
+  render() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", { id: "app" });
+  }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = App;
 
