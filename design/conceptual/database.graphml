@@ -122,10 +122,10 @@
     <node id="n1" yfiles.foldertype="group">
       <data key="d6">
         <y:TableNode configuration="YED_TABLE_NODE">
-          <y:Geometry height="214.0" width="480.0" x="930.90625" y="-137.984375"/>
+          <y:Geometry height="214.0" width="600.0" x="930.90625" y="-137.984375"/>
           <y:Fill color="#ECF5FF" color2="#0042F440" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="15" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="21.4609375" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="84.85205078125" x="197.573974609375" y="4.0">Categories</y:NodeLabel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="15" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="21.4609375" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="84.85205078125" x="257.573974609375" y="4.0">Categories</y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="17.96875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="14.951171875" x="52.5244140625" y="33.0">id<y:LabelModel>
               <y:ColumnNodeLabelModel offset="3.0"/>
             </y:LabelModel>
@@ -152,6 +152,13 @@
             </y:LabelModel>
             <y:ModelParameter>
               <y:ColumnNodeLabelModelParameter id="column_3" inside="true" verticalPosition="0.0"/>
+            </y:ModelParameter>
+          </y:NodeLabel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="17.96875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="73.984375" x="503.0078125" y="33.0">category_id<y:LabelModel>
+              <y:ColumnNodeLabelModel offset="3.0"/>
+            </y:LabelModel>
+            <y:ModelParameter>
+              <y:ColumnNodeLabelModelParameter id="column_4" inside="true" verticalPosition="0.0"/>
             </y:ModelParameter>
           </y:NodeLabel>
           <y:StyleProperties>
@@ -181,6 +188,9 @@
                 <y:Insets bottom="0.0" left="0.0" right="0.0" top="24.0"/>
               </y:Column>
               <y:Column id="column_3" minimumWidth="80.0" width="120.0">
+                <y:Insets bottom="0.0" left="0.0" right="0.0" top="24.0"/>
+              </y:Column>
+              <y:Column id="column_4" minimumWidth="80.0" width="120.0">
                 <y:Insets bottom="0.0" left="0.0" right="0.0" top="24.0"/>
               </y:Column>
             </y:Columns>
@@ -250,7 +260,6 @@
       <graph edgedefault="directed" id="n2:"/>
     </node>
     <node id="n3" yfiles.foldertype="group">
-      <data key="d5"/>
       <data key="d6">
         <y:TableNode configuration="YED_TABLE_NODE">
           <y:Geometry height="214.0" width="360.0" x="1271.894287396938" y="1955.0594817432277"/>
@@ -316,7 +325,6 @@
       <graph edgedefault="directed" id="n3:"/>
     </node>
     <node id="n4" yfiles.foldertype="group">
-      <data key="d5"/>
       <data key="d6">
         <y:TableNode configuration="YED_TABLE_NODE">
           <y:Geometry height="214.0" width="240.0" x="1175.4749705535928" y="900.5785798549763"/>
@@ -372,7 +380,6 @@
       <graph edgedefault="directed" id="n4:"/>
     </node>
     <node id="n5" yfiles.foldertype="group">
-      <data key="d5"/>
       <data key="d6">
         <y:TableNode configuration="YED_TABLE_NODE">
           <y:Geometry height="214.0" width="240.0" x="1331.894287396938" y="1427.8190307991022"/>
@@ -428,7 +435,6 @@
       <graph edgedefault="directed" id="n5:"/>
     </node>
     <node id="n6" yfiles.foldertype="group">
-      <data key="d5"/>
       <data key="d6">
         <y:TableNode configuration="YED_TABLE_NODE">
           <y:Geometry height="214.0" width="240.0" x="669.8296819787988" y="838.0890627760598"/>
@@ -486,8 +492,8 @@
     <edge id="e0" source="n1" target="n0">
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="-177.34898437499987" sy="107.0365540341578" tx="249.66140625000025" ty="6.816025390624986">
-            <y:Point x="993.5572656250001" y="685.390625"/>
+          <y:Path sx="-214.32695602167382" sy="106.98094091494012" tx="249.66140625000025" ty="6.816025390624986">
+            <y:Point x="1016.5792939783262" y="685.390625"/>
             <y:Point x="750.6614062500003" y="685.390625"/>
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
@@ -512,7 +518,6 @@
       </data>
     </edge>
     <edge id="e2" source="n0" target="n6">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="-226.1290930506475" sy="44.109086333185815" tx="-78.93992932862193" ty="50.24970553592448">
@@ -528,7 +533,6 @@
       </data>
     </edge>
     <edge id="e3" source="n4" target="n6">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="-82.80477031802229" sy="14.408907538280346" tx="55.05959952885655" ty="80.80890753828044">
@@ -542,7 +546,6 @@
       </data>
     </edge>
     <edge id="e4" source="n4" target="n5">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="-41.298144876325296" sy="0.0" tx="78.66531213191956" ty="107.0">
@@ -558,7 +561,6 @@
       </data>
     </edge>
     <edge id="e5" source="n3" target="n5">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="-111.99873380447684" sy="106.98385076192517" tx="-70.12915194346442" ty="0.0">
@@ -566,6 +568,24 @@
             <y:Point x="1182.6363368669026" y="2240.9962182530917"/>
             <y:Point x="1182.6363368669026" y="1838.2543601847756"/>
             <y:Point x="1381.7651354534735" y="1838.2543601847756"/>
+          </y:Path>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e6" source="n1" target="n1">
+      <data key="d9"/>
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="243.86309034569285" sy="107.0" tx="-257.3489843749999" ty="107.01871378473338">
+            <y:Point x="1474.7693403456929" y="152.36504266630317"/>
+            <y:Point x="1587.7307594660124" y="152.36504266630317"/>
+            <y:Point x="1587.7307594660124" y="-214.22297739912761"/>
+            <y:Point x="889.2366514111233" y="-214.22297739912761"/>
+            <y:Point x="889.2366514111233" y="152.36504266630317"/>
+            <y:Point x="973.5572656250001" y="152.36504266630317"/>
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
