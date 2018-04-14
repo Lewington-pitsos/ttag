@@ -1,5 +1,12 @@
-@import "custom"
-@import "~bootstrap/scss/bootstrap"
+@mixin overlay($index) 
+  position: absolute
+  top: 0
+  bottom: 0
+  left: 0
+  right: 0
+  z-index: $index
 
-h1
-  background: green
+
+#about,
+#display
+  @include overlay(0)

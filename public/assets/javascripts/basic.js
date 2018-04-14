@@ -1,13 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import Title from './components/Title.js';
+import App from './components/App.js';
 
-const main = document.getElementById('main')
+const main = document.getElementById('main');
 
+/*
+Literally just renders the Main component to the DOM.
+*/
 ReactDOM.render(
-  <Title>
-    Fuck you
-  </Title>
+  <App>
+  </App>
   , main // i.e. main is the element that everything is being inserted into
 );
