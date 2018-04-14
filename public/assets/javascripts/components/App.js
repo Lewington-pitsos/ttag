@@ -1,4 +1,7 @@
-import React from 'react'
+import React from 'react';
+
+import Display from './App/Display';
+import About from './App/About';
 
 /*
 Displays two components:
@@ -10,11 +13,14 @@ Relies on one store:
 
   - AboutStore: which tracks whether or not to display the About component
 
+This pretty much just a wrapepr to keep everything logically distinct.
 */
 export default class App extends React.Component {
-   render() {
+   render() { 
       return (
-        <div id="app">
+        <div className="container-fluid" id="app">
+          <About />
+          <Display />
 
         </div>
       );
