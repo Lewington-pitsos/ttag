@@ -28,47 +28,47 @@ import aboutStore from '../stores/AboutStore';
 import { CSSTransitionGroup } from 'react-transition-group';
 
 export default class App extends React.Component {
-    constructor() {
-      super();
-      // innitially sets the current state according to the state of the aboutStore
-      // we also want to keep track of the listener on the aboutStore so that we can get rid of it when we un-mount App
+  constructor() {
+    super();
+    // innitially sets the current state according to the state of the aboutStore
+    // we also want to keep track of the listener on the aboutStore so that we can get rid of it when we un-mount App
 
-      this.state = aboutStore.getInfo();
-      this.updateState = this.updateState.bind(this);
-    }
+    this.state = aboutStore.getInfo();
+    this.updateState = this.updateState.bind(this);
+  }
 
-    // +-------------------------------------------------------------------+
-    //                       GENERIC STORE LISTENING
-    // +-------------------------------------------------------------------+
+  // +-------------------------------------------------------------------+
+  //                       GENERIC STORE LISTENING
+  // +-------------------------------------------------------------------+
 
-    componentWillMount() {
-      // when this component is first mounted we want to add a listener to the aboutStore
-      aboutStore.on('change', this.updateState);
-    }
+  componentWillMount() {
+    // when this component is first mounted we want to add a listener to the aboutStore
+    aboutStore.on('change', this.updateState);
+  }
 
-    componentWillUnmount() {
-      // when this component gets removed from the dom we want to remove the listener to the store.
-      aboutStore.removeListener('change', this.updateState);
-    }
+  componentWillUnmount() {
+    // when this component gets removed from the dom we want to remove the listener to the store.
+    aboutStore.removeListener('change', this.updateState);
+  }
 
-    updateState() {
-      // this is a listener to the aboutStore. Whenever the latter undergoes a change we want to update the state of App to match.
-      this.setState(aboutStore.getInfo());
-    }
+  updateState() {
+    // this is a listener to the aboutStore. Whenever the latter undergoes a change we want to update the state of App to match.
+    this.setState(aboutStore.getInfo());
+  }
 
-    render() {
-      return (
-        <div className="container-fluid" id="app">
-          <CSSTransitionGroup
-           transitionName="app"
-           transitionEnterTimeout={800}
-           transitionLeaveTimeout={500}>
+  render() {
+    return (
+      <div className="container-fluid" id="app">
+        <CSSTransitionGroup
+         transitionName="app"
+         transitionEnterTimeout={800}
+         transitionLeaveTimeout={500}>
 
-           {this.state.about ? <About /> : ''}
-           {this.state.about ? '' : <Display />}
+         {this.state.about ? <About /> : ''}
+         {this.state.about ? '' : <Display />}
 
-          </CSSTransitionGroup>
-        </div>
-      );
-    }
+        </CSSTransitionGroup>
+      </div>
+    );
+  }
 }

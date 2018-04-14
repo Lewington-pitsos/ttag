@@ -23790,7 +23790,6 @@ Relies on 1 store:
 
   - NavStore: tracks whether or not the nav needs to be displayed at all
 
-
 Has 1 User Interaction:
 
   - when the about button near the bottom of the page is clicked, an action is tiggered causing the aboutStore to switch it's stance on whether the about page is showing.
