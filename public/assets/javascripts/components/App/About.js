@@ -9,6 +9,7 @@ Has 1 User Interaction:
 
   - when the about button near the bottom of the page is clicked, an action is tiggered causing the aboutStore to switch it's stance on whether the about page is showing.
 
+Handles no animations.
 
 About is almost entirely just static html.
 */

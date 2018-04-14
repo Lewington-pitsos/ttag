@@ -15,6 +15,8 @@ Has 1 User Interaction:
 
   - when the about button near the bottom of the page is clicked, an action is tiggered causing the aboutStore to switch it's stance on whether the about page is showing.
 
+Handles no animations.
+
 This pretty much just a wrapepr to keep everything logically distinct.
 
 */

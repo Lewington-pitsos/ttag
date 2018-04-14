@@ -10,15 +10,22 @@ Relies on one store:
 
   - AboutStore: which tracks whether or not to display the About component
 
-Has no User Interactions;
+Has no User Interactions.
 
-This pretty much just a wrapepr to keep everything logically distinct.
+Handles the animation of:
+
+  - About components entering and leaving the page
+  - Display components entering and leaveing the page (different animations)
+
+This pretty much just a wrrapper to keep everything logically distinct.
 */
 
 import Display from './App/Display';
 import About from './App/About';
 
 import aboutStore from '../stores/AboutStore';
+
+import { CSSTransitionGroup } from 'react-transition-group';
 
 export default class App extends React.Component {
     constructor() {
@@ -52,8 +59,15 @@ export default class App extends React.Component {
     render() {
       return (
         <div className="container-fluid" id="app">
-          {this.state.about ? <About /> : ''}
-          {this.state.about ? '' : <Display />}
+          <CSSTransitionGroup
+           transitionName="app"
+           transitionEnterTimeout={800}
+           transitionLeaveTimeout={500}>
+
+           {this.state.about ? <About /> : ''}
+           {this.state.about ? '' : <Display />}
+
+          </CSSTransitionGroup>
         </div>
       );
     }
