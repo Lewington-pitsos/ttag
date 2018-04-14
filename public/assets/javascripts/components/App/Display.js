@@ -13,7 +13,7 @@ Relies on 1 store:
 
 Has 1 User Interaction:
 
-  - when the about button near the bottom of the page is clicked, an action is tiggered causing the aboutStore to switch it's stance on whether teh about page is showing.
+  - when the about button near the bottom of the page is clicked, an action is tiggered causing the aboutStore to switch it's stance on whether the about page is showing.
 
 This pretty much just a wrapepr to keep everything logically distinct.
 

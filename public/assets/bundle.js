@@ -23839,7 +23839,7 @@ Relies on 1 store:
 
 Has 1 User Interaction:
 
-  - when the about button near the bottom of the page is clicked, an action is tiggered causing the aboutStore to switch it's stance on whether teh about page is showing.
+  - when the about button near the bottom of the page is clicked, an action is tiggered causing the aboutStore to switch it's stance on whether the about page is showing.
 
 This pretty much just a wrapepr to keep everything logically distinct.
 
@@ -23885,6 +23885,7 @@ class Display extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions_aboutActions__ = __webpack_require__(46);
 
 
 /*
@@ -23892,39 +23893,56 @@ Displays no further components
 
 Relies on no stores
 
-This is literally just static html.
+Has 1 User Interaction:
 
+  - when the about button near the bottom of the page is clicked, an action is tiggered causing the aboutStore to switch it's stance on whether the about page is showing.
+
+
+About is almost entirely just static html.
 */
+
+
 class About extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+
+  displayDisplay() {
+    // a wrapper function that just triggers an action.
+    __WEBPACK_IMPORTED_MODULE_1__actions_aboutActions__["a" /* default */].switchAbout();
+  }
+
   render() {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      "div",
-      { id: "about" },
+      'div',
+      { id: 'about' },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        "div",
-        { className: "row justify-content-center" },
+        'div',
+        { className: 'row justify-content-center' },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          "div",
-          { className: "col-8 d-flex align-items-center flex-column" },
+          'div',
+          { className: 'col-8 d-flex align-items-center flex-column' },
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            "h1",
+            'h1',
             null,
-            "Good Question"
+            'Good Question'
           ),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            "p",
+            'p',
             null,
-            "Lorem ipsum dolor sit amet, omnis lucilius vis at, probo mentitum oportere has eu. Ea eos dolores scripserit complectitur. Sit noluisse similique in, justo ignota urbanitas pro ei. Partem essent id sed, summo integre efficiendi ne vix. Quas civibus tincidunt mei at. Nonumes phaedrum consectetuer nam an, cu quo fugit mollis."
+            'Lorem ipsum dolor sit amet, omnis lucilius vis at, probo mentitum oportere has eu. Ea eos dolores scripserit complectitur. Sit noluisse similique in, justo ignota urbanitas pro ei. Partem essent id sed, summo integre efficiendi ne vix. Quas civibus tincidunt mei at. Nonumes phaedrum consectetuer nam an, cu quo fugit mollis.'
           ),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            "p",
+            'p',
             null,
-            "Ex quod tritani iuvaret nam. Libris bonorum nominati no usu, ad ius illud admodum. Id quod alii causae sed. Solet luptatum per ut, vix eu brute expetenda. Viderer contentiones cu est, error democritum id qui. Ex vis quem dico, nam impetus appellantur an."
+            'Ex quod tritani iuvaret nam. Libris bonorum nominati no usu, ad ius illud admodum. Id quod alii causae sed. Solet luptatum per ut, vix eu brute expetenda. Viderer contentiones cu est, error democritum id qui. Ex vis quem dico, nam impetus appellantur an.'
           ),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            "h3",
+            'h3',
             null,
-            "Contact"
+            'Contact'
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'button',
+            { onClick: this.displayDisplay.bind(this) },
+            'Got it'
           )
         )
       )
