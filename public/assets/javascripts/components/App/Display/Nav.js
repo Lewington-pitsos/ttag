@@ -1,13 +1,13 @@
 import React from 'react';
 
 /*
-Displays a number of NavButton components:
+Displays a number of Arrow components:
 
-  - NavButton: a small arrow graphic that gets passed in a callback to props and executes it when clicked.
+  - Arrow: a small arrow graphic that gets passed in a callback to props and executes it when clicked.
 
 No Store interactions.
 
-Has a number of user interactions equal to the NavButtons it displayes.
+Has a number of user interactions equal to the Arrows it displayes.
 
   - All the user interactions of Nav update the NavStore
 
@@ -31,6 +31,16 @@ export default class Nav extends React.Component {
   root() {
     navActions.root();
     // a wrapper that just triggers the root action on navActions
+  }
+
+
+  // +-------------------------------------------------------------------+
+  //                              RENDERING
+  // +-------------------------------------------------------------------+
+
+
+  buttons() {
+    // calculates and returns an array of Arrow elements based on passed in props (either 1 or two it looks like)
   }
 
   render() {

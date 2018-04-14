@@ -23954,7 +23954,7 @@ class AboutStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
     switch (action.type) {
       case "SWITCH_ABOUT":
         {
-          this.switch();
+          this.switchAbout();
           break;
         }
     }
@@ -23964,7 +23964,7 @@ class AboutStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
   //                          MAINPULATING DATA
   // +-------------------------------------------------------------------+
 
-  switch() {
+  switchAbout() {
     // flips the stored value which indicates whether or not the about page should be shown.
     this.about = !this.about;
     this.emit('change');
