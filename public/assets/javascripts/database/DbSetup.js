@@ -14,6 +14,10 @@ Exposed methods:
 
 module.exports = function DbSetup() {
 
+  // +-------------------------------------------------------------------+
+  //                          DEFAULT VALUES
+  // +-------------------------------------------------------------------+
+
   // just a bunch of values for making queries.
   const databaseName = 'ttag';
   const makeDbQuery = `CREATE DATABASE ${databaseName}`;
@@ -23,16 +27,17 @@ module.exports = function DbSetup() {
 
   this.connected = false; // tracks whether or not we can connect to the database;
 
-  // first up: we want to create a new pool for connecting to the database
-  // by default configured to use the portgres user and the ttag database
+  // a new pool for connecting to the database configured to use the predefined ttag user and the ttag database
   this.ttagPool = new Pool({
     user: secrets.ttagUser,
     password: secrets.ttagPass,
     database: databaseName
   });
 
+
   this.databaseExists = function() {
     // checks whether the default database exists at all and saves the (boolean) result to an attribute
+    // yes it is async so watch out
     const self = this;
     return new Promise(function(resolve, error) {
       self.ttagPool.query('SELECT NOW()', (err, res) => {
@@ -44,18 +49,10 @@ module.exports = function DbSetup() {
     });
   }
 
-  this.setupIfNeeded = function() {
-    // checkes whether or not the ttag database exists.
-    // if so we just exit
-    // otherwise we create the database, and then exit.
-    const self = this;
-    this.databaseExists().then(function() {
-      if (!self.connected) {
-        self.executeRootQueries(makeUserQuery, makeDbQuery);
-      }
-    })
+  // +-------------------------------------------------------------------+
+  //                    EXECUTING QUERIES AS ROOT
+  // +-------------------------------------------------------------------+
 
-  }
 
   this.executeRootQueries = function(userQuery, dbQuery) {
     // first we create a database connection with root privelages
@@ -79,6 +76,24 @@ module.exports = function DbSetup() {
     })
   }
 
+
+  // +-------------------------------------------------------------------+
+  //                         EXPOSED METHODS
+  // +-------------------------------------------------------------------+
+
+  this.setupIfNeeded = function() {
+    // checkes whether or not the ttag database exists.
+    // if so we just exit
+    // otherwise we create the database, and then exit.
+    const self = this;
+    this.databaseExists().then(function() {
+      if (!self.connected) {
+        self.executeRootQueries(makeUserQuery, makeDbQuery);
+      }
+    })
+
+  }
+
   this.dropIfNeeded = function() {
     // firstw e check if we can connect to the database
     // if not, we just exit
@@ -90,5 +105,4 @@ module.exports = function DbSetup() {
       }
     });
   }
-
 }
