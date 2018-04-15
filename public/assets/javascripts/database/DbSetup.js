@@ -22,6 +22,8 @@ module.exports = function DbSetup() {
   const databaseName = 'ttag';
   const makeDbQuery = `CREATE DATABASE ${databaseName}`;
   const makeUserQuery = `CREATE ROLE ${secrets.ttagUser} WITH PASSWORD '${secrets.ttagPass}' LOGIN;`;
+  const grantAccessQuery = `GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO ${secrets.ttagUser};`;
+
   const dropUserQuery = `DROP ROLE ${secrets.ttagUser};`;
   const dropDbQuery = `DROP DATABASE ${databaseName};`;
 
@@ -44,7 +46,7 @@ module.exports = function DbSetup() {
         console.log(err, res);
         self.ttagPool.end();
         self.connected = (err == undefined);
-        resolve('yay')
+        resolve();
       });
     });
   }
@@ -54,7 +56,7 @@ module.exports = function DbSetup() {
   // +-------------------------------------------------------------------+
 
 
-  this.executeRootQueries = function(userQuery, dbQuery) {
+  this.executeRootQueries = function(userQuery, dbQuery, permQuery) {
     // first we create a database connection with root privelages
     this.makeSetupPool();
     // executes the user-related query and then the database relaetd query, killing the connection when the latter finishes
@@ -62,7 +64,14 @@ module.exports = function DbSetup() {
       console.log(err, res);
       this.setupPool.query(dbQuery, (err, res) => {
         console.log(err, res);
-        this.setupPool.end();
+        if (permQuery) {
+          this.setupPool.query(permQuery, (err, res) => {
+            console.log(err, res);
+            this.setupPool.end();
+          })
+        } else {
+          this.setupPool.end();
+        }
       });
     });
   }
@@ -88,7 +97,7 @@ module.exports = function DbSetup() {
     const self = this;
     this.databaseExists().then(function() {
       if (!self.connected) {
-        self.executeRootQueries(makeUserQuery, makeDbQuery);
+        self.executeRootQueries(makeUserQuery, makeDbQuery, grantAccessQuery);
       }
     })
 

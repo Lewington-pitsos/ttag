@@ -20,4 +20,12 @@ console.log(insertTo('Categories', {
   image: 'books.jpg',
   category_id: 1
 }));
+
+console.log(insertTo('Things', {
+  name: 'Black Adder',
+  text: 'great book',
+  image: 'black_adder.jpg',
+  category_id: 1
+}));
+
 */
