@@ -7,7 +7,14 @@ This is an ordinary javascript object tasked with setting up (and tearing down) 
 
 */
 
-export default class DbSetup() {
+module.exports = {
+  lol: 'oooool'
+}
+
+
+
+/*
+DbSetup() {
   constructor(passsword) {
     // starts by creating a Client and innitializing a connection with the database
     // it connects to a default database because we have to assume at this point we're dealing with a fresh postgres install.
@@ -16,3 +23,4 @@ export default class DbSetup() {
     })
   }
 }
+*/
