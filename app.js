@@ -13,9 +13,22 @@ app.use(express.static('public'))
 app.get('/', (req, res) => res.sendFile(__dirname + '/index.html'))
 
 app.get('/data', function(req, res) {
+  // first setup the database if it isn't set up already
+  // then setup the tables if they aren't already
+  // finally we return something to signify whether the database is now successfully set up
+  const dbSetup = new backend.DbSetup();
+  dbSetup.setupIfNeeded();
+
+  console.log(dbSetup);
+
   console.log(backend);
-  console.log(backend.DbSetup);
-  res.send(backend.DbSetup);
+
+  const relationSetup = new backend.RelationSetup();
+  relationSetup.setupIfNeeded();
+
+  console.log(relationSetup);
+
+  res.send(true);
 })
 
 app.listen(3000, () => console.log('Example app listening on port 3000!'))

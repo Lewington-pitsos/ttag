@@ -1,5 +1,5 @@
 const { Pool, Client } = require('pg');
-const secrets = require('./db.secret.js');
+const secrets = require('./db.secret');
 /*
 
 This is an ordinary javascript object tasked with setting up (and tearing down) the (whole) database for our. It doesn't concern itself with tables at all, it just sets up the database from scratch if it doesn't exist yet, or if it does, DbSetup does nothing. it logs a bunch of info.
