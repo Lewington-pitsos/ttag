@@ -1,12 +1,19 @@
 const { Pool, Client } = require('pg');
 const secrets = require('./db.secret.js');
+const queries = require('./queries/TableSetup')
 
-module.exports = function TableSetup() {
-  // all the different queries for actually setting up the tables are defiend as constants in the function body (they ain't changing anytime soon)
-  // these will eventually be extracted to a different files and required in so it doesn't look like cancer
-
+function TableSetup() {
+  // all the different queries for actually setting up the tables are defiend as properties on the function body and stored in a seperate file so everything doesn't look like cancer
+  this.dropArray = queries.drop;
+  this.setupArray= queries.setup;
+  this.queryArray = [];
 
   // a new conncetion using the ttag user and database
+  this.pool = new Pool({
+    user: secrets.setupUser,
+    password: secrets.setupPass,
+    database: secrets.setupDb
+  });
 
   this.tablesExist = function() {
     // a check of whether the tables are set up already
@@ -46,3 +53,7 @@ module.exports = function TableSetup() {
   }
 
 }
+
+const tab = new TableSetup();
+
+console.log(tab);
