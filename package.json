@@ -33,6 +33,7 @@
     "postcss-loader": "^2.1.0",
     "precss": "^3.1.0",
     "prop-types": "^15.6.0",
+    "q": "^1.5.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-transition-group": "^1.2.1",
