@@ -126,9 +126,9 @@ function RelationSetup() {
 
 }
 
-/*
 
-const tab = new RelationSetup();
+
+// const tab = new RelationSetup();
 
 //tab.dropIfNeeded();
 
@@ -137,5 +137,3 @@ const tab = new RelationSetup();
 //tab.allRelationsExist().then(function() {
 //  console.log(tab.relationMissing);
 //});
-
-*/

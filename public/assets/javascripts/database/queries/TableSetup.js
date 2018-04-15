@@ -52,7 +52,7 @@ const SThingComments = `CREATE TABLE ThingComments (
 const DThingComments = 'DROP TABLE ThingComments;';
 
 const SUsers = `CREATE TABLE Users (
-  username VARCHAR(30),
+  username VARCHAR(30) NOT NULL,
   password VARCHAR(30),
   image VARCHAR(100),
   email VARCHAR(40),
@@ -72,6 +72,10 @@ const SUserComments = `CREATE TABLE UserComments (
 
 const DUserComments = 'DROP TABLE UserComments;';
 
+const SAddRoot = `INSERT INTO Categories (name) VALUES ('Things that are Good');`;
+
+const SAddAnon = `INSERT INTO users (username, password) VALUES ('anon', 'anon123');`;
+
 module.exports = {
   drop: [
     DUserComments,
@@ -89,7 +93,9 @@ module.exports = {
     SSimilarThings,
     SThingComments,
     SUsers,
-    SUserComments
+    SUserComments,
+    SAddRoot,
+    SAddAnon
   ],
   relationNames: [
     'Categories',
