@@ -21,6 +21,11 @@ class ThingStore extends EventEmitter {
 
   constructor() {
     super();
+    // stores current category/thing id (starting at 1)
+    // stores whether or not it is a thing
+    this.id = 1;
+    this.thing = false;
+
     // stores the current category/thing as an object (so like, JSON compatible)
     // stores all it's children (if it has any) in an array of like objetcs
     // stores an array of all the previously navigated-to categories
@@ -55,16 +60,31 @@ class ThingStore extends EventEmitter {
   //                          MAINPULATING DATA
   // +-------------------------------------------------------------------+
 
-  up() {
+  goUp() {
     // this can only ever be called if we're not at the root
     // sets the current category/thing to the previous one, sets the current children to its children (archivist finds them for us) and removes it from the list of previous categories
   }
 
-  root() {
+  goRoot() {
     // sets the current category to the root category and the children to the root's children.
     // empties the array of previous categories.
   }
 
+  goTo(id) {
+    // sets the current node to the child of the current node that matches the passed in id
+    // adds the previous node to the array of previous nodes
+  }
+
+
+  // +-------------------------------------------------------------------+
+  //                 RETRIVING DATA FROM SERVER
+  // +-------------------------------------------------------------------+
+
+  getNode() {
+    // makes an ajax request to the server with the current id
+    // the request should return some json data with the details of the current node plus the details of its children
+    // the returned data is saved to this store
+  }
 }
 
 const thingStore = new ThingStore;

@@ -19,14 +19,8 @@ app.get('/data', function(req, res) {
   const dbSetup = new backend.DbSetup();
   dbSetup.setupIfNeeded();
 
-  console.log(dbSetup);
-
-  console.log(backend);
-
   const relationSetup = new backend.RelationSetup();
   relationSetup.setupIfNeeded();
-
-  console.log(relationSetup);
 
   res.send(true);
 })

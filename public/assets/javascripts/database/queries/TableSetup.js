@@ -5,6 +5,7 @@ const SCategories = `CREATE TABLE Categories (
   intro VARCHAR(1000),
   category_id INTEGER REFERENCES Categories(id) ON DELETE CASCADE DEFAULT 1,
   CONSTRAINT unique_name UNIQUE(name),
+  thing_category BOOLEAN NOT NULL DEFAULT FALSE,
   PRIMARY KEY(id)
 );`;
 
@@ -46,6 +47,7 @@ const SThingComments = `CREATE TABLE ThingComments (
   id serial,
   thing_id INTEGER REFERENCES Things(id) ON DELETE CASCADE,
   comment_id INTEGER REFERENCES Comments(id) ON DELETE CASCADE,
+  user_username VARCHAR(30) REFERENCES Users(username) ON DELETE CASCADE,
   PRIMARY KEY(id)
 );`;
 
@@ -62,26 +64,15 @@ const SUsers = `CREATE TABLE Users (
 
 const DUsers = 'DROP TABLE Users;';
 
-
-const SUserComments = `CREATE TABLE UserComments (
-  id serial,
-  user_username VARCHAR(30) REFERENCES Users(username) ON DELETE CASCADE,
-  comment_id INTEGER REFERENCES Comments(id) ON DELETE CASCADE,
-  PRIMARY KEY(id)
-);`;
-
-const DUserComments = 'DROP TABLE UserComments;';
-
 const SAddRoot = `INSERT INTO Categories (name) VALUES ('Things that are Good');`;
 
 const SAddAnon = `INSERT INTO users (username, password) VALUES ('anon', 'anon123');`;
 
 module.exports = {
   drop: [
-    DUserComments,
-    DUsers,
     DThingComments,
     DComments,
+    DUsers,
     DSimilarThings,
     DThings,
     DCategories
@@ -89,11 +80,11 @@ module.exports = {
   setup: [
     SCategories,
     SThings,
-    SComments,
     SSimilarThings,
-    SThingComments,
     SUsers,
-    SUserComments,
+    SComments,
+    SThingComments,
+
     SAddRoot,
     SAddAnon
   ],
@@ -104,6 +95,5 @@ module.exports = {
     'Comments',
     'ThingComments',
     'Users',
-    'UserComments'
   ]
 }
