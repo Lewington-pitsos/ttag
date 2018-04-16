@@ -33,6 +33,16 @@ const SSimilarThings = `CREATE TABLE SimilarThings (
 
 const DSimilarThings = 'DROP TABLE SimilarThings;';
 
+const SUsers = `CREATE TABLE Users (
+  username VARCHAR(30) NOT NULL,
+  password VARCHAR(30),
+  image VARCHAR(100),
+  email VARCHAR(40),
+  CONSTRAINT unique_username UNIQUE(username),
+  PRIMARY KEY(username)
+);`;
+
+const DUsers = 'DROP TABLE Users;';
 
 const SComments = `CREATE TABLE Comments (
   id serial,
@@ -52,17 +62,6 @@ const SThingComments = `CREATE TABLE ThingComments (
 );`;
 
 const DThingComments = 'DROP TABLE ThingComments;';
-
-const SUsers = `CREATE TABLE Users (
-  username VARCHAR(30) NOT NULL,
-  password VARCHAR(30),
-  image VARCHAR(100),
-  email VARCHAR(40),
-  CONSTRAINT unique_username UNIQUE(username),
-  PRIMARY KEY(username)
-);`;
-
-const DUsers = 'DROP TABLE Users;';
 
 const SAddRoot = `INSERT INTO Categories (name) VALUES ('Things that are Good');`;
 

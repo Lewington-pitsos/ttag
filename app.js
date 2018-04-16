@@ -25,4 +25,17 @@ app.get('/data', function(req, res) {
   res.send(true);
 })
 
+app.get('/data/test', function(req, res) {
+  // first setup the database if it isn't set up already
+  // then setup the tables if they aren't already
+  // finally we return something to signify whether the database is now successfully set up
+  const dbSetup = new backend.DbSetup();
+  dbSetup.setupIfNeeded();
+
+  const relationSetup = new backend.RelationSetup();
+  relationSetup.setupIfNeeded();
+
+  res.send(true);
+})
+
 app.listen(3000, () => console.log('Example app listening on port 3000!'))

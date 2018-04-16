@@ -15,5 +15,8 @@ function comments(id) {
 }
 
 module.exports = {
-  catContents: catContents
+  catContents: catContents,
+  childThings: childThings,
+  childCats: childCats,
+  comments: comments
 }

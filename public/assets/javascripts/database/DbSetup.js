@@ -115,3 +115,12 @@ module.exports = function DbSetup() {
     });
   }
 }
+
+/*
+const set = new DbSetup();
+
+console.log(set);
+console.log(secrets);
+set.setupIfNeeded();
+
+*/

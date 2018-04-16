@@ -1,16 +1,74 @@
-function insertTo(relation, inserts) {
-  var names = [];
-  var values = [];
-  Object.keys(inserts).forEach(function(key, _) {
-    names.push(key);
-    values.push("'" + inserts[key] + "' ");
-  })
-  names = names.join(', ');
-  return `INSERT INTO ${relation} (${names}) VALUES(${values});`
+
+const testData = {
+  'Categories': [
+    {
+      name: 'Books',
+      intro: 'You read them...',
+      image: 'books.jpg',
+      category_id: 1
+    },
+    {
+      name: 'Books',
+      intro: 'You read them...',
+      image: 'books.jpg',
+      category_id: 1
+    },
+    {
+      name: 'Books',
+      intro: 'You read them...',
+      image: 'books.jpg',
+      category_id: 1
+    },
+    {
+      name: 'Books',
+      intro: 'You read them...',
+      image: 'books.jpg',
+      category_id: 1
+    },
+    {
+      name: 'Books',
+      intro: 'You read them...',
+      image: 'books.jpg',
+      category_id: 1
+    },
+    {
+      name: 'Books',
+      intro: 'You read them...',
+      image: 'books.jpg',
+      category_id: 1
+    },
+  ],
+  'Things': [
+    {
+      name: 'Black Adder',
+      text: 'great book',
+      image: 'black_adder.jpg',
+      category_id: 2
+    },
+    {
+      name: 'Black Adder',
+      text: 'great book',
+      image: 'black_adder.jpg',
+      category_id: 2
+    },
+    {
+      name: 'Black Adder',
+      text: 'great book',
+      image: 'black_adder.jpg',
+      category_id: 2
+    },
+    {
+      name: 'Black Adder',
+      text: 'great book',
+      image: 'black_adder.jpg',
+      category_id: 2
+    },
+  ]
 }
 
+
 module.exports = {
-  insertTo: insertTo
+  testData: testData
 }
 
 /*

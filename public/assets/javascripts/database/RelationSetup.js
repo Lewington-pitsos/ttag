@@ -1,7 +1,7 @@
 const { Pool, Client } = require('pg');
 const Q = require('q');
 const secrets = require('./db.secret.js');
-const queries = require('./queries/TableSetup')
+const queries = require('./queries/RelationSetup')
 
 module.exports = function RelationSetup() {
   // all the different queries for actually setting up the tables are defiend as properties on the function body and stored in a seperate file so everything doesn't look like cancer
