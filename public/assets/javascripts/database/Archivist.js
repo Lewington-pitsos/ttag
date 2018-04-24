@@ -71,7 +71,7 @@ module.exports = function Archivist() {
   this.getSubcategories = function(id) {
     // triggers the execution of the appropriate query
     // once it has been executed and its result saved to the result property we return that property
-    return this.executeQuery(id, this.catContents.bind(this))
+    return this.executeQuery(id, this.childCats.bind(this))
   }
 
 }
