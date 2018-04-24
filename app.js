@@ -12,7 +12,7 @@ app.use(express.static('public'))
 // NOTE: files served MUST have ABSOLOUTE paths (relative to this file, not the root directory defined above)
 app.get('/', (req, res) => res.sendFile(__dirname + '/index.html'))
 
-app.get('/data', function(req, res) {
+app.get('/setup', function(req, res) {
   // first setup the database if it isn't set up already
   // then setup the tables if they aren't already
   // finally we return something to signify whether the database is now successfully set up
@@ -36,6 +36,13 @@ app.get('/data/test', function(req, res) {
   relationSetup.setupIfNeeded();
 
   res.send(true);
+})
+
+app.get('/subcategories/1', function(req, res) {
+  const archivist = new backend.Archivist();
+  archivist.getSubcategories(1).then(function() {
+    res.send(archivist.result);
+  })
 })
 
 app.listen(3000, () => console.log('Example app listening on port 3000!'))

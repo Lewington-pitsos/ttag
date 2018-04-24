@@ -14,7 +14,7 @@ const { Pool, Client } = require('pg');
 const secrets = require('./db.secret.js');
 const queries = require('./queries/selects');
 
-function Archivist() {
+module.exports = function Archivist() {
   // setup a deafult connection pool on initialization
   // saves an object containing all the queries the app could possibly need
 
