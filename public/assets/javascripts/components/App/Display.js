@@ -21,6 +21,7 @@ This pretty much just a wrapepr to keep everything logically distinct.
 */
 
 import aboutActions from '../../actions/aboutActions';
+import Content from './Display/Content';
 
 export default class Display extends React.Component {
 

@@ -24263,6 +24263,7 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions_aboutActions__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Display_Content__ = __webpack_require__(66);
 
 
 /*
@@ -24284,6 +24285,7 @@ Handles no animations.
 This pretty much just a wrapepr to keep everything logically distinct.
 
 */
+
 
 
 
@@ -26389,6 +26391,207 @@ function getTransitionProperties() {
 
   return { animationEnd: animationEnd, transitionEnd: transitionEnd, prefix: prefix };
 }
+
+/***/ }),
+/* 66 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__ = __webpack_require__(67);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_transition_group__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_transition_group___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react_transition_group__);
+
+
+/*
+Displays two components:
+
+  - About (a bit of intro text that we don't want clogging up anything else)
+  - Display (the actual content of the app)
+
+Relies on one store:
+
+  - AboutStore: which tracks whether or not to display the About component
+
+Has no User Interactions.
+
+Handles the animation of:
+
+  - About components entering and leaving the page
+  - Display components entering and leaveing the page (different animations)
+
+This pretty much just a wrrapper to keep everything logically distinct.
+*/
+
+
+
+
+
+class App extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+  constructor() {
+    super();
+    // innitially sets the current state according to the state of the aboutStore
+    // we also want to keep track of the listener on the aboutStore so that we can get rid of it when we un-mount App
+
+    this.state = aboutStore.getInfo();
+    this.updateState = this.updateState.bind(this);
+  }
+
+  // +-------------------------------------------------------------------+
+  //                       GENERIC STORE LISTENING
+  // +-------------------------------------------------------------------+
+
+  componentWillMount() {
+    // when this component is first mounted we want to add a listener to the aboutStore
+    aboutStore.on('change', this.updateState);
+  }
+
+  componentWillUnmount() {
+    // when this component gets removed from the dom we want to remove the listener to the store.
+    aboutStore.removeListener('change', this.updateState);
+  }
+
+  updateState() {
+    // this is a listener to the aboutStore. Whenever the latter undergoes a change we want to update the state of App to match.
+    this.setState(aboutStore.getInfo());
+  }
+
+  render() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'div',
+      { className: 'container-fluid', id: 'app' },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        __WEBPACK_IMPORTED_MODULE_2_react_transition_group__["CSSTransitionGroup"],
+        {
+          transitionName: 'app',
+          transitionEnterTimeout: 800,
+          transitionLeaveTimeout: 500 },
+        this.state.about ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(About, null) : '',
+        this.state.about ? '' : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(Display, null)
+      )
+    );
+  }
+}
+/* unused harmony export default */
+
+
+/***/ }),
+/* 67 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_events__ = __webpack_require__(52);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_events___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_events__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__dispatcher__ = __webpack_require__(20);
+/*
+
+Used by 1+ components:
+
+  - Display ( for deciding whether or not to display Nav, based on whether      we're ion the root category)
+
+Retrives from the database and stores the currently viewable category (and all it's children), or thing, plus the previous category if we're not at the root category. Responds to navigation events by walking up and down the category/thing tree.
+
+*/
+
+// othwesie keep executing new commands untill we
+ // 'events is like, part of nodejs'
+
+
+
+class ThingStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
+
+  // +-------------------------------------------------------------------+
+  //                      GENERIC FLUX STUFF
+  // +-------------------------------------------------------------------+
+
+  constructor() {
+    super();
+    // stores current category/thing id (starting at 1)
+    // stores whether or not it is a thing
+    this.id = 1;
+    this.thing = false;
+
+    // stores the current category/thing as an object (so like, JSON compatible)
+    // stores all it's children (if it has any) in an array of like objetcs
+    // stores an array of all the previously navigated-to categories
+
+    // PERMENENTLY stores some sort of identifier that is used to check whether or not the current category/thing is the root
+
+    // on instantiation, retrives all the data for the roto node
+    this.getNode();
+  }
+
+  getDisplayInfo() {
+    // returns a state containing just an indicator of whether or not we are at the root category
+  }
+
+  getContentInfo() {
+
+    // returns a state containing the current category/thing and all it's children
+  }
+
+  handleActions(action) {
+    // only ever responds to category tree navigating actions
+    switch (action.type) {
+      case "UP":
+        {
+          this.goUp();
+          break;
+        }case "ROOT":
+        {
+          this.goRoot();
+          break;
+        }case "SWITCH_ABOUT":
+        {
+          this.getNode();
+        }
+    }
+  }
+
+  // +-------------------------------------------------------------------+
+  //                          MAINPULATING DATA
+  // +-------------------------------------------------------------------+
+
+  goUp() {
+    // this can only ever be called if we're not at the root
+    // sets the current category/thing to the previous one, sets the current children to its children (archivist finds them for us) and removes it from the list of previous categories
+  }
+
+  goRoot() {
+    // sets the current category to the root category and the children to the root's children.
+    // empties the array of previous categories.
+  }
+
+  goTo(id) {}
+  // sets the current node to the child of the current node that matches the passed in id
+  // adds the previous node to the array of previous nodes
+
+
+  // +-------------------------------------------------------------------+
+  //                 RETRIVING DATA FROM SERVER
+  // +-------------------------------------------------------------------+
+
+  getNode() {
+    // makes an ajax request to the server with the current category or thing id
+    // the request should return some json data with the details of the current node plus the details of its children
+    // the returned data is saved to this store
+    const request = new XMLHttpRequest();
+    request.open('GET', '/subcategories/1', true);
+    request.send();
+
+    request.onreadystatechange = function () {
+      if (request.readyState == 4) {
+        console.log(JSON.parse(request.responseText).rows);
+      }
+    };
+  }
+}
+
+const thingStore = new ThingStore();
+
+__WEBPACK_IMPORTED_MODULE_1__dispatcher__["a" /* default */].register(thingStore.handleActions.bind(thingStore));
+/* unused harmony default export */ var _unused_webpack_default_export = (thingStore);
 
 /***/ })
 /******/ ]);

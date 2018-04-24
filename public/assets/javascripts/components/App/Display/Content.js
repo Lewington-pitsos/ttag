@@ -20,10 +20,7 @@ Handles the animation of:
 This pretty much just a wrrapper to keep everything logically distinct.
 */
 
-import Display from './App/Display';
-import About from './App/About';
-
-import aboutStore from '../stores/AboutStore';
+import thingStore from '../../../stores/ThingStore';
 
 import { CSSTransitionGroup } from 'react-transition-group';
 
