@@ -8,31 +8,31 @@ const testData = {
       category_id: 1
     },
     {
-      name: 'Books',
+      name: 'Movies',
       intro: 'You read them...',
       image: 'books.jpg',
       category_id: 1
     },
     {
-      name: 'Books',
+      name: 'Legal Cases',
       intro: 'You read them...',
       image: 'books.jpg',
       category_id: 1
     },
     {
-      name: 'Books',
+      name: 'Short Films',
       intro: 'You read them...',
       image: 'books.jpg',
       category_id: 1
     },
     {
-      name: 'Books',
+      name: 'Misc',
       intro: 'You read them...',
       image: 'books.jpg',
       category_id: 1
     },
     {
-      name: 'Books',
+      name: 'Logic Puzzles',
       intro: 'You read them...',
       image: 'books.jpg',
       category_id: 1
