@@ -65,6 +65,20 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+if (process.env.NODE_ENV === 'production') {
+  module.exports = __webpack_require__(38);
+} else {
+  module.exports = __webpack_require__(39);
+}
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+
+/***/ }),
+/* 1 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -254,20 +268,6 @@ process.umask = function () {
 };
 
 /***/ }),
-/* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-if (process.env.NODE_ENV === 'production') {
-  module.exports = __webpack_require__(38);
-} else {
-  module.exports = __webpack_require__(39);
-}
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
-
-/***/ }),
 /* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -367,7 +367,7 @@ function invariant(condition, format, a, b, c, d, e, f) {
 }
 
 module.exports = invariant;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 4 */
@@ -487,7 +487,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 module.exports = emptyObject;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 6 */
@@ -556,10 +556,146 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 module.exports = warning;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 7 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_events__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_events___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_events__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__dispatcher__ = __webpack_require__(8);
+/*
+
+Used by 1+ components:
+
+  - Display ( for deciding whether or not to display Nav, based on whether      we're ion the root category)
+
+Retrives from the database and stores the currently viewable category (and all it's children), or thing, plus the previous category if we're not at the root category. Responds to navigation events by walking up and down the category/thing tree.
+
+*/
+
+// othwesie keep executing new commands untill we
+ // 'events is like, part of nodejs'
+
+
+
+class ThingStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
+
+  // +-------------------------------------------------------------------+
+  //                      GENERIC FLUX STUFF
+  // +-------------------------------------------------------------------+
+
+  constructor() {
+    super();
+    // stores current category/thing id (starting at 1)
+    // stores whether or not it is a thing
+    this.id = 1;
+    this.thing = false;
+
+    // stores the current category/thing as an object (so like, JSON compatible)
+    // stores all it's children (if it has any) in an array of like objetcs
+    // stores an array of all the previously navigated-to categories
+
+    // PERMENENTLY stores some sort of identifier that is used to check whether or not the current category/thing is the root
+
+    // on instantiation, retrives all the data for the roto node
+    this.getNode();
+  }
+
+  getRootInfo() {
+    // returns a state containing just an indicator of whether or not we are at the root category
+    return { atRoot: this.id == 1 };
+  }
+
+  getTypeInfo() {
+    // returns a state containing just an indicator of whether or not we are at a Thing (rather than a category)
+    return { atThing: this.thing };
+  }
+
+  getCategoryInfo() {
+    // returns a state represneting the information on the current category and all the information on it's child nodes
+    return { category: {
+        title: 'root'
+      } };
+  }
+
+  handleActions(action) {
+    // only ever responds to category tree navigating actions
+    switch (action.type) {
+      case "UP":
+        {
+          this.goUp();
+          break;
+        }case "ROOT":
+        {
+          this.goRoot();
+          break;
+        }case "SWITCH_ABOUT":
+        {
+          this.getNode();
+        }
+    }
+  }
+
+  // +-------------------------------------------------------------------+
+  //                          MAINPULATING DATA
+  // +-------------------------------------------------------------------+
+
+  goUp() {
+    // this can only ever be called if we're not at the root
+    // sets the current category/thing to the previous one, sets the current children to its children (archivist finds them for us) and removes it from the list of previous categories
+  }
+
+  goRoot() {
+    // sets the current category to the root category and the children to the root's children.
+    // empties the array of previous categories.
+  }
+
+  goTo(id) {}
+  // sets the current node to the child of the current node that matches the passed in id
+  // adds the previous node to the array of previous nodes
+
+
+  // +-------------------------------------------------------------------+
+  //                 RETRIVING DATA FROM SERVER
+  // +-------------------------------------------------------------------+
+
+  getNode() {
+    // makes an ajax request to the server with the current category or thing id
+    // the request should return some json data with the details of the current node plus the details of its children
+    // the returned data is saved to this store
+    const request = new XMLHttpRequest();
+    request.open('GET', '/subcategories/1', true);
+    request.send();
+
+    request.onreadystatechange = function () {
+      if (request.readyState == 4) {
+        console.log(JSON.parse(request.responseText).rows);
+      }
+    };
+  }
+}
+
+const thingStore = new ThingStore();
+
+__WEBPACK_IMPORTED_MODULE_1__dispatcher__["a" /* default */].register(thingStore.handleActions.bind(thingStore));
+/* harmony default export */ __webpack_exports__["a"] = (thingStore);
+
+/***/ }),
+/* 8 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_flux__ = __webpack_require__(50);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_flux___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_flux__);
+
+
+/* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_0_flux__["Dispatcher"]());
+
+/***/ }),
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(process) {/**
@@ -579,16 +715,16 @@ if (process.env.NODE_ENV !== 'production') {
   // By explicitly using `prop-types` you are opting into new development behavior.
   // http://fb.me/prop-types-in-prod
   var throwOnDirectAccess = true;
-  module.exports = __webpack_require__(55)(isValidElement, throwOnDirectAccess);
+  module.exports = __webpack_require__(62)(isValidElement, throwOnDirectAccess);
 } else {
   // By explicitly using `prop-types` you are opting into new production behavior.
   // http://fb.me/prop-types-in-prod
-  module.exports = __webpack_require__(56)();
+  module.exports = __webpack_require__(63)();
 }
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 8 */
+/* 10 */
 /***/ (function(module, exports) {
 
 /*
@@ -667,7 +803,7 @@ function toComment(sourceMap) {
 }
 
 /***/ }),
-/* 9 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -1049,7 +1185,7 @@ function updateLink (link, options, obj) {
 
 
 /***/ }),
-/* 10 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1065,7 +1201,7 @@ function updateLink (link, options, obj) {
 if (process.env.NODE_ENV !== 'production') {
   var invariant = __webpack_require__(3);
   var warning = __webpack_require__(6);
-  var ReactPropTypesSecret = __webpack_require__(11);
+  var ReactPropTypesSecret = __webpack_require__(13);
   var loggedTypeFailures = {};
 }
 
@@ -1112,10 +1248,10 @@ function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
 }
 
 module.exports = checkPropTypes;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 11 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1133,18 +1269,7 @@ var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
 module.exports = ReactPropTypesSecret;
 
 /***/ }),
-/* 12 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_flux__ = __webpack_require__(50);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_flux___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_flux__);
-
-
-/* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_0_flux__["Dispatcher"]());
-
-/***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1183,10 +1308,10 @@ if (process.env.NODE_ENV === 'production') {
 } else {
   module.exports = __webpack_require__(43);
 }
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1225,7 +1350,7 @@ var ExecutionEnvironment = {
 module.exports = ExecutionEnvironment;
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1303,10 +1428,10 @@ var EventListener = {
 };
 
 module.exports = EventListener;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1349,7 +1474,7 @@ function getActiveElement(doc) /*?DOMElement*/{
 module.exports = getActiveElement;
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1420,7 +1545,7 @@ function shallowEqual(objA, objB) {
 module.exports = shallowEqual;
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1463,7 +1588,7 @@ function containsNode(outerNode, innerNode) {
 module.exports = containsNode;
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1491,22 +1616,6 @@ function focusNode(node) {
 }
 
 module.exports = focusNode;
-
-/***/ }),
-/* 20 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__dispatcher__ = __webpack_require__(12);
-
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-  switchAbout() {
-    __WEBPACK_IMPORTED_MODULE_0__dispatcher__["a" /* default */].dispatch({
-      type: 'SWITCH_ABOUT'
-    });
-  }
-});
 
 /***/ }),
 /* 21 */
@@ -1780,27 +1889,19 @@ function isUndefined(arg) {
 
 /***/ }),
 /* 22 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__dispatcher__ = __webpack_require__(8);
 
 
-var _CSSTransitionGroup = __webpack_require__(54);
-
-var _CSSTransitionGroup2 = _interopRequireDefault(_CSSTransitionGroup);
-
-var _TransitionGroup = __webpack_require__(23);
-
-var _TransitionGroup2 = _interopRequireDefault(_TransitionGroup);
-
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : { default: obj };
-}
-
-module.exports = {
-  TransitionGroup: _TransitionGroup2.default,
-  CSSTransitionGroup: _CSSTransitionGroup2.default
-};
+/* harmony default export */ __webpack_exports__["a"] = ({
+  switchAbout() {
+    __WEBPACK_IMPORTED_MODULE_0__dispatcher__["a" /* default */].dispatch({
+      type: 'SWITCH_ABOUT'
+    });
+  }
+});
 
 /***/ }),
 /* 23 */
@@ -1821,23 +1922,23 @@ var _extends = Object.assign || function (target) {
   }return target;
 };
 
-var _chainFunction = __webpack_require__(57);
+var _chainFunction = __webpack_require__(64);
 
 var _chainFunction2 = _interopRequireDefault(_chainFunction);
 
-var _react = __webpack_require__(1);
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(7);
+var _propTypes = __webpack_require__(9);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _warning = __webpack_require__(58);
+var _warning = __webpack_require__(65);
 
 var _warning2 = _interopRequireDefault(_warning);
 
-var _ChildMapping = __webpack_require__(59);
+var _ChildMapping = __webpack_require__(66);
 
 function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : { default: obj };
@@ -2097,7 +2198,7 @@ TransitionGroup.defaultProps = defaultProps;
 
 exports.default = TransitionGroup;
 module.exports = exports['default'];
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 24 */
@@ -2123,11 +2224,11 @@ exports.__esModule = true;
 exports.nameShape = undefined;
 exports.transitionTimeout = transitionTimeout;
 
-var _react = __webpack_require__(1);
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(7);
+var _propTypes = __webpack_require__(9);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -2214,7 +2315,7 @@ var options = {"hmr":true}
 options.transform = transform
 options.insertInto = undefined;
 
-var update = __webpack_require__(9)(content, options);
+var update = __webpack_require__(11)(content, options);
 
 if(content.locals) module.exports = content.locals;
 
@@ -2249,7 +2350,7 @@ if(false) {
 /* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(8)(false);
+exports = module.exports = __webpack_require__(10)(false);
 // imports
 
 
@@ -2371,7 +2472,7 @@ var options = {"hmr":true}
 options.transform = transform
 options.insertInto = undefined;
 
-var update = __webpack_require__(9)(content, options);
+var update = __webpack_require__(11)(content, options);
 
 if(content.locals) module.exports = content.locals;
 
@@ -2406,7 +2507,7 @@ if(false) {
 /* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(8)(false);
+exports = module.exports = __webpack_require__(10)(false);
 // imports
 
 
@@ -2435,7 +2536,7 @@ var options = {"hmr":true}
 options.transform = transform
 options.insertInto = undefined;
 
-var update = __webpack_require__(9)(content, options);
+var update = __webpack_require__(11)(content, options);
 
 if(content.locals) module.exports = content.locals;
 
@@ -2470,7 +2571,7 @@ if(false) {
 /* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(8)(false);
+exports = module.exports = __webpack_require__(10)(false);
 // imports
 
 
@@ -17909,9 +18010,9 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! tether 1.4
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_App_js__ = __webpack_require__(48);
 
@@ -18064,7 +18165,7 @@ if (process.env.NODE_ENV !== "production") {
     var invariant = __webpack_require__(3);
     var warning = __webpack_require__(6);
     var emptyFunction = __webpack_require__(2);
-    var checkPropTypes = __webpack_require__(10);
+    var checkPropTypes = __webpack_require__(12);
 
     // TODO: this is special because it gets imported during build.
 
@@ -19395,7 +19496,7 @@ if (process.env.NODE_ENV !== "production") {
     module.exports = react;
   })();
 }
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 40 */
@@ -19415,15 +19516,15 @@ if (process.env.NODE_ENV !== "production") {
  Modernizr 3.0.0pre (Custom Build) | MIT
 */
 
-var aa = __webpack_require__(1),
-    l = __webpack_require__(14),
+var aa = __webpack_require__(0),
+    l = __webpack_require__(15),
     B = __webpack_require__(4),
     C = __webpack_require__(2),
-    ba = __webpack_require__(15),
-    da = __webpack_require__(16),
-    ea = __webpack_require__(17),
-    fa = __webpack_require__(18),
-    ia = __webpack_require__(19),
+    ba = __webpack_require__(16),
+    da = __webpack_require__(17),
+    ea = __webpack_require__(18),
+    fa = __webpack_require__(19),
+    ia = __webpack_require__(20),
     D = __webpack_require__(5);
 function E(a) {
   for (var b = arguments.length - 1, c = "Minified React error #" + a + "; visit http://facebook.github.io/react/docs/error-decoder.html?invariant\x3d" + a, d = 0; d < b; d++) c += "\x26args[]\x3d" + encodeURIComponent(arguments[d + 1]);b = Error(c + " for the full message or use the non-minified dev environment for full errors and additional helpful warnings.");b.name = "Invariant Violation";b.framesToPop = 1;throw b;
@@ -21332,7 +21433,7 @@ module.exports = isNode;
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- */if(process.env.NODE_ENV!=="production"){(function(){'use strict';var React=__webpack_require__(1);var invariant=__webpack_require__(3);var warning=__webpack_require__(6);var ExecutionEnvironment=__webpack_require__(14);var _assign=__webpack_require__(4);var emptyFunction=__webpack_require__(2);var EventListener=__webpack_require__(15);var getActiveElement=__webpack_require__(16);var shallowEqual=__webpack_require__(17);var containsNode=__webpack_require__(18);var focusNode=__webpack_require__(19);var emptyObject=__webpack_require__(5);var checkPropTypes=__webpack_require__(10);var hyphenateStyleName=__webpack_require__(44);var camelizeStyleName=__webpack_require__(46);/**
+ */if(process.env.NODE_ENV!=="production"){(function(){'use strict';var React=__webpack_require__(0);var invariant=__webpack_require__(3);var warning=__webpack_require__(6);var ExecutionEnvironment=__webpack_require__(15);var _assign=__webpack_require__(4);var emptyFunction=__webpack_require__(2);var EventListener=__webpack_require__(16);var getActiveElement=__webpack_require__(17);var shallowEqual=__webpack_require__(18);var containsNode=__webpack_require__(19);var focusNode=__webpack_require__(20);var emptyObject=__webpack_require__(5);var checkPropTypes=__webpack_require__(12);var hyphenateStyleName=__webpack_require__(44);var camelizeStyleName=__webpack_require__(46);/**
  * WARNING: DO NOT manually require this module.
  * This is a replacement for `invariant(...)` used by the error code system
  * and will _only_ be required by the corresponding babel pass.
@@ -24302,7 +24403,7 @@ if(navigator.userAgent.indexOf('Chrome')>-1&&navigator.userAgent.indexOf('Edge')
 if(/^(https?|file):$/.test(protocol)){console.info('%cDownload the React DevTools '+'for a better development experience: '+'https://fb.me/react-devtools'+(protocol==='file:'?'\nYou might need to use a local HTTP server (instead of file://): '+'https://fb.me/react-devtools-faq':''),'font-weight:bold');}}}}var ReactDOM$2=Object.freeze({default:ReactDOM});var ReactDOM$3=ReactDOM$2&&ReactDOM||ReactDOM$2;// TODO: decide on the top-level export form.
 // This is hacky but makes it work with both Rollup and Jest.
 var reactDom=ReactDOM$3['default']?ReactDOM$3['default']:ReactDOM$3;module.exports=reactDom;})();}
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 44 */
@@ -24465,12 +24566,12 @@ module.exports = camelize;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__App_Display__ = __webpack_require__(49);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__App_About__ = __webpack_require__(66);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__stores_AboutStore__ = __webpack_require__(67);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_react_transition_group__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__App_About__ = __webpack_require__(58);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__stores_AboutStore__ = __webpack_require__(59);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_react_transition_group__ = __webpack_require__(60);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_react_transition_group___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_react_transition_group__);
 
 
@@ -24554,12 +24655,12 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__ = __webpack_require__(53);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__actions_aboutActions__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__actions_aboutActions__ = __webpack_require__(22);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Display_Content__ = __webpack_require__(52);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Display_Nav__ = __webpack_require__(68);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Display_Nav__ = __webpack_require__(56);
 
 
 /*
@@ -24938,18 +25039,18 @@ var Dispatcher = function () {
 }();
 
 module.exports = Dispatcher;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 52 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__ = __webpack_require__(53);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Content_Thing__ = __webpack_require__(70);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Content_Category__ = __webpack_require__(71);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Content_Thing__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Content_Category__ = __webpack_require__(54);
 
 
 /*
@@ -25026,16 +25127,373 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__ = __webpack_require__(7);
+
+
+/*
+Displays one of two possible components:
+
+  - Thing (a display represneitng all the information about a given thing)
+  - Category (A single category. The display will be a menu containing links to all of the categories, or things within that category)
+
+Relies on one store:
+
+  - ThingStore: which tracks the current category or thing to be displayed, and all its children
+
+Has no user interactions.
+
+Handles no animations.
+*/
+
+
+
+class Thing extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+  constructor() {
+    super();
+    // innitially sets the current state according to the state of the aboutStore
+    // we also want to keep track of the listener on the aboutStore so that we can get rid of it when we un-mount App
+
+    this.state = __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__["a" /* default */].getTypeInfo();
+    this.updateState = this.updateState.bind(this);
+  }
+
+  // +-------------------------------------------------------------------+
+  //                       GENERIC STORE LISTENING
+  // +-------------------------------------------------------------------+
+
+  componentWillMount() {
+    // when this component is first mounted we want to add a listener to the aboutStore
+    __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__["a" /* default */].on('change', this.updateState);
+  }
+
+  componentWillUnmount() {
+    // when this component gets removed from the dom we want to remove the listener to the store.
+    __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__["a" /* default */].removeListener('change', this.updateState);
+  }
+
+  updateState() {
+    // this is a listener to the aboutStore. Whenever the latter undergoes a change we want to update the state of App to match.
+    this.setState(__WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__["a" /* default */].getTypeInfo());
+  }
+
+  render() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'div',
+      { className: 'container-fluid', id: 'app' },
+      'Thing'
+    );
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = Thing;
+
+
+/***/ }),
+/* 54 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Category_Title__ = __webpack_require__(55);
+
+
+/*
+Displays two of 3 possible components:
+
+  - Title (a simple display representing the title of the current category)
+
+  And one of either:
+
+  - Spread (a tableux-like list of all current subcategories)
+
+  - List (a list like list of all the things within the current category)
+
+Relies on one store:
+
+  - ThingStore: which provides a list of the current category's children as well as its title
+
+Has no user interactions.
+
+Handles no animations.
+*/
+
+
+
+
+
+class Category extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+  constructor() {
+    super();
+    // innitially sets the current state according to the state of the aboutStore
+    // we also want to keep track of the listener on the aboutStore so that we can get rid of it when we un-mount App
+
+    this.state = __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__["a" /* default */].getCategoryInfo();
+    this.updateState = this.updateState.bind(this);
+  }
+
+  // +-------------------------------------------------------------------+
+  //                       GENERIC STORE LISTENING
+  // +-------------------------------------------------------------------+
+
+  componentWillMount() {
+    // when this component is first mounted we want to add a listener to the aboutStore
+    __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__["a" /* default */].on('change', this.updateState);
+  }
+
+  componentWillUnmount() {
+    // when this component gets removed from the dom we want to remove the listener to the store.
+    __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__["a" /* default */].removeListener('change', this.updateState);
+  }
+
+  updateState() {
+    // this is a listener to the aboutStore. Whenever the latter undergoes a change we want to update the state of App to match.
+    this.setState(__WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__["a" /* default */].getCategoryInfo());
+  }
+
+  // +-------------------------------------------------------------------+
+  //                              RENDERING
+  // +-------------------------------------------------------------------+
+
+  render() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'div',
+      { className: 'container-fluid', id: 'app' },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Category_Title__["a" /* default */], { title: this.state.category.title })
+    );
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = Category;
+
+
+/***/ }),
+/* 55 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+
+
+/*
+Literally just displays the category title, which is passed in via props
+*/
+
+class Title extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+
+  titleDisplay() {
+    // returns the right kind of title display depending on whethe we are at the root category ot not
+    if (this.props.title == 'root') {
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'h1',
+        { className: 'text-center' },
+        'Things that are Good'
+      );
+    } else {
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'h2',
+        { className: 'text-center' },
+        this.props.title
+      );
+    }
+  }
+
+  render() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'div',
+      { className: 'row justify-content-center', id: 'category-title' },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'div',
+        { className: 'row' },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'div',
+          { className: 'col-12' },
+          this.titleDisplay()
+        )
+      )
+    );
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = Title;
+
+
+/***/ }),
+/* 56 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions_navActions__ = __webpack_require__(57);
+
+
+/*
+Displays a number of Arrow components:
+
+  - Arrow: a small arrow graphic that gets passed in a callback to props and executes it when clicked.
+
+No Store interactions.
+
+Has a number of user interactions equal to the Arrows it displayes.
+
+  - All the user interactions of Nav update the ThingStore
+
+Handles its own animations
+
+  - On hovering at the top of the screen the Nav will descend. Once the mouse leaves the nav it ascends again.
+
+This is a very standard, fixed-top page navigation bar. It allows the user to navigate back up the tree of nested categories and things. It gets displayed no matter where the user is in this tree, except for the very first (root) category (although whether or not it gets displayed is managed by Display).
+
+*/
+
+
+
+class Nav extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+
+  up() {
+    // a wrapper that just triggers the up action on navActions
+    __WEBPACK_IMPORTED_MODULE_1__actions_navActions__["a" /* default */].up();
+  }
+
+  root() {
+    __WEBPACK_IMPORTED_MODULE_1__actions_navActions__["a" /* default */].root();
+    // a wrapper that just triggers the root action on navActions
+  }
+
+  // +-------------------------------------------------------------------+
+  //                              RENDERING
+  // +-------------------------------------------------------------------+
+
+
+  buttons() {
+    // calculates and returns an array of Arrow elements based on passed in props (either 1 or two it looks like)
+  }
+
+  render() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'div',
+      { className: 'd-flex justify-content-around', id: 'nav' },
+      'Nav'
+    );
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = Nav;
+
+
+/***/ }),
+/* 57 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__dispatcher__ = __webpack_require__(8);
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+  up() {
+    __WEBPACK_IMPORTED_MODULE_0__dispatcher__["a" /* default */].dispatch({
+      type: 'UP'
+    });
+  },
+
+  root() {
+    __WEBPACK_IMPORTED_MODULE_0__dispatcher__["a" /* default */].dispatch({
+      type: 'ROOT'
+    });
+  }
+});
+
+/***/ }),
+/* 58 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions_aboutActions__ = __webpack_require__(22);
+
+
+/*
+Displays no further components
+
+Relies on no stores
+
+Has 1 User Interaction:
+
+  - when the about button near the bottom of the page is clicked, an action is tiggered causing the aboutStore to switch it's stance on whether the about page is showing.
+
+Handles no animations.
+
+About is almost entirely just static html.
+*/
+
+
+class About extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+
+  displayDisplay() {
+    // a wrapper function that just triggers an action.
+    __WEBPACK_IMPORTED_MODULE_1__actions_aboutActions__["a" /* default */].switchAbout();
+  }
+
+  render() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'div',
+      { id: 'about' },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'div',
+        { className: 'row justify-content-center' },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'div',
+          { className: 'col-8 d-flex align-items-center flex-column' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'h1',
+            null,
+            'Good Question'
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'p',
+            null,
+            'Lorem ipsum dolor sit amet, omnis lucilius vis at, probo mentitum oportere has eu. Ea eos dolores scripserit complectitur. Sit noluisse similique in, justo ignota urbanitas pro ei. Partem essent id sed, summo integre efficiendi ne vix. Quas civibus tincidunt mei at. Nonumes phaedrum consectetuer nam an, cu quo fugit mollis.'
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'p',
+            null,
+            'Ex quod tritani iuvaret nam. Libris bonorum nominati no usu, ad ius illud admodum. Id quod alii causae sed. Solet luptatum per ut, vix eu brute expetenda. Viderer contentiones cu est, error democritum id qui. Ex vis quem dico, nam impetus appellantur an.'
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'h3',
+            null,
+            'Contact'
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'button',
+            { onClick: this.displayDisplay.bind(this) },
+            'Got it'
+          )
+        )
+      )
+    );
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = About;
+
+
+/***/ }),
+/* 59 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_events__ = __webpack_require__(21);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_events___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_events__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__dispatcher__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__dispatcher__ = __webpack_require__(8);
 /*
 
-Used by 1+ components:
+Only used by 1 component:
 
-  - Display ( for deciding whether or not to display Nav, based on whether      we're ion the root category)
+  - App
 
-Retrives from the database and stores the currently viewable category (and all it's children), or thing, plus the previous category if we're not at the root category. Responds to navigation events by walking up and down the category/thing tree.
+Basically just stores whether or not to show the about page.
 
 */
 
@@ -25044,7 +25502,7 @@ Retrives from the database and stores the currently viewable category (and all i
 
 
 
-class ThingStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
+class AboutStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
 
   // +-------------------------------------------------------------------+
   //                      GENERIC FLUX STUFF
@@ -25052,50 +25510,23 @@ class ThingStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
 
   constructor() {
     super();
-    // stores current category/thing id (starting at 1)
-    // stores whether or not it is a thing
-    this.id = 1;
-    this.thing = false;
-
-    // stores the current category/thing as an object (so like, JSON compatible)
-    // stores all it's children (if it has any) in an array of like objetcs
-    // stores an array of all the previously navigated-to categories
-
-    // PERMENENTLY stores some sort of identifier that is used to check whether or not the current category/thing is the root
-
-    // on instantiation, retrives all the data for the roto node
-    this.getNode();
+    // stores whether or not the about page is currently to be displayed. By default it isn't.
+    this.about = false;
   }
 
-  getRootInfo() {
-    // returns a state containing just an indicator of whether or not we are at the root category
-    return { atRoot: this.thing };
-  }
+  getInfo() {
 
-  getTypeInfo() {
-    // returns a state containing just an indicator of whether or not we are at a Thing (rather than a category)
-    return { atThing: this.id == 1 };
-  }
-
-  getCategoryInfo() {
-    // returns a state represneting the information on the current category and all the information on it's child nodes
-    return {};
+    // returns a state containing a single value, indicating whether or not the about page is to be displayed
+    return { about: this.about };
   }
 
   handleActions(action) {
-    // only ever responds to category tree navigating actions
+    // only responds to one action which switches the about-page in and out
     switch (action.type) {
-      case "UP":
+      case "SWITCH_ABOUT":
         {
-          this.goUp();
+          this.switchAbout();
           break;
-        }case "ROOT":
-        {
-          this.goRoot();
-          break;
-        }case "SWITCH_ABOUT":
-        {
-          this.getNode();
         }
     }
   }
@@ -25104,48 +25535,45 @@ class ThingStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
   //                          MAINPULATING DATA
   // +-------------------------------------------------------------------+
 
-  goUp() {
-    // this can only ever be called if we're not at the root
-    // sets the current category/thing to the previous one, sets the current children to its children (archivist finds them for us) and removes it from the list of previous categories
+  switchAbout() {
+    // flips the stored value which indicates whether or not the about page should be shown.
+    this.about = !this.about;
+    this.emit('change');
   }
 
-  goRoot() {
-    // sets the current category to the root category and the children to the root's children.
-    // empties the array of previous categories.
-  }
-
-  goTo(id) {}
-  // sets the current node to the child of the current node that matches the passed in id
-  // adds the previous node to the array of previous nodes
-
-
-  // +-------------------------------------------------------------------+
-  //                 RETRIVING DATA FROM SERVER
-  // +-------------------------------------------------------------------+
-
-  getNode() {
-    // makes an ajax request to the server with the current category or thing id
-    // the request should return some json data with the details of the current node plus the details of its children
-    // the returned data is saved to this store
-    const request = new XMLHttpRequest();
-    request.open('GET', '/subcategories/1', true);
-    request.send();
-
-    request.onreadystatechange = function () {
-      if (request.readyState == 4) {
-        console.log(JSON.parse(request.responseText).rows);
-      }
-    };
-  }
 }
 
-const thingStore = new ThingStore();
+const aboutStore = new AboutStore();
 
-__WEBPACK_IMPORTED_MODULE_1__dispatcher__["a" /* default */].register(thingStore.handleActions.bind(thingStore));
-/* harmony default export */ __webpack_exports__["a"] = (thingStore);
+__WEBPACK_IMPORTED_MODULE_1__dispatcher__["a" /* default */].register(aboutStore.handleActions.bind(aboutStore));
+/* harmony default export */ __webpack_exports__["a"] = (aboutStore);
 
 /***/ }),
-/* 54 */
+/* 60 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _CSSTransitionGroup = __webpack_require__(61);
+
+var _CSSTransitionGroup2 = _interopRequireDefault(_CSSTransitionGroup);
+
+var _TransitionGroup = __webpack_require__(23);
+
+var _TransitionGroup2 = _interopRequireDefault(_TransitionGroup);
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
+
+module.exports = {
+  TransitionGroup: _TransitionGroup2.default,
+  CSSTransitionGroup: _CSSTransitionGroup2.default
+};
+
+/***/ }),
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25163,11 +25591,11 @@ var _extends = Object.assign || function (target) {
   }return target;
 };
 
-var _react = __webpack_require__(1);
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(7);
+var _propTypes = __webpack_require__(9);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -25175,7 +25603,7 @@ var _TransitionGroup = __webpack_require__(23);
 
 var _TransitionGroup2 = _interopRequireDefault(_TransitionGroup);
 
-var _CSSTransitionGroupChild = __webpack_require__(60);
+var _CSSTransitionGroupChild = __webpack_require__(67);
 
 var _CSSTransitionGroupChild2 = _interopRequireDefault(_CSSTransitionGroupChild);
 
@@ -25264,10 +25692,10 @@ CSSTransitionGroup.defaultProps = defaultProps;
 
 exports.default = CSSTransitionGroup;
 module.exports = exports['default'];
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 55 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25285,8 +25713,8 @@ var invariant = __webpack_require__(3);
 var warning = __webpack_require__(6);
 var assign = __webpack_require__(4);
 
-var ReactPropTypesSecret = __webpack_require__(11);
-var checkPropTypes = __webpack_require__(10);
+var ReactPropTypesSecret = __webpack_require__(13);
+var checkPropTypes = __webpack_require__(12);
 
 module.exports = function (isValidElement, throwOnDirectAccess) {
   /* global Symbol */
@@ -25787,10 +26215,10 @@ module.exports = function (isValidElement, throwOnDirectAccess) {
 
   return ReactPropTypes;
 };
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 56 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25805,7 +26233,7 @@ module.exports = function (isValidElement, throwOnDirectAccess) {
 
 var emptyFunction = __webpack_require__(2);
 var invariant = __webpack_require__(3);
-var ReactPropTypesSecret = __webpack_require__(11);
+var ReactPropTypesSecret = __webpack_require__(13);
 
 module.exports = function () {
   function shim(props, propName, componentName, location, propFullName, secret) {
@@ -25849,7 +26277,7 @@ module.exports = function () {
 };
 
 /***/ }),
-/* 57 */
+/* 64 */
 /***/ (function(module, exports) {
 
 
@@ -25875,7 +26303,7 @@ module.exports = function chain() {
 };
 
 /***/ }),
-/* 58 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25932,10 +26360,10 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 module.exports = warning;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 59 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25945,7 +26373,7 @@ exports.__esModule = true;
 exports.getChildMapping = getChildMapping;
 exports.mergeChildMappings = mergeChildMappings;
 
-var _react = __webpack_require__(1);
+var _react = __webpack_require__(0);
 
 /**
  * Given `this.props.children`, return an object mapping key to child.
@@ -26032,7 +26460,7 @@ function mergeChildMappings(prev, next) {
 }
 
 /***/ }),
-/* 60 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26050,29 +26478,29 @@ var _extends = Object.assign || function (target) {
   }return target;
 };
 
-var _addClass = __webpack_require__(61);
+var _addClass = __webpack_require__(68);
 
 var _addClass2 = _interopRequireDefault(_addClass);
 
-var _removeClass = __webpack_require__(63);
+var _removeClass = __webpack_require__(70);
 
 var _removeClass2 = _interopRequireDefault(_removeClass);
 
-var _requestAnimationFrame = __webpack_require__(64);
+var _requestAnimationFrame = __webpack_require__(71);
 
 var _requestAnimationFrame2 = _interopRequireDefault(_requestAnimationFrame);
 
-var _properties = __webpack_require__(65);
+var _properties = __webpack_require__(72);
 
-var _react = __webpack_require__(1);
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(7);
+var _propTypes = __webpack_require__(9);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _reactDom = __webpack_require__(13);
+var _reactDom = __webpack_require__(14);
 
 var _PropTypes = __webpack_require__(25);
 
@@ -26286,10 +26714,10 @@ CSSTransitionGroupChild.propTypes = process.env.NODE_ENV !== "production" ? prop
 
 exports.default = CSSTransitionGroupChild;
 module.exports = exports['default'];
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 61 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26300,7 +26728,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = addClass;
 
-var _hasClass = __webpack_require__(62);
+var _hasClass = __webpack_require__(69);
 
 var _hasClass2 = _interopRequireDefault(_hasClass);
 
@@ -26314,7 +26742,7 @@ function addClass(element, className) {
 module.exports = exports['default'];
 
 /***/ }),
-/* 62 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26330,7 +26758,7 @@ function hasClass(element, className) {
 module.exports = exports["default"];
 
 /***/ }),
-/* 63 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26345,7 +26773,7 @@ module.exports = function removeClass(element, className) {
 };
 
 /***/ }),
-/* 64 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26406,7 +26834,7 @@ exports.default = compatRaf;
 module.exports = exports['default'];
 
 /***/ }),
-/* 65 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26520,374 +26948,6 @@ function getTransitionProperties() {
 
   return { animationEnd: animationEnd, transitionEnd: transitionEnd, prefix: prefix };
 }
-
-/***/ }),
-/* 66 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions_aboutActions__ = __webpack_require__(20);
-
-
-/*
-Displays no further components
-
-Relies on no stores
-
-Has 1 User Interaction:
-
-  - when the about button near the bottom of the page is clicked, an action is tiggered causing the aboutStore to switch it's stance on whether the about page is showing.
-
-Handles no animations.
-
-About is almost entirely just static html.
-*/
-
-
-class About extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
-
-  displayDisplay() {
-    // a wrapper function that just triggers an action.
-    __WEBPACK_IMPORTED_MODULE_1__actions_aboutActions__["a" /* default */].switchAbout();
-  }
-
-  render() {
-    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      'div',
-      { id: 'about' },
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'div',
-        { className: 'row justify-content-center' },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'div',
-          { className: 'col-8 d-flex align-items-center flex-column' },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'h1',
-            null,
-            'Good Question'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'p',
-            null,
-            'Lorem ipsum dolor sit amet, omnis lucilius vis at, probo mentitum oportere has eu. Ea eos dolores scripserit complectitur. Sit noluisse similique in, justo ignota urbanitas pro ei. Partem essent id sed, summo integre efficiendi ne vix. Quas civibus tincidunt mei at. Nonumes phaedrum consectetuer nam an, cu quo fugit mollis.'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'p',
-            null,
-            'Ex quod tritani iuvaret nam. Libris bonorum nominati no usu, ad ius illud admodum. Id quod alii causae sed. Solet luptatum per ut, vix eu brute expetenda. Viderer contentiones cu est, error democritum id qui. Ex vis quem dico, nam impetus appellantur an.'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'h3',
-            null,
-            'Contact'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'button',
-            { onClick: this.displayDisplay.bind(this) },
-            'Got it'
-          )
-        )
-      )
-    );
-  }
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = About;
-
-
-/***/ }),
-/* 67 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_events__ = __webpack_require__(21);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_events___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_events__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__dispatcher__ = __webpack_require__(12);
-/*
-
-Only used by 1 component:
-
-  - App
-
-Basically just stores whether or not to show the about page.
-
-*/
-
-// othwesie keep executing new commands untill we
- // 'events is like, part of nodejs'
-
-
-
-class AboutStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
-
-  // +-------------------------------------------------------------------+
-  //                      GENERIC FLUX STUFF
-  // +-------------------------------------------------------------------+
-
-  constructor() {
-    super();
-    // stores whether or not the about page is currently to be displayed. By default it isn't.
-    this.about = false;
-  }
-
-  getInfo() {
-
-    // returns a state containing a single value, indicating whether or not the about page is to be displayed
-    return { about: this.about };
-  }
-
-  handleActions(action) {
-    // only responds to one action which switches the about-page in and out
-    switch (action.type) {
-      case "SWITCH_ABOUT":
-        {
-          this.switchAbout();
-          break;
-        }
-    }
-  }
-
-  // +-------------------------------------------------------------------+
-  //                          MAINPULATING DATA
-  // +-------------------------------------------------------------------+
-
-  switchAbout() {
-    // flips the stored value which indicates whether or not the about page should be shown.
-    this.about = !this.about;
-    this.emit('change');
-  }
-
-}
-
-const aboutStore = new AboutStore();
-
-__WEBPACK_IMPORTED_MODULE_1__dispatcher__["a" /* default */].register(aboutStore.handleActions.bind(aboutStore));
-/* harmony default export */ __webpack_exports__["a"] = (aboutStore);
-
-/***/ }),
-/* 68 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions_navActions__ = __webpack_require__(69);
-
-
-/*
-Displays a number of Arrow components:
-
-  - Arrow: a small arrow graphic that gets passed in a callback to props and executes it when clicked.
-
-No Store interactions.
-
-Has a number of user interactions equal to the Arrows it displayes.
-
-  - All the user interactions of Nav update the ThingStore
-
-Handles its own animations
-
-  - On hovering at the top of the screen the Nav will descend. Once the mouse leaves the nav it ascends again.
-
-This is a very standard, fixed-top page navigation bar. It allows the user to navigate back up the tree of nested categories and things. It gets displayed no matter where the user is in this tree, except for the very first (root) category (although whether or not it gets displayed is managed by Display).
-
-*/
-
-
-
-class Nav extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
-
-  up() {
-    // a wrapper that just triggers the up action on navActions
-    __WEBPACK_IMPORTED_MODULE_1__actions_navActions__["a" /* default */].up();
-  }
-
-  root() {
-    __WEBPACK_IMPORTED_MODULE_1__actions_navActions__["a" /* default */].root();
-    // a wrapper that just triggers the root action on navActions
-  }
-
-  // +-------------------------------------------------------------------+
-  //                              RENDERING
-  // +-------------------------------------------------------------------+
-
-
-  buttons() {
-    // calculates and returns an array of Arrow elements based on passed in props (either 1 or two it looks like)
-  }
-
-  render() {
-    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      'div',
-      { className: 'd-flex justify-content-around', id: 'nav' },
-      'Nav'
-    );
-  }
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = Nav;
-
-
-/***/ }),
-/* 69 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__dispatcher__ = __webpack_require__(12);
-
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-  up() {
-    __WEBPACK_IMPORTED_MODULE_0__dispatcher__["a" /* default */].dispatch({
-      type: 'UP'
-    });
-  },
-
-  root() {
-    __WEBPACK_IMPORTED_MODULE_0__dispatcher__["a" /* default */].dispatch({
-      type: 'ROOT'
-    });
-  }
-});
-
-/***/ }),
-/* 70 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__ = __webpack_require__(53);
-
-
-/*
-Displays one of two possible components:
-
-  - Thing (a display represneitng all the information about a given thing)
-  - Category (A single category. The display will be a menu containing links to all of the categories, or things within that category)
-
-Relies on one store:
-
-  - ThingStore: which tracks the current category or thing to be displayed, and all its children
-
-Has no user interactions.
-
-Handles no animations.
-*/
-
-
-
-class Thing extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
-  constructor() {
-    super();
-    // innitially sets the current state according to the state of the aboutStore
-    // we also want to keep track of the listener on the aboutStore so that we can get rid of it when we un-mount App
-
-    this.state = __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__["a" /* default */].getTypeInfo();
-    this.updateState = this.updateState.bind(this);
-  }
-
-  // +-------------------------------------------------------------------+
-  //                       GENERIC STORE LISTENING
-  // +-------------------------------------------------------------------+
-
-  componentWillMount() {
-    // when this component is first mounted we want to add a listener to the aboutStore
-    __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__["a" /* default */].on('change', this.updateState);
-  }
-
-  componentWillUnmount() {
-    // when this component gets removed from the dom we want to remove the listener to the store.
-    __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__["a" /* default */].removeListener('change', this.updateState);
-  }
-
-  updateState() {
-    // this is a listener to the aboutStore. Whenever the latter undergoes a change we want to update the state of App to match.
-    this.setState(__WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__["a" /* default */].getTypeInfo());
-  }
-
-  render() {
-    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      'div',
-      { className: 'container-fluid', id: 'app' },
-      'Thing'
-    );
-  }
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = Thing;
-
-
-/***/ }),
-/* 71 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__ = __webpack_require__(53);
-
-
-/*
-Displays two of 3 possible components:
-
-  - Title (a simple display representing the title of the current category)
-
-  And one of either:
-
-  - Spread (a tableux-like list of all current subcategories)
-
-  - List (a list like list of all the things within the current category)
-
-Relies on one store:
-
-  - ThingStore: which provides a list of the current category's children as well as its title
-
-Has no user interactions.
-
-Handles no animations.
-*/
-
-
-
-class Category extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
-  constructor() {
-    super();
-    // innitially sets the current state according to the state of the aboutStore
-    // we also want to keep track of the listener on the aboutStore so that we can get rid of it when we un-mount App
-
-    this.state = __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__["a" /* default */].getCategoryInfo();
-    this.updateState = this.updateState.bind(this);
-  }
-
-  // +-------------------------------------------------------------------+
-  //                       GENERIC STORE LISTENING
-  // +-------------------------------------------------------------------+
-
-  componentWillMount() {
-    // when this component is first mounted we want to add a listener to the aboutStore
-    __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__["a" /* default */].on('change', this.updateState);
-  }
-
-  componentWillUnmount() {
-    // when this component gets removed from the dom we want to remove the listener to the store.
-    __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__["a" /* default */].removeListener('change', this.updateState);
-  }
-
-  updateState() {
-    // this is a listener to the aboutStore. Whenever the latter undergoes a change we want to update the state of App to match.
-    this.setState(__WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__["a" /* default */].getCategoryInfo());
-  }
-
-  render() {
-    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      'div',
-      { className: 'container-fluid', id: 'app' },
-      'Category'
-    );
-  }
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = Category;
-
 
 /***/ })
 /******/ ]);

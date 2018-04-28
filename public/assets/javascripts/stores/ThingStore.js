@@ -38,17 +38,19 @@ class ThingStore extends EventEmitter {
 
   getRootInfo() {
     // returns a state containing just an indicator of whether or not we are at the root category
-    return { atRoot: this.thing };
+    return { atRoot: this.id == 1 };
   }
 
   getTypeInfo() {
     // returns a state containing just an indicator of whether or not we are at a Thing (rather than a category)
-    return { atThing: this.id == 1};
+    return { atThing: this.thing };
   }
 
   getCategoryInfo() {
     // returns a state represneting the information on the current category and all the information on it's child nodes
-    return {};
+    return {category: {
+      title: 'root'
+    }};
   }
 
   handleActions(action) {

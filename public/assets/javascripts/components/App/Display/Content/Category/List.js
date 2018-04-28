@@ -22,8 +22,6 @@ Handles no animations.
 
 import thingStore from '../../../../stores/ThingStore';
 
-import Title from './Category/Title';
-
 export default class Category extends React.Component {
     constructor() {
       super();
@@ -53,14 +51,10 @@ export default class Category extends React.Component {
       this.setState(thingStore.getCategoryInfo());
     }
 
-    // +-------------------------------------------------------------------+
-    //                              RENDERING
-    // +-------------------------------------------------------------------+
-
     render() {
       return (
         <div className="container-fluid" id="app">
-          <Title title={ this.state.category.title } />
+          Category
         </div>
       );
     }
