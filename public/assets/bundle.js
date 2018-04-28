@@ -24568,6 +24568,7 @@ Displays two components:
   - Nav (fixed, page top navigation bar)
   - Content (the actual substantive content the user is interested in)
 
+
 Relies on 1 store:
 
   - ThingStore: which by tracking the current position on the thing tree, tracks whether or not the nav needs to be displayed at all
@@ -24575,6 +24576,8 @@ Relies on 1 store:
 Has 1 User Interaction:
 
   - when the about button near the bottom of the page is clicked, an action is tiggered causing the aboutStore to switch it's stance on whether the about page is showing.
+
+  - this button is only visible when the user is at the root
 
 Handles no animations.
 
@@ -24630,10 +24633,12 @@ class Display extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
   // +-------------------------------------------------------------------+
 
   nav() {
+    // returns the nav component or an emptyt string if we are at the root
     return this.state.atRoot ? '' : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__Display_Nav__["a" /* default */], null);
   }
 
   about() {
+    // returns an empty string, or else the about button if we are at the root
     return this.state.atRoot ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'button',
       { onClick: this.displayAbout.bind(this) },
@@ -24660,7 +24665,7 @@ class Display extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'div',
           { className: 'col-8 d-flex align-items-center flex-column' },
-          'DISPLAY'
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Display_Content__["a" /* default */], null)
         )
       ),
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -24943,29 +24948,25 @@ module.exports = Dispatcher;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__ = __webpack_require__(53);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_transition_group__ = __webpack_require__(22);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_transition_group___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react_transition_group__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Content_Thing__ = __webpack_require__(70);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Content_Category__ = __webpack_require__(71);
 
 
 /*
-Displays two components:
+Displays one of two possible components:
 
-  - About (a bit of intro text that we don't want clogging up anything else)
-  - Display (the actual content of the app)
+  - Thing (a display represneitng all the information about a given thing)
+  - Category (A single category. The display will be a menu containing links to all of the categories, or things within that category)
 
 Relies on one store:
 
-  - AboutStore: which tracks whether or not to display the About component
+  - ThingStore: which tracks the current category or thing to be displayed, and all its children
 
-Has no User Interactions.
+Has no user interactions.
 
-Handles the animation of:
-
-  - About components entering and leaving the page
-  - Display components entering and leaveing the page (different animations)
-
-This pretty much just a wrrapper to keep everything logically distinct.
+Handles no animations.
 */
+
 
 
 
@@ -24977,7 +24978,7 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
     // innitially sets the current state according to the state of the aboutStore
     // we also want to keep track of the listener on the aboutStore so that we can get rid of it when we un-mount App
 
-    this.state = aboutStore.getInfo();
+    this.state = __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__["a" /* default */].getTypeInfo();
     this.updateState = this.updateState.bind(this);
   }
 
@@ -24987,36 +24988,37 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 
   componentWillMount() {
     // when this component is first mounted we want to add a listener to the aboutStore
-    aboutStore.on('change', this.updateState);
+    __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__["a" /* default */].on('change', this.updateState);
   }
 
   componentWillUnmount() {
     // when this component gets removed from the dom we want to remove the listener to the store.
-    aboutStore.removeListener('change', this.updateState);
+    __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__["a" /* default */].removeListener('change', this.updateState);
   }
 
   updateState() {
     // this is a listener to the aboutStore. Whenever the latter undergoes a change we want to update the state of App to match.
-    this.setState(aboutStore.getInfo());
+    this.setState(__WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__["a" /* default */].getTypeInfo());
+  }
+
+  // +-------------------------------------------------------------------+
+  //                              RENDERING
+  // +-------------------------------------------------------------------+
+
+  content() {
+    // returns a Thing or Category component dependind on whether we are currently at a thing or a category
+    return this.state.atThing ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Content_Category__["a" /* default */], null) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Content_Thing__["a" /* default */], null);
   }
 
   render() {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
-      { className: 'container-fluid', id: 'app' },
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        __WEBPACK_IMPORTED_MODULE_2_react_transition_group__["CSSTransitionGroup"],
-        {
-          transitionName: 'app',
-          transitionEnterTimeout: 800,
-          transitionLeaveTimeout: 500 },
-        this.state.about ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(About, null) : '',
-        this.state.about ? '' : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(Display, null)
-      )
+      { className: 'container-fluid', id: 'content' },
+      this.content()
     );
   }
 }
-/* unused harmony export default */
+/* harmony export (immutable) */ __webpack_exports__["a"] = App;
 
 
 /***/ }),
@@ -25067,7 +25069,12 @@ class ThingStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
 
   getRootInfo() {
     // returns a state containing just an indicator of whether or not we are at the root category
-    return { atRoot: this.id == 1 };
+    return { atRoot: this.thing };
+  }
+
+  getTypeInfo() {
+    // returns a state containing just an indicator of whether or not we are at a Thing (rather than a category)
+    return { atThing: this.id == 1 };
   }
 
   getContentInfo() {
@@ -26677,7 +26684,7 @@ No Store interactions.
 
 Has a number of user interactions equal to the Arrows it displayes.
 
-  - All the user interactions of Nav update the NavStore
+  - All the user interactions of Nav update the ThingStore
 
 Handles its own animations
 
@@ -26742,6 +26749,140 @@ class Nav extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
     });
   }
 });
+
+/***/ }),
+/* 70 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__ = __webpack_require__(53);
+
+
+/*
+Displays one of two possible components:
+
+  - Thing (a display represneitng all the information about a given thing)
+  - Category (A single category. The display will be a menu containing links to all of the categories, or things within that category)
+
+Relies on one store:
+
+  - ThingStore: which tracks the current category or thing to be displayed, and all its children
+
+Has no user interactions.
+
+Handles no animations.
+*/
+
+
+
+class Thing extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+  constructor() {
+    super();
+    // innitially sets the current state according to the state of the aboutStore
+    // we also want to keep track of the listener on the aboutStore so that we can get rid of it when we un-mount App
+
+    this.state = __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__["a" /* default */].getTypeInfo();
+    this.updateState = this.updateState.bind(this);
+  }
+
+  // +-------------------------------------------------------------------+
+  //                       GENERIC STORE LISTENING
+  // +-------------------------------------------------------------------+
+
+  componentWillMount() {
+    // when this component is first mounted we want to add a listener to the aboutStore
+    __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__["a" /* default */].on('change', this.updateState);
+  }
+
+  componentWillUnmount() {
+    // when this component gets removed from the dom we want to remove the listener to the store.
+    __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__["a" /* default */].removeListener('change', this.updateState);
+  }
+
+  updateState() {
+    // this is a listener to the aboutStore. Whenever the latter undergoes a change we want to update the state of App to match.
+    this.setState(__WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__["a" /* default */].getTypeInfo());
+  }
+
+  render() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'div',
+      { className: 'container-fluid', id: 'app' },
+      'Thing'
+    );
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = Thing;
+
+
+/***/ }),
+/* 71 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__ = __webpack_require__(53);
+
+
+/*
+Displays one of two possible components:
+
+  - Thing (a display represneitng all the information about a given thing)
+  - Category (A single category. The display will be a menu containing links to all of the categories, or things within that category)
+
+Relies on one store:
+
+  - ThingStore: which tracks the current category or thing to be displayed, and all its children
+
+Has no user interactions.
+
+Handles no animations.
+*/
+
+
+
+class Category extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+  constructor() {
+    super();
+    // innitially sets the current state according to the state of the aboutStore
+    // we also want to keep track of the listener on the aboutStore so that we can get rid of it when we un-mount App
+
+    this.state = __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__["a" /* default */].getTypeInfo();
+    this.updateState = this.updateState.bind(this);
+  }
+
+  // +-------------------------------------------------------------------+
+  //                       GENERIC STORE LISTENING
+  // +-------------------------------------------------------------------+
+
+  componentWillMount() {
+    // when this component is first mounted we want to add a listener to the aboutStore
+    __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__["a" /* default */].on('change', this.updateState);
+  }
+
+  componentWillUnmount() {
+    // when this component gets removed from the dom we want to remove the listener to the store.
+    __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__["a" /* default */].removeListener('change', this.updateState);
+  }
+
+  updateState() {
+    // this is a listener to the aboutStore. Whenever the latter undergoes a change we want to update the state of App to match.
+    this.setState(__WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__["a" /* default */].getTypeInfo());
+  }
+
+  render() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'div',
+      { className: 'container-fluid', id: 'app' },
+      'Category'
+    );
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = Category;
+
 
 /***/ })
 /******/ ]);

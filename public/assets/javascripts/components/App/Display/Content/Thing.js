@@ -15,12 +15,9 @@ Has no user interactions.
 Handles no animations.
 */
 
-import thingStore from '../../../stores/ThingStore';
+import thingStore from '../../../../stores/ThingStore';
 
-import Thing from './Content/Thing';
-import Category  from './Content/Category';
-
-export default class App extends React.Component {
+export default class Thing extends React.Component {
     constructor() {
       super();
       // innitially sets the current state according to the state of the aboutStore
@@ -49,19 +46,10 @@ export default class App extends React.Component {
       this.setState(thingStore.getTypeInfo());
     }
 
-    // +-------------------------------------------------------------------+
-    //                              RENDERING
-    // +-------------------------------------------------------------------+
-
-    content() {
-      // returns a Thing or Category component dependind on whether we are currently at a thing or a category
-      return this.state.atThing ? <Category /> : <Thing /> ;
-    }
-
     render() {
       return (
-        <div className="container-fluid" id="content">
-          { this.content() }
+        <div className="container-fluid" id="app">
+          Thing
         </div>
       );
     }

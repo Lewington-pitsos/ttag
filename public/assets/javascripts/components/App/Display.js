@@ -6,6 +6,7 @@ Displays two components:
   - Nav (fixed, page top navigation bar)
   - Content (the actual substantive content the user is interested in)
 
+
 Relies on 1 store:
 
   - ThingStore: which by tracking the current position on the thing tree, tracks whether or not the nav needs to be displayed at all
@@ -13,6 +14,8 @@ Relies on 1 store:
 Has 1 User Interaction:
 
   - when the about button near the bottom of the page is clicked, an action is tiggered causing the aboutStore to switch it's stance on whether the about page is showing.
+
+  - this button is only visible when the user is at the root
 
 Handles no animations.
 
@@ -68,32 +71,40 @@ export default class Display extends React.Component {
   // +-------------------------------------------------------------------+
 
   nav() {
+    // returns the nav component or an emptyt string if we are at the root
     return this.state.atRoot ? '' : <Nav />;
   }
 
   about() {
+    // returns an empty string, or else the about button if we are at the root
     return this.state.atRoot ? <button onClick={this.displayAbout.bind(this)}>Eh?</button> : '' ;
   }
 
   render() {
     return (
       <div id="display">
+
+        {/* this will display the Nav component unless we are at the root */}
         <div className="row justify-content-center">
           <div className="col-12 d-flex align-items-center flex-column">
             { this.nav() }
           </div>
         </div>
+
         <div className="row justify-content-center">
           <div className="col-8 d-flex align-items-center flex-column">
-            DISPLAY
+            <Content />
           </div>
         </div>
+
+        {/* this will display nothing to the user unless we are at the root */}
         <div className="row justify-content-center">
           <div className="col-8 d-flex align-items-center flex-column">
             { this.about() }
           </div>
         </div>
       </div>
+
     );
   }
 }

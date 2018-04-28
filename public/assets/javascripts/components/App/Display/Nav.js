@@ -9,7 +9,7 @@ No Store interactions.
 
 Has a number of user interactions equal to the Arrows it displayes.
 
-  - All the user interactions of Nav update the NavStore
+  - All the user interactions of Nav update the ThingStore
 
 Handles its own animations
 
