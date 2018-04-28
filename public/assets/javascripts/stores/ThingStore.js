@@ -36,8 +36,9 @@ class ThingStore extends EventEmitter {
     this.getNode();
   }
 
-  getDisplayInfo() {
+  getRootInfo() {
     // returns a state containing just an indicator of whether or not we are at the root category
+    return { atRoot: this.id == 1};
   }
 
   getContentInfo() {
@@ -97,7 +98,7 @@ class ThingStore extends EventEmitter {
         console.log(JSON.parse(request.responseText).rows);
       }
     };
-    
+
   }
 }
 

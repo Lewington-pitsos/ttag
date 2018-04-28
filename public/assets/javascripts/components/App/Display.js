@@ -8,7 +8,7 @@ Displays two components:
 
 Relies on 1 store:
 
-  - NavStore: tracks whether or not the nav needs to be displayed at all
+  - ThingStore: which by tracking the current position on the thing tree, tracks whether or not the nav needs to be displayed at all
 
 Has 1 User Interaction:
 
@@ -20,26 +20,80 @@ This pretty much just a wrapepr to keep everything logically distinct.
 
 */
 
+import thingStore from '../../stores/ThingStore';
+
 import aboutActions from '../../actions/aboutActions';
 import Content from './Display/Content';
+import Nav from  './Display/Nav';
 
 export default class Display extends React.Component {
+  constructor() {
+    super();
+
+    // when we create a new instance of Display we want to set it's state (which only tracks whether or not we are at the root) according to the current state of thingStore
+    this.state = thingStore.getRootInfo();
+    this.updateState = this.updateState.bind(this);
+  }
+
+  // +-------------------------------------------------------------------+
+  //                       GENERIC STORE LISTENING
+  // +-------------------------------------------------------------------+
+
+  componentWillMount() {
+    // when this component is first mounted we want to add a listener to the aboutStore
+    thingStore.on('change', this.updateState);
+  }
+
+  componentWillUnmount() {
+    // when this component gets removed from the dom we want to remove the listener to the store.
+    thingStore.removeListener('change', this.updateState);
+  }
+
+  updateState() {
+    // this is a listener to the aboutStore. Whenever the latter undergoes a change we want to update the state of App to match.
+    this.setState(thingStore.getRootInfo());
+  }
+
+  // +-------------------------------------------------------------------+
+  //                               ACTIONS
+  // +-------------------------------------------------------------------+
 
   displayAbout() {
     // a simple wrapper function that triggers an action.
     aboutActions.switchAbout();
   }
 
-   render() {
-      return (
-        <div id="display">
-          <div className="row justify-content-center">
-            <div className="col-8 d-flex align-items-center flex-column">
-              DISPLAY
-              <button onClick={this.displayAbout.bind(this)}>Eh?</button>
-            </div>
+  // +-------------------------------------------------------------------+
+  //                             RENDER RELATED
+  // +-------------------------------------------------------------------+
+
+  nav() {
+    return this.state.atRoot ? '' : <Nav />;
+  }
+
+  about() {
+    return this.state.atRoot ? <button onClick={this.displayAbout.bind(this)}>Eh?</button> : '' ;
+  }
+
+  render() {
+    return (
+      <div id="display">
+        <div className="row justify-content-center">
+          <div className="col-12 d-flex align-items-center flex-column">
+            { this.nav() }
           </div>
         </div>
-      );
-   }
+        <div className="row justify-content-center">
+          <div className="col-8 d-flex align-items-center flex-column">
+            DISPLAY
+          </div>
+        </div>
+        <div className="row justify-content-center">
+          <div className="col-8 d-flex align-items-center flex-column">
+            { this.about() }
+          </div>
+        </div>
+      </div>
+    );
+  }
 }

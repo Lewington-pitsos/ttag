@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 24);
+/******/ 	return __webpack_require__(__webpack_require__.s = 26);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -261,9 +261,9 @@ process.umask = function () {
 /* WEBPACK VAR INJECTION */(function(process) {
 
 if (process.env.NODE_ENV === 'production') {
-  module.exports = __webpack_require__(36);
+  module.exports = __webpack_require__(38);
 } else {
-  module.exports = __webpack_require__(37);
+  module.exports = __webpack_require__(39);
 }
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
@@ -733,7 +733,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(27);
+var	fixUrls = __webpack_require__(29);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -1134,6 +1134,17 @@ module.exports = ReactPropTypesSecret;
 
 /***/ }),
 /* 12 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_flux__ = __webpack_require__(50);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_flux___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_flux__);
+
+
+/* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_0_flux__["Dispatcher"]());
+
+/***/ }),
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1168,14 +1179,14 @@ if (process.env.NODE_ENV === 'production') {
   // DCE check should happen before ReactDOM bundle executes so that
   // DevTools can report bad minification during injection.
   checkDCE();
-  module.exports = __webpack_require__(38);
+  module.exports = __webpack_require__(40);
 } else {
-  module.exports = __webpack_require__(41);
+  module.exports = __webpack_require__(43);
 }
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1214,7 +1225,7 @@ var ExecutionEnvironment = {
 module.exports = ExecutionEnvironment;
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1295,7 +1306,7 @@ module.exports = EventListener;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1338,7 +1349,7 @@ function getActiveElement(doc) /*?DOMElement*/{
 module.exports = getActiveElement;
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1409,7 +1420,7 @@ function shallowEqual(objA, objB) {
 module.exports = shallowEqual;
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1424,7 +1435,7 @@ module.exports = shallowEqual;
  * 
  */
 
-var isTextNode = __webpack_require__(39);
+var isTextNode = __webpack_require__(41);
 
 /*eslint-disable no-bitwise */
 
@@ -1452,7 +1463,7 @@ function containsNode(outerNode, innerNode) {
 module.exports = containsNode;
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1482,11 +1493,11 @@ function focusNode(node) {
 module.exports = focusNode;
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__dispatcher__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__dispatcher__ = __webpack_require__(12);
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -1498,18 +1509,301 @@ module.exports = focusNode;
 });
 
 /***/ }),
-/* 20 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/* 21 */
+/***/ (function(module, exports) {
 
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_flux__ = __webpack_require__(48);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_flux___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_flux__);
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+function EventEmitter() {
+  this._events = this._events || {};
+  this._maxListeners = this._maxListeners || undefined;
+}
+module.exports = EventEmitter;
 
-/* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_0_flux__["Dispatcher"]());
+// Backwards-compat with node 0.10.x
+EventEmitter.EventEmitter = EventEmitter;
+
+EventEmitter.prototype._events = undefined;
+EventEmitter.prototype._maxListeners = undefined;
+
+// By default EventEmitters will print a warning if more than 10 listeners are
+// added to it. This is a useful default which helps finding memory leaks.
+EventEmitter.defaultMaxListeners = 10;
+
+// Obviously not all Emitters should be limited to 10. This function allows
+// that to be increased. Set to zero for unlimited.
+EventEmitter.prototype.setMaxListeners = function (n) {
+  if (!isNumber(n) || n < 0 || isNaN(n)) throw TypeError('n must be a positive number');
+  this._maxListeners = n;
+  return this;
+};
+
+EventEmitter.prototype.emit = function (type) {
+  var er, handler, len, args, i, listeners;
+
+  if (!this._events) this._events = {};
+
+  // If there is no 'error' event listener then throw.
+  if (type === 'error') {
+    if (!this._events.error || isObject(this._events.error) && !this._events.error.length) {
+      er = arguments[1];
+      if (er instanceof Error) {
+        throw er; // Unhandled 'error' event
+      } else {
+        // At least give some kind of context to the user
+        var err = new Error('Uncaught, unspecified "error" event. (' + er + ')');
+        err.context = er;
+        throw err;
+      }
+    }
+  }
+
+  handler = this._events[type];
+
+  if (isUndefined(handler)) return false;
+
+  if (isFunction(handler)) {
+    switch (arguments.length) {
+      // fast cases
+      case 1:
+        handler.call(this);
+        break;
+      case 2:
+        handler.call(this, arguments[1]);
+        break;
+      case 3:
+        handler.call(this, arguments[1], arguments[2]);
+        break;
+      // slower
+      default:
+        args = Array.prototype.slice.call(arguments, 1);
+        handler.apply(this, args);
+    }
+  } else if (isObject(handler)) {
+    args = Array.prototype.slice.call(arguments, 1);
+    listeners = handler.slice();
+    len = listeners.length;
+    for (i = 0; i < len; i++) listeners[i].apply(this, args);
+  }
+
+  return true;
+};
+
+EventEmitter.prototype.addListener = function (type, listener) {
+  var m;
+
+  if (!isFunction(listener)) throw TypeError('listener must be a function');
+
+  if (!this._events) this._events = {};
+
+  // To avoid recursion in the case that type === "newListener"! Before
+  // adding it to the listeners, first emit "newListener".
+  if (this._events.newListener) this.emit('newListener', type, isFunction(listener.listener) ? listener.listener : listener);
+
+  if (!this._events[type])
+    // Optimize the case of one listener. Don't need the extra array object.
+    this._events[type] = listener;else if (isObject(this._events[type]))
+    // If we've already got an array, just append.
+    this._events[type].push(listener);else
+    // Adding the second element, need to change to array.
+    this._events[type] = [this._events[type], listener];
+
+  // Check for listener leak
+  if (isObject(this._events[type]) && !this._events[type].warned) {
+    if (!isUndefined(this._maxListeners)) {
+      m = this._maxListeners;
+    } else {
+      m = EventEmitter.defaultMaxListeners;
+    }
+
+    if (m && m > 0 && this._events[type].length > m) {
+      this._events[type].warned = true;
+      console.error('(node) warning: possible EventEmitter memory ' + 'leak detected. %d listeners added. ' + 'Use emitter.setMaxListeners() to increase limit.', this._events[type].length);
+      if (typeof console.trace === 'function') {
+        // not supported in IE 10
+        console.trace();
+      }
+    }
+  }
+
+  return this;
+};
+
+EventEmitter.prototype.on = EventEmitter.prototype.addListener;
+
+EventEmitter.prototype.once = function (type, listener) {
+  if (!isFunction(listener)) throw TypeError('listener must be a function');
+
+  var fired = false;
+
+  function g() {
+    this.removeListener(type, g);
+
+    if (!fired) {
+      fired = true;
+      listener.apply(this, arguments);
+    }
+  }
+
+  g.listener = listener;
+  this.on(type, g);
+
+  return this;
+};
+
+// emits a 'removeListener' event iff the listener was removed
+EventEmitter.prototype.removeListener = function (type, listener) {
+  var list, position, length, i;
+
+  if (!isFunction(listener)) throw TypeError('listener must be a function');
+
+  if (!this._events || !this._events[type]) return this;
+
+  list = this._events[type];
+  length = list.length;
+  position = -1;
+
+  if (list === listener || isFunction(list.listener) && list.listener === listener) {
+    delete this._events[type];
+    if (this._events.removeListener) this.emit('removeListener', type, listener);
+  } else if (isObject(list)) {
+    for (i = length; i-- > 0;) {
+      if (list[i] === listener || list[i].listener && list[i].listener === listener) {
+        position = i;
+        break;
+      }
+    }
+
+    if (position < 0) return this;
+
+    if (list.length === 1) {
+      list.length = 0;
+      delete this._events[type];
+    } else {
+      list.splice(position, 1);
+    }
+
+    if (this._events.removeListener) this.emit('removeListener', type, listener);
+  }
+
+  return this;
+};
+
+EventEmitter.prototype.removeAllListeners = function (type) {
+  var key, listeners;
+
+  if (!this._events) return this;
+
+  // not listening for removeListener, no need to emit
+  if (!this._events.removeListener) {
+    if (arguments.length === 0) this._events = {};else if (this._events[type]) delete this._events[type];
+    return this;
+  }
+
+  // emit removeListener for all listeners on all events
+  if (arguments.length === 0) {
+    for (key in this._events) {
+      if (key === 'removeListener') continue;
+      this.removeAllListeners(key);
+    }
+    this.removeAllListeners('removeListener');
+    this._events = {};
+    return this;
+  }
+
+  listeners = this._events[type];
+
+  if (isFunction(listeners)) {
+    this.removeListener(type, listeners);
+  } else if (listeners) {
+    // LIFO order
+    while (listeners.length) this.removeListener(type, listeners[listeners.length - 1]);
+  }
+  delete this._events[type];
+
+  return this;
+};
+
+EventEmitter.prototype.listeners = function (type) {
+  var ret;
+  if (!this._events || !this._events[type]) ret = [];else if (isFunction(this._events[type])) ret = [this._events[type]];else ret = this._events[type].slice();
+  return ret;
+};
+
+EventEmitter.prototype.listenerCount = function (type) {
+  if (this._events) {
+    var evlistener = this._events[type];
+
+    if (isFunction(evlistener)) return 1;else if (evlistener) return evlistener.length;
+  }
+  return 0;
+};
+
+EventEmitter.listenerCount = function (emitter, type) {
+  return emitter.listenerCount(type);
+};
+
+function isFunction(arg) {
+  return typeof arg === 'function';
+}
+
+function isNumber(arg) {
+  return typeof arg === 'number';
+}
+
+function isObject(arg) {
+  return typeof arg === 'object' && arg !== null;
+}
+
+function isUndefined(arg) {
+  return arg === void 0;
+}
 
 /***/ }),
-/* 21 */
+/* 22 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _CSSTransitionGroup = __webpack_require__(54);
+
+var _CSSTransitionGroup2 = _interopRequireDefault(_CSSTransitionGroup);
+
+var _TransitionGroup = __webpack_require__(23);
+
+var _TransitionGroup2 = _interopRequireDefault(_TransitionGroup);
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
+
+module.exports = {
+  TransitionGroup: _TransitionGroup2.default,
+  CSSTransitionGroup: _CSSTransitionGroup2.default
+};
+
+/***/ }),
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1806,7 +2100,7 @@ module.exports = exports['default'];
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 22 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1819,7 +2113,7 @@ exports.default = !!(typeof window !== 'undefined' && window.document && window.
 module.exports = exports['default'];
 
 /***/ }),
-/* 23 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1876,20 +2170,20 @@ var nameShape = exports.nameShape = _propTypes2.default.oneOfType([_propTypes2.d
 })]);
 
 /***/ }),
-/* 24 */
+/* 26 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__stylesheets_all_sass__ = __webpack_require__(25);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__stylesheets_all_sass__ = __webpack_require__(27);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__stylesheets_all_sass___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__stylesheets_all_sass__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__stylesheets_animate_css__ = __webpack_require__(28);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__stylesheets_animate_css__ = __webpack_require__(30);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__stylesheets_animate_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__stylesheets_animate_css__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__stylesheets_flip_css__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__stylesheets_flip_css__ = __webpack_require__(32);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__stylesheets_flip_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__stylesheets_flip_css__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_bootstrap__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_bootstrap__ = __webpack_require__(34);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_bootstrap___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_bootstrap__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__javascripts_basic_js__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__javascripts_basic_js__ = __webpack_require__(37);
 // this is currently the only Webpack entry point so all JS that we could ever need must be requireed here
 
 // css
@@ -1902,11 +2196,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 25 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(26);
+var content = __webpack_require__(28);
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -1952,7 +2246,7 @@ if(false) {
 }
 
 /***/ }),
-/* 26 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(8)(false);
@@ -1966,7 +2260,7 @@ exports.push([module.i, "/*!\n * Bootstrap v4.0.0-alpha.6 (https://getbootstrap.
 
 
 /***/ }),
-/* 27 */
+/* 29 */
 /***/ (function(module, exports) {
 
 
@@ -2059,11 +2353,11 @@ module.exports = function (css) {
 };
 
 /***/ }),
-/* 28 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(29);
+var content = __webpack_require__(31);
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -2109,7 +2403,7 @@ if(false) {
 }
 
 /***/ }),
-/* 29 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(8)(false);
@@ -2123,11 +2417,11 @@ exports.push([module.i, "@charset \"UTF-8\";\n\n/*!\n * animate.css -http://dane
 
 
 /***/ }),
-/* 30 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(31);
+var content = __webpack_require__(33);
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -2173,7 +2467,7 @@ if(false) {
 }
 
 /***/ }),
-/* 31 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(8)(false);
@@ -2187,7 +2481,7 @@ exports.push([module.i, "/* entire container, keeps perspective */\n.flip-contai
 
 
 /***/ }),
-/* 32 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(jQuery, Tether) {/*!
@@ -5746,10 +6040,10 @@ if (typeof jQuery === 'undefined') {
     return Popover;
   }(jQuery);
 }();
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(33), __webpack_require__(34)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(35), __webpack_require__(36)))
 
 /***/ }),
-/* 33 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -15672,7 +15966,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 });
 
 /***/ }),
-/* 34 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! tether 1.4.3 */
@@ -17611,15 +17905,15 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! tether 1.4
 });
 
 /***/ }),
-/* 35 */
+/* 37 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_App_js__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_App_js__ = __webpack_require__(48);
 
 
 
@@ -17634,7 +17928,7 @@ __WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODU
 );
 
 /***/ }),
-/* 36 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17746,7 +18040,7 @@ var U = { Children: { map: function (a, b, e) {
     W = V && U || V;module.exports = W["default"] ? W["default"] : W;
 
 /***/ }),
-/* 37 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19104,7 +19398,7 @@ if (process.env.NODE_ENV !== "production") {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 38 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19122,14 +19416,14 @@ if (process.env.NODE_ENV !== "production") {
 */
 
 var aa = __webpack_require__(1),
-    l = __webpack_require__(13),
+    l = __webpack_require__(14),
     B = __webpack_require__(4),
     C = __webpack_require__(2),
-    ba = __webpack_require__(14),
-    da = __webpack_require__(15),
-    ea = __webpack_require__(16),
-    fa = __webpack_require__(17),
-    ia = __webpack_require__(18),
+    ba = __webpack_require__(15),
+    da = __webpack_require__(16),
+    ea = __webpack_require__(17),
+    fa = __webpack_require__(18),
+    ia = __webpack_require__(19),
     D = __webpack_require__(5);
 function E(a) {
   for (var b = arguments.length - 1, c = "Minified React error #" + a + "; visit http://facebook.github.io/react/docs/error-decoder.html?invariant\x3d" + a, d = 0; d < b; d++) c += "\x26args[]\x3d" + encodeURIComponent(arguments[d + 1]);b = Error(c + " for the full message or use the non-minified dev environment for full errors and additional helpful warnings.");b.name = "Invariant Violation";b.framesToPop = 1;throw b;
@@ -20970,7 +21264,7 @@ Z.injectIntoDevTools({ findFiberByHostInstance: pb, bundleType: 0, version: "16.
     Ug = Tg && Sg || Tg;module.exports = Ug["default"] ? Ug["default"] : Ug;
 
 /***/ }),
-/* 39 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20985,7 +21279,7 @@ Z.injectIntoDevTools({ findFiberByHostInstance: pb, bundleType: 0, version: "16.
  * @typechecks
  */
 
-var isNode = __webpack_require__(40);
+var isNode = __webpack_require__(42);
 
 /**
  * @param {*} object The object to check.
@@ -20998,7 +21292,7 @@ function isTextNode(object) {
 module.exports = isTextNode;
 
 /***/ }),
-/* 40 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21027,7 +21321,7 @@ function isNode(object) {
 module.exports = isNode;
 
 /***/ }),
-/* 41 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21038,7 +21332,7 @@ module.exports = isNode;
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- */if(process.env.NODE_ENV!=="production"){(function(){'use strict';var React=__webpack_require__(1);var invariant=__webpack_require__(3);var warning=__webpack_require__(6);var ExecutionEnvironment=__webpack_require__(13);var _assign=__webpack_require__(4);var emptyFunction=__webpack_require__(2);var EventListener=__webpack_require__(14);var getActiveElement=__webpack_require__(15);var shallowEqual=__webpack_require__(16);var containsNode=__webpack_require__(17);var focusNode=__webpack_require__(18);var emptyObject=__webpack_require__(5);var checkPropTypes=__webpack_require__(10);var hyphenateStyleName=__webpack_require__(42);var camelizeStyleName=__webpack_require__(44);/**
+ */if(process.env.NODE_ENV!=="production"){(function(){'use strict';var React=__webpack_require__(1);var invariant=__webpack_require__(3);var warning=__webpack_require__(6);var ExecutionEnvironment=__webpack_require__(14);var _assign=__webpack_require__(4);var emptyFunction=__webpack_require__(2);var EventListener=__webpack_require__(15);var getActiveElement=__webpack_require__(16);var shallowEqual=__webpack_require__(17);var containsNode=__webpack_require__(18);var focusNode=__webpack_require__(19);var emptyObject=__webpack_require__(5);var checkPropTypes=__webpack_require__(10);var hyphenateStyleName=__webpack_require__(44);var camelizeStyleName=__webpack_require__(46);/**
  * WARNING: DO NOT manually require this module.
  * This is a replacement for `invariant(...)` used by the error code system
  * and will _only_ be required by the corresponding babel pass.
@@ -24011,7 +24305,7 @@ var reactDom=ReactDOM$3['default']?ReactDOM$3['default']:ReactDOM$3;module.expor
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 42 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24026,7 +24320,7 @@ var reactDom=ReactDOM$3['default']?ReactDOM$3['default']:ReactDOM$3;module.expor
 
 
 
-var hyphenate = __webpack_require__(43);
+var hyphenate = __webpack_require__(45);
 
 var msPattern = /^ms-/;
 
@@ -24053,7 +24347,7 @@ function hyphenateStyleName(string) {
 module.exports = hyphenateStyleName;
 
 /***/ }),
-/* 43 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24089,7 +24383,7 @@ function hyphenate(string) {
 module.exports = hyphenate;
 
 /***/ }),
-/* 44 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24104,7 +24398,7 @@ module.exports = hyphenate;
 
 
 
-var camelize = __webpack_require__(45);
+var camelize = __webpack_require__(47);
 
 var msPattern = /^-ms-/;
 
@@ -24132,7 +24426,7 @@ function camelizeStyleName(string) {
 module.exports = camelizeStyleName;
 
 /***/ }),
-/* 45 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24167,16 +24461,16 @@ function camelize(string) {
 module.exports = camelize;
 
 /***/ }),
-/* 46 */
+/* 48 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__App_Display__ = __webpack_require__(47);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__App_About__ = __webpack_require__(50);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__stores_AboutStore__ = __webpack_require__(51);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_react_transition_group__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__App_Display__ = __webpack_require__(49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__App_About__ = __webpack_require__(66);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__stores_AboutStore__ = __webpack_require__(67);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_react_transition_group__ = __webpack_require__(22);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_react_transition_group___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_react_transition_group__);
 
 
@@ -24256,14 +24550,16 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 
 
 /***/ }),
-/* 47 */
+/* 49 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions_aboutActions__ = __webpack_require__(19);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Display_Content__ = __webpack_require__(66);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__actions_aboutActions__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Display_Content__ = __webpack_require__(52);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Display_Nav__ = __webpack_require__(68);
 
 
 /*
@@ -24274,7 +24570,7 @@ Displays two components:
 
 Relies on 1 store:
 
-  - NavStore: tracks whether or not the nav needs to be displayed at all
+  - ThingStore: which by tracking the current position on the thing tree, tracks whether or not the nav needs to be displayed at all
 
 Has 1 User Interaction:
 
@@ -24289,11 +24585,60 @@ This pretty much just a wrapepr to keep everything logically distinct.
 
 
 
+
+
+
 class Display extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+  constructor() {
+    super();
+
+    // when we create a new instance of Display we want to set it's state (which only tracks whether or not we are at the root) according to the current state of thingStore
+    this.state = __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__["a" /* default */].getRootInfo();
+    this.updateState = this.updateState.bind(this);
+  }
+
+  // +-------------------------------------------------------------------+
+  //                       GENERIC STORE LISTENING
+  // +-------------------------------------------------------------------+
+
+  componentWillMount() {
+    // when this component is first mounted we want to add a listener to the aboutStore
+    __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__["a" /* default */].on('change', this.updateState);
+  }
+
+  componentWillUnmount() {
+    // when this component gets removed from the dom we want to remove the listener to the store.
+    __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__["a" /* default */].removeListener('change', this.updateState);
+  }
+
+  updateState() {
+    // this is a listener to the aboutStore. Whenever the latter undergoes a change we want to update the state of App to match.
+    this.setState(__WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__["a" /* default */].getRootInfo());
+  }
+
+  // +-------------------------------------------------------------------+
+  //                               ACTIONS
+  // +-------------------------------------------------------------------+
 
   displayAbout() {
     // a simple wrapper function that triggers an action.
-    __WEBPACK_IMPORTED_MODULE_1__actions_aboutActions__["a" /* default */].switchAbout();
+    __WEBPACK_IMPORTED_MODULE_2__actions_aboutActions__["a" /* default */].switchAbout();
+  }
+
+  // +-------------------------------------------------------------------+
+  //                             RENDER RELATED
+  // +-------------------------------------------------------------------+
+
+  nav() {
+    return this.state.atRoot ? '' : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__Display_Nav__["a" /* default */], null);
+  }
+
+  about() {
+    return this.state.atRoot ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'button',
+      { onClick: this.displayAbout.bind(this) },
+      'Eh?'
+    ) : '';
   }
 
   render() {
@@ -24305,13 +24650,26 @@ class Display extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
         { className: 'row justify-content-center' },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'div',
+          { className: 'col-12 d-flex align-items-center flex-column' },
+          this.nav()
+        )
+      ),
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'div',
+        { className: 'row justify-content-center' },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'div',
           { className: 'col-8 d-flex align-items-center flex-column' },
-          'DISPLAY',
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'button',
-            { onClick: this.displayAbout.bind(this) },
-            'Eh?'
-          )
+          'DISPLAY'
+        )
+      ),
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'div',
+        { className: 'row justify-content-center' },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'div',
+          { className: 'col-8 d-flex align-items-center flex-column' },
+          this.about()
         )
       )
     );
@@ -24321,7 +24679,7 @@ class Display extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 
 
 /***/ }),
-/* 48 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -24333,10 +24691,10 @@ class Display extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
-module.exports.Dispatcher = __webpack_require__(49);
+module.exports.Dispatcher = __webpack_require__(51);
 
 /***/ }),
-/* 49 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24578,95 +24936,104 @@ module.exports = Dispatcher;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 50 */
+/* 52 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions_aboutActions__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_transition_group__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_transition_group___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react_transition_group__);
 
 
 /*
-Displays no further components
+Displays two components:
 
-Relies on no stores
+  - About (a bit of intro text that we don't want clogging up anything else)
+  - Display (the actual content of the app)
 
-Has 1 User Interaction:
+Relies on one store:
 
-  - when the about button near the bottom of the page is clicked, an action is tiggered causing the aboutStore to switch it's stance on whether the about page is showing.
+  - AboutStore: which tracks whether or not to display the About component
 
-Handles no animations.
+Has no User Interactions.
 
-About is almost entirely just static html.
+Handles the animation of:
+
+  - About components entering and leaving the page
+  - Display components entering and leaveing the page (different animations)
+
+This pretty much just a wrrapper to keep everything logically distinct.
 */
 
 
-class About extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 
-  displayDisplay() {
-    // a wrapper function that just triggers an action.
-    __WEBPACK_IMPORTED_MODULE_1__actions_aboutActions__["a" /* default */].switchAbout();
+
+
+class App extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+  constructor() {
+    super();
+    // innitially sets the current state according to the state of the aboutStore
+    // we also want to keep track of the listener on the aboutStore so that we can get rid of it when we un-mount App
+
+    this.state = aboutStore.getInfo();
+    this.updateState = this.updateState.bind(this);
+  }
+
+  // +-------------------------------------------------------------------+
+  //                       GENERIC STORE LISTENING
+  // +-------------------------------------------------------------------+
+
+  componentWillMount() {
+    // when this component is first mounted we want to add a listener to the aboutStore
+    aboutStore.on('change', this.updateState);
+  }
+
+  componentWillUnmount() {
+    // when this component gets removed from the dom we want to remove the listener to the store.
+    aboutStore.removeListener('change', this.updateState);
+  }
+
+  updateState() {
+    // this is a listener to the aboutStore. Whenever the latter undergoes a change we want to update the state of App to match.
+    this.setState(aboutStore.getInfo());
   }
 
   render() {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
-      { id: 'about' },
+      { className: 'container-fluid', id: 'app' },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'div',
-        { className: 'row justify-content-center' },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'div',
-          { className: 'col-8 d-flex align-items-center flex-column' },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'h1',
-            null,
-            'Good Question'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'p',
-            null,
-            'Lorem ipsum dolor sit amet, omnis lucilius vis at, probo mentitum oportere has eu. Ea eos dolores scripserit complectitur. Sit noluisse similique in, justo ignota urbanitas pro ei. Partem essent id sed, summo integre efficiendi ne vix. Quas civibus tincidunt mei at. Nonumes phaedrum consectetuer nam an, cu quo fugit mollis.'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'p',
-            null,
-            'Ex quod tritani iuvaret nam. Libris bonorum nominati no usu, ad ius illud admodum. Id quod alii causae sed. Solet luptatum per ut, vix eu brute expetenda. Viderer contentiones cu est, error democritum id qui. Ex vis quem dico, nam impetus appellantur an.'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'h3',
-            null,
-            'Contact'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'button',
-            { onClick: this.displayDisplay.bind(this) },
-            'Got it'
-          )
-        )
+        __WEBPACK_IMPORTED_MODULE_2_react_transition_group__["CSSTransitionGroup"],
+        {
+          transitionName: 'app',
+          transitionEnterTimeout: 800,
+          transitionLeaveTimeout: 500 },
+        this.state.about ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(About, null) : '',
+        this.state.about ? '' : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(Display, null)
       )
     );
   }
 }
-/* harmony export (immutable) */ __webpack_exports__["a"] = About;
+/* unused harmony export default */
 
 
 /***/ }),
-/* 51 */
+/* 53 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_events__ = __webpack_require__(52);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_events__ = __webpack_require__(21);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_events___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_events__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__dispatcher__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__dispatcher__ = __webpack_require__(12);
 /*
 
-Only used by 1 component:
+Used by 1+ components:
 
-  - App
+  - Display ( for deciding whether or not to display Nav, based on whether      we're ion the root category)
 
-Basically just stores whether or not to show the about page.
+Retrives from the database and stores the currently viewable category (and all it's children), or thing, plus the previous category if we're not at the root category. Responds to navigation events by walking up and down the category/thing tree.
 
 */
 
@@ -24675,7 +25042,7 @@ Basically just stores whether or not to show the about page.
 
 
 
-class AboutStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
+class ThingStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
 
   // +-------------------------------------------------------------------+
   //                      GENERIC FLUX STUFF
@@ -24683,23 +25050,45 @@ class AboutStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
 
   constructor() {
     super();
-    // stores whether or not the about page is currently to be displayed. By default it isn't.
-    this.about = false;
+    // stores current category/thing id (starting at 1)
+    // stores whether or not it is a thing
+    this.id = 1;
+    this.thing = false;
+
+    // stores the current category/thing as an object (so like, JSON compatible)
+    // stores all it's children (if it has any) in an array of like objetcs
+    // stores an array of all the previously navigated-to categories
+
+    // PERMENENTLY stores some sort of identifier that is used to check whether or not the current category/thing is the root
+
+    // on instantiation, retrives all the data for the roto node
+    this.getNode();
   }
 
-  getInfo() {
+  getRootInfo() {
+    // returns a state containing just an indicator of whether or not we are at the root category
+    return { atRoot: this.id == 1 };
+  }
 
-    // returns a state containing a single value, indicating whether or not the about page is to be displayed
-    return { about: this.about };
+  getContentInfo() {
+
+    // returns a state containing the current category/thing and all it's children
   }
 
   handleActions(action) {
-    // only responds to one action which switches the about-page in and out
+    // only ever responds to category tree navigating actions
     switch (action.type) {
-      case "SWITCH_ABOUT":
+      case "UP":
         {
-          this.switchAbout();
+          this.goUp();
           break;
+        }case "ROOT":
+        {
+          this.goRoot();
+          break;
+        }case "SWITCH_ABOUT":
+        {
+          this.getNode();
         }
     }
   }
@@ -24708,312 +25097,45 @@ class AboutStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
   //                          MAINPULATING DATA
   // +-------------------------------------------------------------------+
 
-  switchAbout() {
-    // flips the stored value which indicates whether or not the about page should be shown.
-    this.about = !this.about;
-    this.emit('change');
+  goUp() {
+    // this can only ever be called if we're not at the root
+    // sets the current category/thing to the previous one, sets the current children to its children (archivist finds them for us) and removes it from the list of previous categories
   }
 
-}
+  goRoot() {
+    // sets the current category to the root category and the children to the root's children.
+    // empties the array of previous categories.
+  }
 
-const aboutStore = new AboutStore();
+  goTo(id) {}
+  // sets the current node to the child of the current node that matches the passed in id
+  // adds the previous node to the array of previous nodes
 
-__WEBPACK_IMPORTED_MODULE_1__dispatcher__["a" /* default */].register(aboutStore.handleActions.bind(aboutStore));
-/* harmony default export */ __webpack_exports__["a"] = (aboutStore);
 
-/***/ }),
-/* 52 */
-/***/ (function(module, exports) {
+  // +-------------------------------------------------------------------+
+  //                 RETRIVING DATA FROM SERVER
+  // +-------------------------------------------------------------------+
 
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
+  getNode() {
+    // makes an ajax request to the server with the current category or thing id
+    // the request should return some json data with the details of the current node plus the details of its children
+    // the returned data is saved to this store
+    const request = new XMLHttpRequest();
+    request.open('GET', '/subcategories/1', true);
+    request.send();
 
-function EventEmitter() {
-  this._events = this._events || {};
-  this._maxListeners = this._maxListeners || undefined;
-}
-module.exports = EventEmitter;
-
-// Backwards-compat with node 0.10.x
-EventEmitter.EventEmitter = EventEmitter;
-
-EventEmitter.prototype._events = undefined;
-EventEmitter.prototype._maxListeners = undefined;
-
-// By default EventEmitters will print a warning if more than 10 listeners are
-// added to it. This is a useful default which helps finding memory leaks.
-EventEmitter.defaultMaxListeners = 10;
-
-// Obviously not all Emitters should be limited to 10. This function allows
-// that to be increased. Set to zero for unlimited.
-EventEmitter.prototype.setMaxListeners = function (n) {
-  if (!isNumber(n) || n < 0 || isNaN(n)) throw TypeError('n must be a positive number');
-  this._maxListeners = n;
-  return this;
-};
-
-EventEmitter.prototype.emit = function (type) {
-  var er, handler, len, args, i, listeners;
-
-  if (!this._events) this._events = {};
-
-  // If there is no 'error' event listener then throw.
-  if (type === 'error') {
-    if (!this._events.error || isObject(this._events.error) && !this._events.error.length) {
-      er = arguments[1];
-      if (er instanceof Error) {
-        throw er; // Unhandled 'error' event
-      } else {
-        // At least give some kind of context to the user
-        var err = new Error('Uncaught, unspecified "error" event. (' + er + ')');
-        err.context = er;
-        throw err;
+    request.onreadystatechange = function () {
+      if (request.readyState == 4) {
+        console.log(JSON.parse(request.responseText).rows);
       }
-    }
+    };
   }
-
-  handler = this._events[type];
-
-  if (isUndefined(handler)) return false;
-
-  if (isFunction(handler)) {
-    switch (arguments.length) {
-      // fast cases
-      case 1:
-        handler.call(this);
-        break;
-      case 2:
-        handler.call(this, arguments[1]);
-        break;
-      case 3:
-        handler.call(this, arguments[1], arguments[2]);
-        break;
-      // slower
-      default:
-        args = Array.prototype.slice.call(arguments, 1);
-        handler.apply(this, args);
-    }
-  } else if (isObject(handler)) {
-    args = Array.prototype.slice.call(arguments, 1);
-    listeners = handler.slice();
-    len = listeners.length;
-    for (i = 0; i < len; i++) listeners[i].apply(this, args);
-  }
-
-  return true;
-};
-
-EventEmitter.prototype.addListener = function (type, listener) {
-  var m;
-
-  if (!isFunction(listener)) throw TypeError('listener must be a function');
-
-  if (!this._events) this._events = {};
-
-  // To avoid recursion in the case that type === "newListener"! Before
-  // adding it to the listeners, first emit "newListener".
-  if (this._events.newListener) this.emit('newListener', type, isFunction(listener.listener) ? listener.listener : listener);
-
-  if (!this._events[type])
-    // Optimize the case of one listener. Don't need the extra array object.
-    this._events[type] = listener;else if (isObject(this._events[type]))
-    // If we've already got an array, just append.
-    this._events[type].push(listener);else
-    // Adding the second element, need to change to array.
-    this._events[type] = [this._events[type], listener];
-
-  // Check for listener leak
-  if (isObject(this._events[type]) && !this._events[type].warned) {
-    if (!isUndefined(this._maxListeners)) {
-      m = this._maxListeners;
-    } else {
-      m = EventEmitter.defaultMaxListeners;
-    }
-
-    if (m && m > 0 && this._events[type].length > m) {
-      this._events[type].warned = true;
-      console.error('(node) warning: possible EventEmitter memory ' + 'leak detected. %d listeners added. ' + 'Use emitter.setMaxListeners() to increase limit.', this._events[type].length);
-      if (typeof console.trace === 'function') {
-        // not supported in IE 10
-        console.trace();
-      }
-    }
-  }
-
-  return this;
-};
-
-EventEmitter.prototype.on = EventEmitter.prototype.addListener;
-
-EventEmitter.prototype.once = function (type, listener) {
-  if (!isFunction(listener)) throw TypeError('listener must be a function');
-
-  var fired = false;
-
-  function g() {
-    this.removeListener(type, g);
-
-    if (!fired) {
-      fired = true;
-      listener.apply(this, arguments);
-    }
-  }
-
-  g.listener = listener;
-  this.on(type, g);
-
-  return this;
-};
-
-// emits a 'removeListener' event iff the listener was removed
-EventEmitter.prototype.removeListener = function (type, listener) {
-  var list, position, length, i;
-
-  if (!isFunction(listener)) throw TypeError('listener must be a function');
-
-  if (!this._events || !this._events[type]) return this;
-
-  list = this._events[type];
-  length = list.length;
-  position = -1;
-
-  if (list === listener || isFunction(list.listener) && list.listener === listener) {
-    delete this._events[type];
-    if (this._events.removeListener) this.emit('removeListener', type, listener);
-  } else if (isObject(list)) {
-    for (i = length; i-- > 0;) {
-      if (list[i] === listener || list[i].listener && list[i].listener === listener) {
-        position = i;
-        break;
-      }
-    }
-
-    if (position < 0) return this;
-
-    if (list.length === 1) {
-      list.length = 0;
-      delete this._events[type];
-    } else {
-      list.splice(position, 1);
-    }
-
-    if (this._events.removeListener) this.emit('removeListener', type, listener);
-  }
-
-  return this;
-};
-
-EventEmitter.prototype.removeAllListeners = function (type) {
-  var key, listeners;
-
-  if (!this._events) return this;
-
-  // not listening for removeListener, no need to emit
-  if (!this._events.removeListener) {
-    if (arguments.length === 0) this._events = {};else if (this._events[type]) delete this._events[type];
-    return this;
-  }
-
-  // emit removeListener for all listeners on all events
-  if (arguments.length === 0) {
-    for (key in this._events) {
-      if (key === 'removeListener') continue;
-      this.removeAllListeners(key);
-    }
-    this.removeAllListeners('removeListener');
-    this._events = {};
-    return this;
-  }
-
-  listeners = this._events[type];
-
-  if (isFunction(listeners)) {
-    this.removeListener(type, listeners);
-  } else if (listeners) {
-    // LIFO order
-    while (listeners.length) this.removeListener(type, listeners[listeners.length - 1]);
-  }
-  delete this._events[type];
-
-  return this;
-};
-
-EventEmitter.prototype.listeners = function (type) {
-  var ret;
-  if (!this._events || !this._events[type]) ret = [];else if (isFunction(this._events[type])) ret = [this._events[type]];else ret = this._events[type].slice();
-  return ret;
-};
-
-EventEmitter.prototype.listenerCount = function (type) {
-  if (this._events) {
-    var evlistener = this._events[type];
-
-    if (isFunction(evlistener)) return 1;else if (evlistener) return evlistener.length;
-  }
-  return 0;
-};
-
-EventEmitter.listenerCount = function (emitter, type) {
-  return emitter.listenerCount(type);
-};
-
-function isFunction(arg) {
-  return typeof arg === 'function';
 }
 
-function isNumber(arg) {
-  return typeof arg === 'number';
-}
+const thingStore = new ThingStore();
 
-function isObject(arg) {
-  return typeof arg === 'object' && arg !== null;
-}
-
-function isUndefined(arg) {
-  return arg === void 0;
-}
-
-/***/ }),
-/* 53 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _CSSTransitionGroup = __webpack_require__(54);
-
-var _CSSTransitionGroup2 = _interopRequireDefault(_CSSTransitionGroup);
-
-var _TransitionGroup = __webpack_require__(21);
-
-var _TransitionGroup2 = _interopRequireDefault(_TransitionGroup);
-
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : { default: obj };
-}
-
-module.exports = {
-  TransitionGroup: _TransitionGroup2.default,
-  CSSTransitionGroup: _CSSTransitionGroup2.default
-};
+__WEBPACK_IMPORTED_MODULE_1__dispatcher__["a" /* default */].register(thingStore.handleActions.bind(thingStore));
+/* harmony default export */ __webpack_exports__["a"] = (thingStore);
 
 /***/ }),
 /* 54 */
@@ -25042,7 +25164,7 @@ var _propTypes = __webpack_require__(7);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _TransitionGroup = __webpack_require__(21);
+var _TransitionGroup = __webpack_require__(23);
 
 var _TransitionGroup2 = _interopRequireDefault(_TransitionGroup);
 
@@ -25050,7 +25172,7 @@ var _CSSTransitionGroupChild = __webpack_require__(60);
 
 var _CSSTransitionGroupChild2 = _interopRequireDefault(_CSSTransitionGroupChild);
 
-var _PropTypes = __webpack_require__(23);
+var _PropTypes = __webpack_require__(25);
 
 function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : { default: obj };
@@ -25943,9 +26065,9 @@ var _propTypes = __webpack_require__(7);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _reactDom = __webpack_require__(12);
+var _reactDom = __webpack_require__(13);
 
-var _PropTypes = __webpack_require__(23);
+var _PropTypes = __webpack_require__(25);
 
 function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : { default: obj };
@@ -26226,7 +26348,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _inDOM = __webpack_require__(22);
+var _inDOM = __webpack_require__(24);
 
 var _inDOM2 = _interopRequireDefault(_inDOM);
 
@@ -26288,7 +26410,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.animationEnd = exports.animationDelay = exports.animationTiming = exports.animationDuration = exports.animationName = exports.transitionEnd = exports.transitionDuration = exports.transitionDelay = exports.transitionTiming = exports.transitionProperty = exports.transform = undefined;
 
-var _inDOM = __webpack_require__(22);
+var _inDOM = __webpack_require__(24);
 
 var _inDOM2 = _interopRequireDefault(_inDOM);
 
@@ -26399,81 +26521,72 @@ function getTransitionProperties() {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__ = __webpack_require__(67);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_transition_group__ = __webpack_require__(53);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_transition_group___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react_transition_group__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions_aboutActions__ = __webpack_require__(20);
 
 
 /*
-Displays two components:
+Displays no further components
 
-  - About (a bit of intro text that we don't want clogging up anything else)
-  - Display (the actual content of the app)
+Relies on no stores
 
-Relies on one store:
+Has 1 User Interaction:
 
-  - AboutStore: which tracks whether or not to display the About component
+  - when the about button near the bottom of the page is clicked, an action is tiggered causing the aboutStore to switch it's stance on whether the about page is showing.
 
-Has no User Interactions.
+Handles no animations.
 
-Handles the animation of:
-
-  - About components entering and leaving the page
-  - Display components entering and leaveing the page (different animations)
-
-This pretty much just a wrrapper to keep everything logically distinct.
+About is almost entirely just static html.
 */
 
 
+class About extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 
-
-
-class App extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
-  constructor() {
-    super();
-    // innitially sets the current state according to the state of the aboutStore
-    // we also want to keep track of the listener on the aboutStore so that we can get rid of it when we un-mount App
-
-    this.state = aboutStore.getInfo();
-    this.updateState = this.updateState.bind(this);
-  }
-
-  // +-------------------------------------------------------------------+
-  //                       GENERIC STORE LISTENING
-  // +-------------------------------------------------------------------+
-
-  componentWillMount() {
-    // when this component is first mounted we want to add a listener to the aboutStore
-    aboutStore.on('change', this.updateState);
-  }
-
-  componentWillUnmount() {
-    // when this component gets removed from the dom we want to remove the listener to the store.
-    aboutStore.removeListener('change', this.updateState);
-  }
-
-  updateState() {
-    // this is a listener to the aboutStore. Whenever the latter undergoes a change we want to update the state of App to match.
-    this.setState(aboutStore.getInfo());
+  displayDisplay() {
+    // a wrapper function that just triggers an action.
+    __WEBPACK_IMPORTED_MODULE_1__actions_aboutActions__["a" /* default */].switchAbout();
   }
 
   render() {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
-      { className: 'container-fluid', id: 'app' },
+      { id: 'about' },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        __WEBPACK_IMPORTED_MODULE_2_react_transition_group__["CSSTransitionGroup"],
-        {
-          transitionName: 'app',
-          transitionEnterTimeout: 800,
-          transitionLeaveTimeout: 500 },
-        this.state.about ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(About, null) : '',
-        this.state.about ? '' : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(Display, null)
+        'div',
+        { className: 'row justify-content-center' },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'div',
+          { className: 'col-8 d-flex align-items-center flex-column' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'h1',
+            null,
+            'Good Question'
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'p',
+            null,
+            'Lorem ipsum dolor sit amet, omnis lucilius vis at, probo mentitum oportere has eu. Ea eos dolores scripserit complectitur. Sit noluisse similique in, justo ignota urbanitas pro ei. Partem essent id sed, summo integre efficiendi ne vix. Quas civibus tincidunt mei at. Nonumes phaedrum consectetuer nam an, cu quo fugit mollis.'
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'p',
+            null,
+            'Ex quod tritani iuvaret nam. Libris bonorum nominati no usu, ad ius illud admodum. Id quod alii causae sed. Solet luptatum per ut, vix eu brute expetenda. Viderer contentiones cu est, error democritum id qui. Ex vis quem dico, nam impetus appellantur an.'
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'h3',
+            null,
+            'Contact'
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'button',
+            { onClick: this.displayDisplay.bind(this) },
+            'Got it'
+          )
+        )
       )
     );
   }
 }
-/* unused harmony export default */
+/* harmony export (immutable) */ __webpack_exports__["a"] = About;
 
 
 /***/ }),
@@ -26481,16 +26594,16 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_events__ = __webpack_require__(52);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_events__ = __webpack_require__(21);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_events___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_events__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__dispatcher__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__dispatcher__ = __webpack_require__(12);
 /*
 
-Used by 1+ components:
+Only used by 1 component:
 
-  - Display ( for deciding whether or not to display Nav, based on whether      we're ion the root category)
+  - App
 
-Retrives from the database and stores the currently viewable category (and all it's children), or thing, plus the previous category if we're not at the root category. Responds to navigation events by walking up and down the category/thing tree.
+Basically just stores whether or not to show the about page.
 
 */
 
@@ -26499,7 +26612,7 @@ Retrives from the database and stores the currently viewable category (and all i
 
 
 
-class ThingStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
+class AboutStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
 
   // +-------------------------------------------------------------------+
   //                      GENERIC FLUX STUFF
@@ -26507,44 +26620,23 @@ class ThingStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
 
   constructor() {
     super();
-    // stores current category/thing id (starting at 1)
-    // stores whether or not it is a thing
-    this.id = 1;
-    this.thing = false;
-
-    // stores the current category/thing as an object (so like, JSON compatible)
-    // stores all it's children (if it has any) in an array of like objetcs
-    // stores an array of all the previously navigated-to categories
-
-    // PERMENENTLY stores some sort of identifier that is used to check whether or not the current category/thing is the root
-
-    // on instantiation, retrives all the data for the roto node
-    this.getNode();
+    // stores whether or not the about page is currently to be displayed. By default it isn't.
+    this.about = false;
   }
 
-  getDisplayInfo() {
-    // returns a state containing just an indicator of whether or not we are at the root category
-  }
+  getInfo() {
 
-  getContentInfo() {
-
-    // returns a state containing the current category/thing and all it's children
+    // returns a state containing a single value, indicating whether or not the about page is to be displayed
+    return { about: this.about };
   }
 
   handleActions(action) {
-    // only ever responds to category tree navigating actions
+    // only responds to one action which switches the about-page in and out
     switch (action.type) {
-      case "UP":
+      case "SWITCH_ABOUT":
         {
-          this.goUp();
+          this.switchAbout();
           break;
-        }case "ROOT":
-        {
-          this.goRoot();
-          break;
-        }case "SWITCH_ABOUT":
-        {
-          this.getNode();
         }
     }
   }
@@ -26553,45 +26645,103 @@ class ThingStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
   //                          MAINPULATING DATA
   // +-------------------------------------------------------------------+
 
-  goUp() {
-    // this can only ever be called if we're not at the root
-    // sets the current category/thing to the previous one, sets the current children to its children (archivist finds them for us) and removes it from the list of previous categories
+  switchAbout() {
+    // flips the stored value which indicates whether or not the about page should be shown.
+    this.about = !this.about;
+    this.emit('change');
   }
 
-  goRoot() {
-    // sets the current category to the root category and the children to the root's children.
-    // empties the array of previous categories.
-  }
-
-  goTo(id) {}
-  // sets the current node to the child of the current node that matches the passed in id
-  // adds the previous node to the array of previous nodes
-
-
-  // +-------------------------------------------------------------------+
-  //                 RETRIVING DATA FROM SERVER
-  // +-------------------------------------------------------------------+
-
-  getNode() {
-    // makes an ajax request to the server with the current category or thing id
-    // the request should return some json data with the details of the current node plus the details of its children
-    // the returned data is saved to this store
-    const request = new XMLHttpRequest();
-    request.open('GET', '/subcategories/1', true);
-    request.send();
-
-    request.onreadystatechange = function () {
-      if (request.readyState == 4) {
-        console.log(JSON.parse(request.responseText).rows);
-      }
-    };
-  }
 }
 
-const thingStore = new ThingStore();
+const aboutStore = new AboutStore();
 
-__WEBPACK_IMPORTED_MODULE_1__dispatcher__["a" /* default */].register(thingStore.handleActions.bind(thingStore));
-/* unused harmony default export */ var _unused_webpack_default_export = (thingStore);
+__WEBPACK_IMPORTED_MODULE_1__dispatcher__["a" /* default */].register(aboutStore.handleActions.bind(aboutStore));
+/* harmony default export */ __webpack_exports__["a"] = (aboutStore);
+
+/***/ }),
+/* 68 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions_navActions__ = __webpack_require__(69);
+
+
+/*
+Displays a number of Arrow components:
+
+  - Arrow: a small arrow graphic that gets passed in a callback to props and executes it when clicked.
+
+No Store interactions.
+
+Has a number of user interactions equal to the Arrows it displayes.
+
+  - All the user interactions of Nav update the NavStore
+
+Handles its own animations
+
+  - On hovering at the top of the screen the Nav will descend. Once the mouse leaves the nav it ascends again.
+
+This is a very standard, fixed-top page navigation bar. It allows the user to navigate back up the tree of nested categories and things. It gets displayed no matter where the user is in this tree, except for the very first (root) category (although whether or not it gets displayed is managed by Display).
+
+*/
+
+
+
+class Nav extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+
+  up() {
+    // a wrapper that just triggers the up action on navActions
+    __WEBPACK_IMPORTED_MODULE_1__actions_navActions__["a" /* default */].up();
+  }
+
+  root() {
+    __WEBPACK_IMPORTED_MODULE_1__actions_navActions__["a" /* default */].root();
+    // a wrapper that just triggers the root action on navActions
+  }
+
+  // +-------------------------------------------------------------------+
+  //                              RENDERING
+  // +-------------------------------------------------------------------+
+
+
+  buttons() {
+    // calculates and returns an array of Arrow elements based on passed in props (either 1 or two it looks like)
+  }
+
+  render() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'div',
+      { className: 'd-flex justify-content-around', id: 'nav' },
+      'Nav'
+    );
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = Nav;
+
+
+/***/ }),
+/* 69 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__dispatcher__ = __webpack_require__(12);
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+  up() {
+    __WEBPACK_IMPORTED_MODULE_0__dispatcher__["a" /* default */].dispatch({
+      type: 'UP'
+    });
+  },
+
+  root() {
+    __WEBPACK_IMPORTED_MODULE_0__dispatcher__["a" /* default */].dispatch({
+      type: 'ROOT'
+    });
+  }
+});
 
 /***/ })
 /******/ ]);
