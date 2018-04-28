@@ -1,14 +1,19 @@
 import React from 'react';
 
 /*
-Displays one of two possible components:
+Displays two of 3 possible components:
 
-  - Thing (a display represneitng all the information about a given thing)
-  - Category (A single category. The display will be a menu containing links to all of the categories, or things within that category)
+  - Title (a simple display representing the title of the current category)
+
+  And one of either:
+
+  - Spread (a tableux-like list of all current subcategories)
+
+  - List (a list like list of all the things within the current category)
 
 Relies on one store:
 
-  - ThingStore: which tracks the current category or thing to be displayed, and all its children
+  - ThingStore: which provides a list of the current category's children as well as its title
 
 Has no user interactions.
 
@@ -23,7 +28,7 @@ export default class Category extends React.Component {
       // innitially sets the current state according to the state of the aboutStore
       // we also want to keep track of the listener on the aboutStore so that we can get rid of it when we un-mount App
 
-      this.state = thingStore.getTypeInfo();
+      this.state = thingStore.getCategoryInfo();
       this.updateState = this.updateState.bind(this);
     }
 
@@ -43,7 +48,7 @@ export default class Category extends React.Component {
 
     updateState() {
       // this is a listener to the aboutStore. Whenever the latter undergoes a change we want to update the state of App to match.
-      this.setState(thingStore.getTypeInfo());
+      this.setState(thingStore.getCategoryInfo());
     }
 
     render() {

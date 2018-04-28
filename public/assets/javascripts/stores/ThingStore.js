@@ -46,9 +46,9 @@ class ThingStore extends EventEmitter {
     return { atThing: this.id == 1};
   }
 
-  getContentInfo() {
-
-    // returns a state containing the current category/thing and all it's children
+  getCategoryInfo() {
+    // returns a state represneting the information on the current category and all the information on it's child nodes
+    return {};
   }
 
   handleActions(action) {
