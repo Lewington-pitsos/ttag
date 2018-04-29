@@ -55,7 +55,7 @@ export default class App extends React.Component {
 
     content() {
       // returns a Thing or Category component dependind on whether we are currently at a thing or a category
-      return this.state.atThing ? <Category /> : <Thing /> ;
+      return this.state.atThing ? <Thing /> : <Category /> ;
     }
 
     render() {

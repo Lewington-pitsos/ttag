@@ -25108,7 +25108,7 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 
   content() {
     // returns a Thing or Category component dependind on whether we are currently at a thing or a category
-    return this.state.atThing ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Content_Category__["a" /* default */], null) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Content_Thing__["a" /* default */], null);
+    return this.state.atThing ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Content_Thing__["a" /* default */], null) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Content_Category__["a" /* default */], null);
   }
 
   render() {
