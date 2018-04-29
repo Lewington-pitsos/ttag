@@ -17,6 +17,9 @@ Handles the entry animation of all the Cards:
 
 */
 
+import ThingContent from './ThingDisplay/ThingContent';
+import ThingInteraction from './ThingDisplay/ThingInteraction';
+
 export default class ThingDisplay extends React.Component {
     render() {
       return (
@@ -24,6 +27,8 @@ export default class ThingDisplay extends React.Component {
           <div className="row">
             <div className="col">
             ThingDisplay
+            <ThingContent />
+            <ThingInteraction />
             </div>
           </div>
         </div>

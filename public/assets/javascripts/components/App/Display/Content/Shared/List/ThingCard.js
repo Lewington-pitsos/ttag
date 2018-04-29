@@ -16,6 +16,7 @@ Handles the entry animation of all the Cards:
   - each Card will fly in swiftly fomr the screen bottom, with earlier/higher cards travelling faster
 
 */
+import Summary from './ThingCard/Summary';
 
 export default class ThingCard extends React.Component {
     render() {
@@ -24,6 +25,7 @@ export default class ThingCard extends React.Component {
           <div className="row">
             <div className="col">
             ThingCard
+            <Summary />
             </div>
           </div>
         </div>

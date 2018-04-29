@@ -17,6 +17,10 @@ Handles the entry animation of all the Cards:
 
 */
 
+import AddButton from './CommentHeader/AddButton';
+import CommentEditor from './CommentHeader/CommentEditor';
+import Header from './CommentHeader/Header';
+
 export default class CommentHeader extends React.Component {
     render() {
       return (
@@ -24,6 +28,9 @@ export default class CommentHeader extends React.Component {
           <div className="row">
             <div className="col">
             CommentHeader
+            <Header />
+            <AddButton />
+            <CommentEditor />
             </div>
           </div>
         </div>

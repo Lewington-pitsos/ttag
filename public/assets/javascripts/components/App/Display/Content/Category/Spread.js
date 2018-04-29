@@ -17,7 +17,7 @@ Handles the entry animation of all the Cards:
 
 */
 
-import thingStore from '../../../../stores/ThingStore';
+import CategoryCard from './Spread/CategoryCard';
 
 export default class Spread extends React.Component {
     render() {
@@ -25,6 +25,8 @@ export default class Spread extends React.Component {
         <div className="container-fluid spread">
           <div className="row">
             <div className="col">
+              <CategoryCard />
+              <CategoryCard />
             </div>
           </div>
         </div>

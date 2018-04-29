@@ -17,13 +17,20 @@ Handles the entry animation of all the Cards:
 
 */
 
-export default class COmmentList extends React.Component {
+import Dimmer from './CommentList/Dimmer';
+import CommentHeader from './CommentList/CommentHeader';
+import List from '../Shared/List';
+
+export default class CommentList extends React.Component {
     render() {
       return (
         <div className="container-fluid spread">
           <div className="row">
             <div className="col">
-            COmmentList
+            CommentList
+            <CommentHeader />
+            <Dimmer />
+            <List />
             </div>
           </div>
         </div>

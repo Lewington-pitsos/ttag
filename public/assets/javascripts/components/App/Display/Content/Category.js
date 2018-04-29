@@ -23,6 +23,8 @@ Handles no animations.
 import thingStore from '../../../../stores/ThingStore';
 
 import CategoryTitle from './Category/CategoryTitle';
+import Spread from './Category/Spread';
+import List from './Shared/List';
 
 export default class Category extends React.Component {
     constructor() {
@@ -61,6 +63,8 @@ export default class Category extends React.Component {
       return (
         <div className="container-fluid" id="app">
           <CategoryTitle title={ this.state.category.title } />
+          <Spread />
+          <List />
         </div>
       );
     }

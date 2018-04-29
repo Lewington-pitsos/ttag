@@ -24,7 +24,7 @@ class ThingStore extends EventEmitter {
     // stores current category/thing id (starting at 1)
     // stores whether or not it is a thing
     this.id = 1;
-    this.thing = false;
+    this.thing = true;
 
     // stores the current category/thing as an object (so like, JSON compatible)
     // stores all it's children (if it has any) in an array of like objetcs
