@@ -4,7 +4,7 @@ import React from 'react';
 Literally just displays the category title, which is passed in via props
 */
 
-export default class Title extends React.Component {
+export default class CategoryTitle extends React.Component {
 
     titleDisplay() {
       // returns the right kind of title display depending on whethe we are at the root category ot not

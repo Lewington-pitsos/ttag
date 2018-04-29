@@ -17,14 +17,13 @@ Handles the entry animation of all the Cards:
 
 */
 
-import thingStore from '../../../../stores/ThingStore';
-
-export default class Spread extends React.Component {
+export default class ThingInteraction extends React.Component {
     render() {
       return (
         <div className="container-fluid spread">
           <div className="row">
             <div className="col">
+            ThingInteraction
             </div>
           </div>
         </div>

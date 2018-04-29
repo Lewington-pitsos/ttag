@@ -25197,7 +25197,7 @@ class Thing extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Category_Title__ = __webpack_require__(55);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Category_CategoryTitle__ = __webpack_require__(73);
 
 
 /*
@@ -25261,7 +25261,7 @@ class Category extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
       { className: 'container-fluid', id: 'app' },
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Category_Title__["a" /* default */], { title: this.state.category.title })
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Category_CategoryTitle__["a" /* default */], { title: this.state.category.title })
     );
   }
 }
@@ -25269,57 +25269,7 @@ class Category extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 
 
 /***/ }),
-/* 55 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-
-
-/*
-Literally just displays the category title, which is passed in via props
-*/
-
-class Title extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
-
-  titleDisplay() {
-    // returns the right kind of title display depending on whethe we are at the root category ot not
-    if (this.props.title == 'root') {
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'h1',
-        { className: 'text-center' },
-        'Things that are Good'
-      );
-    } else {
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'h2',
-        { className: 'text-center' },
-        this.props.title
-      );
-    }
-  }
-
-  render() {
-    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      'div',
-      { className: 'row justify-content-center', id: 'category-title' },
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'div',
-        { className: 'row' },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'div',
-          { className: 'col-12' },
-          this.titleDisplay()
-        )
-      )
-    );
-  }
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = Title;
-
-
-/***/ }),
+/* 55 */,
 /* 56 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -26948,6 +26898,57 @@ function getTransitionProperties() {
 
   return { animationEnd: animationEnd, transitionEnd: transitionEnd, prefix: prefix };
 }
+
+/***/ }),
+/* 73 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+
+
+/*
+Literally just displays the category title, which is passed in via props
+*/
+
+class CategoryTitle extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+
+  titleDisplay() {
+    // returns the right kind of title display depending on whethe we are at the root category ot not
+    if (this.props.title == 'root') {
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'h1',
+        { className: 'text-center' },
+        'Things that are Good'
+      );
+    } else {
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'h2',
+        { className: 'text-center' },
+        this.props.title
+      );
+    }
+  }
+
+  render() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'div',
+      { className: 'row justify-content-center', id: 'category-title' },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'div',
+        { className: 'row' },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'div',
+          { className: 'col-12' },
+          this.titleDisplay()
+        )
+      )
+    );
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = CategoryTitle;
+
 
 /***/ })
 /******/ ]);

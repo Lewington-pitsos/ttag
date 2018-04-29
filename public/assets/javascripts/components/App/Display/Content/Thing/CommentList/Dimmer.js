@@ -17,14 +17,13 @@ Handles the entry animation of all the Cards:
 
 */
 
-import thingStore from '../../../../stores/ThingStore';
-
-export default class Spread extends React.Component {
+export default class Dimmer extends React.Component {
     render() {
       return (
         <div className="container-fluid spread">
           <div className="row">
             <div className="col">
+            Dimmer
             </div>
           </div>
         </div>

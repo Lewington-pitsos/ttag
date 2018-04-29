@@ -3,7 +3,7 @@ import React from 'react';
 /*
 Displays a number of components depending on props
 
-  - CategoryCard (a square box representing a category of things)
+  - Card (a square box representing a category of things)
 
 Relies on no store, but does rely on props:
 
@@ -17,14 +17,13 @@ Handles the entry animation of all the Cards:
 
 */
 
-import thingStore from '../../../../stores/ThingStore';
-
-export default class Spread extends React.Component {
+export default class CategoryCard extends React.Component {
     render() {
       return (
         <div className="container-fluid spread">
           <div className="row">
             <div className="col">
+              CATCard
             </div>
           </div>
         </div>

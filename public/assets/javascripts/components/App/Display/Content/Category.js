@@ -22,7 +22,7 @@ Handles no animations.
 
 import thingStore from '../../../../stores/ThingStore';
 
-import Title from './Category/Title';
+import CategoryTitle from './Category/CategoryTitle';
 
 export default class Category extends React.Component {
     constructor() {
@@ -60,7 +60,7 @@ export default class Category extends React.Component {
     render() {
       return (
         <div className="container-fluid" id="app">
-          <Title title={ this.state.category.title } />
+          <CategoryTitle title={ this.state.category.title } />
         </div>
       );
     }
