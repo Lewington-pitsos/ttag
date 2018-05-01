@@ -59,11 +59,15 @@ export default class Category extends React.Component {
     //                              RENDERING
     // +-------------------------------------------------------------------+
 
+    children() {
+      return this.state.children;
+    }
+
     render() {
       return (
         <div className="container-fluid" id="app">
           <CategoryTitle title={ this.state.category.title } />
-          <Spread />
+          <Spread subcategories={ this.children() } />
           <List />
         </div>
       );

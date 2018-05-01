@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 26);
+/******/ 	return __webpack_require__(__webpack_require__.s = 27);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -71,9 +71,9 @@
 /* WEBPACK VAR INJECTION */(function(process) {
 
 if (process.env.NODE_ENV === 'production') {
-  module.exports = __webpack_require__(38);
-} else {
   module.exports = __webpack_require__(39);
+} else {
+  module.exports = __webpack_require__(40);
 }
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
@@ -592,11 +592,12 @@ class ThingStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
     // stores current category/thing id (starting at 1)
     // stores whether or not it is a thing
     this.id = 1;
-    this.thing = true;
+    this.thing = false;
 
     // stores the current category/thing as an object (so like, JSON compatible)
     // stores all it's children (if it has any) in an array of like objetcs
     // stores an array of all the previously navigated-to categories
+    this.children = [];
 
     // PERMENENTLY stores some sort of identifier that is used to check whether or not the current category/thing is the root
 
@@ -616,9 +617,12 @@ class ThingStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
 
   getCategoryInfo() {
     // returns a state represneting the information on the current category and all the information on it's child nodes
-    return { category: {
+    return {
+      category: {
         title: 'root'
-      } };
+      },
+      children: this.children
+    };
   }
 
   handleActions(action) {
@@ -670,9 +674,11 @@ class ThingStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
     request.open('GET', '/subcategories/1', true);
     request.send();
 
+    const self = this;
     request.onreadystatechange = function () {
       if (request.readyState == 4) {
-        console.log(JSON.parse(request.responseText).rows);
+        self.children = JSON.parse(request.responseText).rows;
+        self.emit('change');
       }
     };
   }
@@ -688,7 +694,7 @@ __WEBPACK_IMPORTED_MODULE_1__dispatcher__["a" /* default */].register(thingStore
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_flux__ = __webpack_require__(50);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_flux__ = __webpack_require__(51);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_flux___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_flux__);
 
 
@@ -715,11 +721,11 @@ if (process.env.NODE_ENV !== 'production') {
   // By explicitly using `prop-types` you are opting into new development behavior.
   // http://fb.me/prop-types-in-prod
   var throwOnDirectAccess = true;
-  module.exports = __webpack_require__(62)(isValidElement, throwOnDirectAccess);
+  module.exports = __webpack_require__(77)(isValidElement, throwOnDirectAccess);
 } else {
   // By explicitly using `prop-types` you are opting into new production behavior.
   // http://fb.me/prop-types-in-prod
-  module.exports = __webpack_require__(63)();
+  module.exports = __webpack_require__(78)();
 }
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
@@ -869,7 +875,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(29);
+var	fixUrls = __webpack_require__(30);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -1304,9 +1310,9 @@ if (process.env.NODE_ENV === 'production') {
   // DCE check should happen before ReactDOM bundle executes so that
   // DevTools can report bad minification during injection.
   checkDCE();
-  module.exports = __webpack_require__(40);
+  module.exports = __webpack_require__(41);
 } else {
-  module.exports = __webpack_require__(43);
+  module.exports = __webpack_require__(44);
 }
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
@@ -1560,7 +1566,7 @@ module.exports = shallowEqual;
  * 
  */
 
-var isTextNode = __webpack_require__(41);
+var isTextNode = __webpack_require__(42);
 
 /*eslint-disable no-bitwise */
 
@@ -1905,6 +1911,53 @@ function isUndefined(arg) {
 
 /***/ }),
 /* 23 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__List_ThingCard__ = __webpack_require__(61);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__List_Comment__ = __webpack_require__(63);
+
+
+/*
+Displays two of 3 possible components:
+
+  - Title (a simple display representing the title of the current category)
+
+  And one of either:
+
+  - Spread (a tableux-like list of all current subcategories)
+
+  - List (a list like list of all the things within the current category)
+
+Relies on one store:
+
+  - ThingStore: which provides a list of the current category's children as well as its title
+
+Has no user interactions.
+
+Handles no animations.
+*/
+
+
+
+
+class List extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+  render() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'div',
+      { className: 'container-fluid', id: 'list' },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__List_ThingCard__["a" /* default */], null),
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__List_Comment__["a" /* default */], null)
+    );
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = List;
+
+
+/***/ }),
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1922,7 +1975,7 @@ var _extends = Object.assign || function (target) {
   }return target;
 };
 
-var _chainFunction = __webpack_require__(64);
+var _chainFunction = __webpack_require__(79);
 
 var _chainFunction2 = _interopRequireDefault(_chainFunction);
 
@@ -1934,11 +1987,11 @@ var _propTypes = __webpack_require__(9);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _warning = __webpack_require__(65);
+var _warning = __webpack_require__(80);
 
 var _warning2 = _interopRequireDefault(_warning);
 
-var _ChildMapping = __webpack_require__(66);
+var _ChildMapping = __webpack_require__(81);
 
 function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : { default: obj };
@@ -2201,7 +2254,7 @@ module.exports = exports['default'];
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2214,7 +2267,7 @@ exports.default = !!(typeof window !== 'undefined' && window.document && window.
 module.exports = exports['default'];
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2271,20 +2324,20 @@ var nameShape = exports.nameShape = _propTypes2.default.oneOfType([_propTypes2.d
 })]);
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__stylesheets_all_sass__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__stylesheets_all_sass__ = __webpack_require__(28);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__stylesheets_all_sass___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__stylesheets_all_sass__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__stylesheets_animate_css__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__stylesheets_animate_css__ = __webpack_require__(31);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__stylesheets_animate_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__stylesheets_animate_css__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__stylesheets_flip_css__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__stylesheets_flip_css__ = __webpack_require__(33);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__stylesheets_flip_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__stylesheets_flip_css__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_bootstrap__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_bootstrap__ = __webpack_require__(35);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_bootstrap___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_bootstrap__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__javascripts_basic_js__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__javascripts_basic_js__ = __webpack_require__(38);
 // this is currently the only Webpack entry point so all JS that we could ever need must be requireed here
 
 // css
@@ -2297,11 +2350,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(28);
+var content = __webpack_require__(29);
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -2347,7 +2400,7 @@ if(false) {
 }
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(10)(false);
@@ -2361,7 +2414,7 @@ exports.push([module.i, "/*!\n * Bootstrap v4.0.0-alpha.6 (https://getbootstrap.
 
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports) {
 
 
@@ -2454,11 +2507,11 @@ module.exports = function (css) {
 };
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(31);
+var content = __webpack_require__(32);
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -2504,7 +2557,7 @@ if(false) {
 }
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(10)(false);
@@ -2518,11 +2571,11 @@ exports.push([module.i, "@charset \"UTF-8\";\n\n/*!\n * animate.css -http://dane
 
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(33);
+var content = __webpack_require__(34);
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -2568,7 +2621,7 @@ if(false) {
 }
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(10)(false);
@@ -2582,7 +2635,7 @@ exports.push([module.i, "/* entire container, keeps perspective */\n.flip-contai
 
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(jQuery, Tether) {/*!
@@ -6141,10 +6194,10 @@ if (typeof jQuery === 'undefined') {
     return Popover;
   }(jQuery);
 }();
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(35), __webpack_require__(36)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(36), __webpack_require__(37)))
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -16067,7 +16120,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 });
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! tether 1.4.3 */
@@ -18006,7 +18059,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! tether 1.4
 });
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -18014,7 +18067,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! tether 1.4
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_App_js__ = __webpack_require__(48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_App_js__ = __webpack_require__(49);
 
 
 
@@ -18029,7 +18082,7 @@ __WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODU
 );
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18141,7 +18194,7 @@ var U = { Children: { map: function (a, b, e) {
     W = V && U || V;module.exports = W["default"] ? W["default"] : W;
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19499,7 +19552,7 @@ if (process.env.NODE_ENV !== "production") {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21365,7 +21418,7 @@ Z.injectIntoDevTools({ findFiberByHostInstance: pb, bundleType: 0, version: "16.
     Ug = Tg && Sg || Tg;module.exports = Ug["default"] ? Ug["default"] : Ug;
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21380,7 +21433,7 @@ Z.injectIntoDevTools({ findFiberByHostInstance: pb, bundleType: 0, version: "16.
  * @typechecks
  */
 
-var isNode = __webpack_require__(42);
+var isNode = __webpack_require__(43);
 
 /**
  * @param {*} object The object to check.
@@ -21393,7 +21446,7 @@ function isTextNode(object) {
 module.exports = isTextNode;
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21422,7 +21475,7 @@ function isNode(object) {
 module.exports = isNode;
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21433,7 +21486,7 @@ module.exports = isNode;
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- */if(process.env.NODE_ENV!=="production"){(function(){'use strict';var React=__webpack_require__(0);var invariant=__webpack_require__(3);var warning=__webpack_require__(6);var ExecutionEnvironment=__webpack_require__(15);var _assign=__webpack_require__(4);var emptyFunction=__webpack_require__(2);var EventListener=__webpack_require__(16);var getActiveElement=__webpack_require__(17);var shallowEqual=__webpack_require__(18);var containsNode=__webpack_require__(19);var focusNode=__webpack_require__(20);var emptyObject=__webpack_require__(5);var checkPropTypes=__webpack_require__(12);var hyphenateStyleName=__webpack_require__(44);var camelizeStyleName=__webpack_require__(46);/**
+ */if(process.env.NODE_ENV!=="production"){(function(){'use strict';var React=__webpack_require__(0);var invariant=__webpack_require__(3);var warning=__webpack_require__(6);var ExecutionEnvironment=__webpack_require__(15);var _assign=__webpack_require__(4);var emptyFunction=__webpack_require__(2);var EventListener=__webpack_require__(16);var getActiveElement=__webpack_require__(17);var shallowEqual=__webpack_require__(18);var containsNode=__webpack_require__(19);var focusNode=__webpack_require__(20);var emptyObject=__webpack_require__(5);var checkPropTypes=__webpack_require__(12);var hyphenateStyleName=__webpack_require__(45);var camelizeStyleName=__webpack_require__(47);/**
  * WARNING: DO NOT manually require this module.
  * This is a replacement for `invariant(...)` used by the error code system
  * and will _only_ be required by the corresponding babel pass.
@@ -24406,7 +24459,7 @@ var reactDom=ReactDOM$3['default']?ReactDOM$3['default']:ReactDOM$3;module.expor
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24421,7 +24474,7 @@ var reactDom=ReactDOM$3['default']?ReactDOM$3['default']:ReactDOM$3;module.expor
 
 
 
-var hyphenate = __webpack_require__(45);
+var hyphenate = __webpack_require__(46);
 
 var msPattern = /^ms-/;
 
@@ -24448,7 +24501,7 @@ function hyphenateStyleName(string) {
 module.exports = hyphenateStyleName;
 
 /***/ }),
-/* 45 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24484,7 +24537,7 @@ function hyphenate(string) {
 module.exports = hyphenate;
 
 /***/ }),
-/* 46 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24499,7 +24552,7 @@ module.exports = hyphenate;
 
 
 
-var camelize = __webpack_require__(47);
+var camelize = __webpack_require__(48);
 
 var msPattern = /^-ms-/;
 
@@ -24527,7 +24580,7 @@ function camelizeStyleName(string) {
 module.exports = camelizeStyleName;
 
 /***/ }),
-/* 47 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24562,16 +24615,16 @@ function camelize(string) {
 module.exports = camelize;
 
 /***/ }),
-/* 48 */
+/* 49 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__App_Display__ = __webpack_require__(49);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__App_About__ = __webpack_require__(58);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__stores_AboutStore__ = __webpack_require__(59);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_react_transition_group__ = __webpack_require__(60);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__App_Display__ = __webpack_require__(50);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__App_About__ = __webpack_require__(73);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__stores_AboutStore__ = __webpack_require__(74);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_react_transition_group__ = __webpack_require__(75);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_react_transition_group___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_react_transition_group__);
 
 
@@ -24651,7 +24704,7 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 
 
 /***/ }),
-/* 49 */
+/* 50 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -24659,8 +24712,8 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__actions_aboutActions__ = __webpack_require__(22);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Display_Content__ = __webpack_require__(52);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Display_Nav__ = __webpack_require__(56);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Display_Content__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Display_Nav__ = __webpack_require__(71);
 
 
 /*
@@ -24785,7 +24838,7 @@ class Display extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 
 
 /***/ }),
-/* 50 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -24797,10 +24850,10 @@ class Display extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
-module.exports.Dispatcher = __webpack_require__(51);
+module.exports.Dispatcher = __webpack_require__(52);
 
 /***/ }),
-/* 51 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25042,21 +25095,21 @@ module.exports = Dispatcher;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 52 */
+/* 53 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Content_Thing__ = __webpack_require__(53);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Content_Category__ = __webpack_require__(54);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Content_Thing__ = __webpack_require__(54);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Content_Category__ = __webpack_require__(67);
 
 
 /*
 Displays one of two possible components:
 
-  - Thing (a display represneitng all the information about a given thing)
+  - Thing (a display represenitng all the information about a given thing)
   - Category (A single category. The display will be a menu containing links to all of the categories, or things within that category)
 
 Relies on one store:
@@ -25123,15 +25176,15 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 
 
 /***/ }),
-/* 53 */
+/* 54 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Thing_CommentList__ = __webpack_require__(76);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Thing_ThingDisplay__ = __webpack_require__(77);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Thing_CommentList__ = __webpack_require__(55);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Thing_ThingDisplay__ = __webpack_require__(64);
 
 
 /*
@@ -25167,16 +25220,598 @@ class Thing extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 
 
 /***/ }),
-/* 54 */
+/* 55 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__CommentList_Dimmer__ = __webpack_require__(56);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__CommentList_CommentHeader__ = __webpack_require__(57);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Shared_List__ = __webpack_require__(23);
+
+
+/*
+Displays a number of components depending on props
+
+  - CategoryCard (a square box representing a category of things)
+
+Relies on no store, but does rely on props:
+
+  - Expects an array of objects, each represneting a category, to be passed in
+
+Has no user interactions.
+
+Handles the entry animation of all the Cards:
+
+  - each Card will fly in swiftly fomr the screen bottom, with earlier/higher cards travelling faster
+
+*/
+
+
+
+
+
+class CommentList extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+  render() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'div',
+      { className: 'container-fluid spread' },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'div',
+        { className: 'row' },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'div',
+          { className: 'col' },
+          'CommentList',
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__CommentList_CommentHeader__["a" /* default */], null),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__CommentList_Dimmer__["a" /* default */], null),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Shared_List__["a" /* default */], null)
+        )
+      )
+    );
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = CommentList;
+
+
+/***/ }),
+/* 56 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+
+
+/*
+Displays a number of components depending on props
+
+  - CategoryCard (a square box representing a category of things)
+
+Relies on no store, but does rely on props:
+
+  - Expects an array of objects, each represneting a category, to be passed in
+
+Has no user interactions.
+
+Handles the entry animation of all the Cards:
+
+  - each Card will fly in swiftly fomr the screen bottom, with earlier/higher cards travelling faster
+
+*/
+
+class Dimmer extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+  render() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      "div",
+      { className: "container-fluid spread" },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        "div",
+        { className: "row" },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          "div",
+          { className: "col" },
+          "Dimmer"
+        )
+      )
+    );
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = Dimmer;
+
+
+/***/ }),
+/* 57 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__CommentHeader_AddButton__ = __webpack_require__(58);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__CommentHeader_CommentEditor__ = __webpack_require__(59);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__CommentHeader_Header__ = __webpack_require__(60);
+
+
+/*
+Displays a number of components depending on props
+
+  - CategoryCard (a square box representing a category of things)
+
+Relies on no store, but does rely on props:
+
+  - Expects an array of objects, each represneting a category, to be passed in
+
+Has no user interactions.
+
+Handles the entry animation of all the Cards:
+
+  - each Card will fly in swiftly fomr the screen bottom, with earlier/higher cards travelling faster
+
+*/
+
+
+
+
+
+class CommentHeader extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+  render() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'div',
+      { className: 'container-fluid spread' },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'div',
+        { className: 'row' },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'div',
+          { className: 'col' },
+          'CommentHeader',
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__CommentHeader_Header__["a" /* default */], null),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__CommentHeader_AddButton__["a" /* default */], null),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__CommentHeader_CommentEditor__["a" /* default */], null)
+        )
+      )
+    );
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = CommentHeader;
+
+
+/***/ }),
+/* 58 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+
+
+/*
+Displays a number of components depending on props
+
+  - CategoryCard (a square box representing a category of things)
+
+Relies on no store, but does rely on props:
+
+  - Expects an array of objects, each represneting a category, to be passed in
+
+Has no user interactions.
+
+Handles the entry animation of all the Cards:
+
+  - each Card will fly in swiftly fomr the screen bottom, with earlier/higher cards travelling faster
+
+*/
+
+class AddButton extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+  render() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      "div",
+      { className: "container-fluid spread" },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        "div",
+        { className: "row" },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          "div",
+          { className: "col" },
+          "AddButton"
+        )
+      )
+    );
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = AddButton;
+
+
+/***/ }),
+/* 59 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+
+
+/*
+Displays a number of components depending on props
+
+  - CategoryCard (a square box representing a category of things)
+
+Relies on no store, but does rely on props:
+
+  - Expects an array of objects, each represneting a category, to be passed in
+
+Has no user interactions.
+
+Handles the entry animation of all the Cards:
+
+  - each Card will fly in swiftly fomr the screen bottom, with earlier/higher cards travelling faster
+
+*/
+
+class CommentEditor extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+  render() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      "div",
+      { className: "container-fluid spread" },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        "div",
+        { className: "row" },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          "div",
+          { className: "col" },
+          "CommentEditor"
+        )
+      )
+    );
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = CommentEditor;
+
+
+/***/ }),
+/* 60 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+
+
+/*
+Displays a number of components depending on props
+
+  - CategoryCard (a square box representing a category of things)
+
+Relies on no store, but does rely on props:
+
+  - Expects an array of objects, each represneting a category, to be passed in
+
+Has no user interactions.
+
+Handles the entry animation of all the Cards:
+
+  - each Card will fly in swiftly fomr the screen bottom, with earlier/higher cards travelling faster
+
+*/
+
+class Header extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+  render() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      "div",
+      { className: "container-fluid spread" },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        "div",
+        { className: "row" },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          "div",
+          { className: "col" },
+          "Header"
+        )
+      )
+    );
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = Header;
+
+
+/***/ }),
+/* 61 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ThingCard_Summary__ = __webpack_require__(62);
+
+
+/*
+Displays a number of components depending on props
+
+  - CategoryCard (a square box representing a category of things)
+
+Relies on no store, but does rely on props:
+
+  - Expects an array of objects, each represneting a category, to be passed in
+
+Has no user interactions.
+
+Handles the entry animation of all the Cards:
+
+  - each Card will fly in swiftly fomr the screen bottom, with earlier/higher cards travelling faster
+
+*/
+
+
+class ThingCard extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+  render() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'div',
+      { className: 'container-fluid spread' },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'div',
+        { className: 'row' },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'div',
+          { className: 'col' },
+          'ThingCard',
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__ThingCard_Summary__["a" /* default */], null)
+        )
+      )
+    );
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = ThingCard;
+
+
+/***/ }),
+/* 62 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+
+
+/*
+Displays a number of components depending on props
+
+  - CategoryCard (a square box representing a category of things)
+
+Relies on no store, but does rely on props:
+
+  - Expects an array of objects, each represneting a category, to be passed in
+
+Has no user interactions.
+
+Handles the entry animation of all the Cards:
+
+  - each Card will fly in swiftly fomr the screen bottom, with earlier/higher cards travelling faster
+
+*/
+
+class Summary extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+  render() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      "div",
+      { className: "container-fluid spread" },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        "div",
+        { className: "row" },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          "div",
+          { className: "col" },
+          "Summary"
+        )
+      )
+    );
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = Summary;
+
+
+/***/ }),
+/* 63 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+
+
+/*
+Displays a number of components depending on props
+
+  - CategoryCard (a square box representing a category of things)
+
+Relies on no store, but does rely on props:
+
+  - Expects an array of objects, each represneting a category, to be passed in
+
+Has no user interactions.
+
+Handles the entry animation of all the Cards:
+
+  - each Card will fly in swiftly fomr the screen bottom, with earlier/higher cards travelling faster
+
+*/
+
+class Comment extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+  render() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      "div",
+      { className: "container-fluid spread" },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        "div",
+        { className: "row" },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          "div",
+          { className: "col" },
+          "Comment"
+        )
+      )
+    );
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = Comment;
+
+
+/***/ }),
+/* 64 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ThingDisplay_ThingContent__ = __webpack_require__(65);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ThingDisplay_ThingInteraction__ = __webpack_require__(66);
+
+
+/*
+Displays a number of components depending on props
+
+  - CategoryCard (a square box representing a category of things)
+
+Relies on no store, but does rely on props:
+
+  - Expects an array of objects, each represneting a category, to be passed in
+
+Has no user interactions.
+
+Handles the entry animation of all the Cards:
+
+  - each Card will fly in swiftly fomr the screen bottom, with earlier/higher cards travelling faster
+
+*/
+
+
+
+
+class ThingDisplay extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+  render() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'div',
+      { className: 'container-fluid spread' },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'div',
+        { className: 'row' },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'div',
+          { className: 'col' },
+          'ThingDisplay',
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__ThingDisplay_ThingContent__["a" /* default */], null),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__ThingDisplay_ThingInteraction__["a" /* default */], null)
+        )
+      )
+    );
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = ThingDisplay;
+
+
+/***/ }),
+/* 65 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+
+
+/*
+Displays a number of components depending on props
+
+  - CategoryCard (a square box representing a category of things)
+
+Relies on no store, but does rely on props:
+
+  - Expects an array of objects, each represneting a category, to be passed in
+
+Has no user interactions.
+
+Handles the entry animation of all the Cards:
+
+  - each Card will fly in swiftly fomr the screen bottom, with earlier/higher cards travelling faster
+
+*/
+
+class ThingContent extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+  render() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      "div",
+      { className: "container-fluid spread" },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        "div",
+        { className: "row" },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          "div",
+          { className: "col" },
+          "ThingContent"
+        )
+      )
+    );
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = ThingContent;
+
+
+/***/ }),
+/* 66 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+
+
+/*
+Displays a number of components depending on props
+
+  - CategoryCard (a square box representing a category of things)
+
+Relies on no store, but does rely on props:
+
+  - Expects an array of objects, each represneting a category, to be passed in
+
+Has no user interactions.
+
+Handles the entry animation of all the Cards:
+
+  - each Card will fly in swiftly fomr the screen bottom, with earlier/higher cards travelling faster
+
+*/
+
+class ThingInteraction extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+  render() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      "div",
+      { className: "container-fluid spread" },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        "div",
+        { className: "row" },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          "div",
+          { className: "col" },
+          "ThingInteraction"
+        )
+      )
+    );
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = ThingInteraction;
+
+
+/***/ }),
+/* 67 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Category_CategoryTitle__ = __webpack_require__(73);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Category_Spread__ = __webpack_require__(74);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Shared_List__ = __webpack_require__(78);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Category_CategoryTitle__ = __webpack_require__(68);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Category_Spread__ = __webpack_require__(69);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Shared_List__ = __webpack_require__(23);
 
 
 /*
@@ -25238,12 +25873,16 @@ class Category extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
   //                              RENDERING
   // +-------------------------------------------------------------------+
 
+  children() {
+    return this.state.children;
+  }
+
   render() {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
       { className: 'container-fluid', id: 'app' },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Category_CategoryTitle__["a" /* default */], { title: this.state.category.title }),
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Category_Spread__["a" /* default */], null),
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Category_Spread__["a" /* default */], { subcategories: this.children() }),
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__Shared_List__["a" /* default */], null)
     );
   }
@@ -25252,14 +25891,189 @@ class Category extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 
 
 /***/ }),
-/* 55 */,
-/* 56 */
+/* 68 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions_navActions__ = __webpack_require__(57);
+
+
+/*
+Literally just displays the category title, which is passed in via props
+*/
+
+class CategoryTitle extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+
+  titleDisplay() {
+    // returns the right kind of title display depending on whethe we are at the root category ot not
+    if (this.props.title == 'root') {
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'h1',
+        { className: 'text-center' },
+        'Things that are Good'
+      );
+    } else {
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'h2',
+        { className: 'text-center' },
+        this.props.title
+      );
+    }
+  }
+
+  render() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'div',
+      { className: 'row justify-content-center', id: 'category-title' },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'div',
+        { className: 'row' },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'div',
+          { className: 'col-12' },
+          this.titleDisplay()
+        )
+      )
+    );
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = CategoryTitle;
+
+
+/***/ }),
+/* 69 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Spread_CategoryCard__ = __webpack_require__(70);
+
+
+/*
+Displays a tableax of one component
+
+  - CategoryCard (a square box representing a category of things)
+
+Relies on no store, but does rely on props:
+
+  - Expects an array of objects, each represneting a category, to be passed in
+
+Has no user interactions.
+
+Handles the entry animation of all the Cards:
+
+  - each Card will fly in swiftly fomr the screen bottom, with earlier/higher cards travelling faster
+
+*/
+
+
+
+class Spread extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+
+  /**
+  INPUT: NONE
+  DOES: generates a CategoryCard component for each subcategory in props, displaying its data
+  OUTPUT: an array of CategoryCard Components
+  */
+  categoryCards() {
+    return this.props.subcategories.map(function (category) {
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__Spread_CategoryCard__["a" /* default */], {
+        key: category.id,
+        id: category.id,
+        name: category.name,
+        image: category.image });
+    });
+  }
+
+  render() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'div',
+      { className: 'container-fluid spread' },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'div',
+        { className: 'row' },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'div',
+          { className: 'col' },
+          this.categoryCards()
+        )
+      )
+    );
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = Spread;
+
+
+/***/ }),
+/* 70 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+
+
+/*
+Displays a no further components
+
+Relies on no store, but does exepct the following from props:
+
+  - an id (integer) a name (string) and an image (string represneting a path)
+
+Has 1 user interaction:
+
+  - clicking on a particular category will navigate the tree to that category (efectly reidrecting the user)
+
+Handles card interaction animations:
+
+  - each Card will appear to compress inwards when clicked
+  - additionally each card will appear to glow when hovered over
+
+*/
+
+class CategoryCard extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+  render() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      "div",
+      { className: "container-fluid spread" },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        "div",
+        { className: "row" },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          "div",
+          { className: "col" },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            "a",
+            { href: this.id },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              "h4",
+              null,
+              this.props.name
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              "p",
+              null,
+              this.props.image
+            )
+          )
+        )
+      )
+    );
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = CategoryCard;
+
+
+/***/ }),
+/* 71 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions_navActions__ = __webpack_require__(72);
 
 
 /*
@@ -25316,7 +26130,7 @@ class Nav extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 
 
 /***/ }),
-/* 57 */
+/* 72 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -25338,7 +26152,7 @@ class Nav extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 });
 
 /***/ }),
-/* 58 */
+/* 73 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -25413,7 +26227,7 @@ class About extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 
 
 /***/ }),
-/* 59 */
+/* 74 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -25482,17 +26296,17 @@ __WEBPACK_IMPORTED_MODULE_1__dispatcher__["a" /* default */].register(aboutStore
 /* harmony default export */ __webpack_exports__["a"] = (aboutStore);
 
 /***/ }),
-/* 60 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _CSSTransitionGroup = __webpack_require__(61);
+var _CSSTransitionGroup = __webpack_require__(76);
 
 var _CSSTransitionGroup2 = _interopRequireDefault(_CSSTransitionGroup);
 
-var _TransitionGroup = __webpack_require__(23);
+var _TransitionGroup = __webpack_require__(24);
 
 var _TransitionGroup2 = _interopRequireDefault(_TransitionGroup);
 
@@ -25506,7 +26320,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 61 */
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25532,15 +26346,15 @@ var _propTypes = __webpack_require__(9);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _TransitionGroup = __webpack_require__(23);
+var _TransitionGroup = __webpack_require__(24);
 
 var _TransitionGroup2 = _interopRequireDefault(_TransitionGroup);
 
-var _CSSTransitionGroupChild = __webpack_require__(67);
+var _CSSTransitionGroupChild = __webpack_require__(82);
 
 var _CSSTransitionGroupChild2 = _interopRequireDefault(_CSSTransitionGroupChild);
 
-var _PropTypes = __webpack_require__(25);
+var _PropTypes = __webpack_require__(26);
 
 function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : { default: obj };
@@ -25628,7 +26442,7 @@ module.exports = exports['default'];
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 62 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26151,7 +26965,7 @@ module.exports = function (isValidElement, throwOnDirectAccess) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 63 */
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26210,7 +27024,7 @@ module.exports = function () {
 };
 
 /***/ }),
-/* 64 */
+/* 79 */
 /***/ (function(module, exports) {
 
 
@@ -26236,7 +27050,7 @@ module.exports = function chain() {
 };
 
 /***/ }),
-/* 65 */
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26296,7 +27110,7 @@ module.exports = warning;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 66 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26393,7 +27207,7 @@ function mergeChildMappings(prev, next) {
 }
 
 /***/ }),
-/* 67 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26411,19 +27225,19 @@ var _extends = Object.assign || function (target) {
   }return target;
 };
 
-var _addClass = __webpack_require__(68);
+var _addClass = __webpack_require__(83);
 
 var _addClass2 = _interopRequireDefault(_addClass);
 
-var _removeClass = __webpack_require__(70);
+var _removeClass = __webpack_require__(85);
 
 var _removeClass2 = _interopRequireDefault(_removeClass);
 
-var _requestAnimationFrame = __webpack_require__(71);
+var _requestAnimationFrame = __webpack_require__(86);
 
 var _requestAnimationFrame2 = _interopRequireDefault(_requestAnimationFrame);
 
-var _properties = __webpack_require__(72);
+var _properties = __webpack_require__(87);
 
 var _react = __webpack_require__(0);
 
@@ -26435,7 +27249,7 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _reactDom = __webpack_require__(14);
 
-var _PropTypes = __webpack_require__(25);
+var _PropTypes = __webpack_require__(26);
 
 function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : { default: obj };
@@ -26650,7 +27464,7 @@ module.exports = exports['default'];
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 68 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26661,7 +27475,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = addClass;
 
-var _hasClass = __webpack_require__(69);
+var _hasClass = __webpack_require__(84);
 
 var _hasClass2 = _interopRequireDefault(_hasClass);
 
@@ -26675,7 +27489,7 @@ function addClass(element, className) {
 module.exports = exports['default'];
 
 /***/ }),
-/* 69 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26691,7 +27505,7 @@ function hasClass(element, className) {
 module.exports = exports["default"];
 
 /***/ }),
-/* 70 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26706,7 +27520,7 @@ module.exports = function removeClass(element, className) {
 };
 
 /***/ }),
-/* 71 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26716,7 +27530,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _inDOM = __webpack_require__(24);
+var _inDOM = __webpack_require__(25);
 
 var _inDOM2 = _interopRequireDefault(_inDOM);
 
@@ -26767,7 +27581,7 @@ exports.default = compatRaf;
 module.exports = exports['default'];
 
 /***/ }),
-/* 72 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26778,7 +27592,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.animationEnd = exports.animationDelay = exports.animationTiming = exports.animationDuration = exports.animationName = exports.transitionEnd = exports.transitionDuration = exports.transitionDelay = exports.transitionTiming = exports.transitionProperty = exports.transform = undefined;
 
-var _inDOM = __webpack_require__(24);
+var _inDOM = __webpack_require__(25);
 
 var _inDOM2 = _interopRequireDefault(_inDOM);
 
@@ -26881,782 +27695,6 @@ function getTransitionProperties() {
 
   return { animationEnd: animationEnd, transitionEnd: transitionEnd, prefix: prefix };
 }
-
-/***/ }),
-/* 73 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-
-
-/*
-Literally just displays the category title, which is passed in via props
-*/
-
-class CategoryTitle extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
-
-  titleDisplay() {
-    // returns the right kind of title display depending on whethe we are at the root category ot not
-    if (this.props.title == 'root') {
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'h1',
-        { className: 'text-center' },
-        'Things that are Good'
-      );
-    } else {
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'h2',
-        { className: 'text-center' },
-        this.props.title
-      );
-    }
-  }
-
-  render() {
-    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      'div',
-      { className: 'row justify-content-center', id: 'category-title' },
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'div',
-        { className: 'row' },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'div',
-          { className: 'col-12' },
-          this.titleDisplay()
-        )
-      )
-    );
-  }
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = CategoryTitle;
-
-
-/***/ }),
-/* 74 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Spread_CategoryCard__ = __webpack_require__(75);
-
-
-/*
-Displays a number of components depending on props
-
-  - CategoryCard (a square box representing a category of things)
-
-Relies on no store, but does rely on props:
-
-  - Expects an array of objects, each represneting a category, to be passed in
-
-Has no user interactions.
-
-Handles the entry animation of all the Cards:
-
-  - each Card will fly in swiftly fomr the screen bottom, with earlier/higher cards travelling faster
-
-*/
-
-
-
-class Spread extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
-  render() {
-    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      'div',
-      { className: 'container-fluid spread' },
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'div',
-        { className: 'row' },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'div',
-          { className: 'col' },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__Spread_CategoryCard__["a" /* default */], null),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__Spread_CategoryCard__["a" /* default */], null)
-        )
-      )
-    );
-  }
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = Spread;
-
-
-/***/ }),
-/* 75 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-
-
-/*
-Displays a number of components depending on props
-
-  - Card (a square box representing a category of things)
-
-Relies on no store, but does rely on props:
-
-  - Expects an array of objects, each represneting a category, to be passed in
-
-Has no user interactions.
-
-Handles the entry animation of all the Cards:
-
-  - each Card will fly in swiftly fomr the screen bottom, with earlier/higher cards travelling faster
-
-*/
-
-class CategoryCard extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
-  render() {
-    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      "div",
-      { className: "container-fluid spread" },
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        "div",
-        { className: "row" },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          "div",
-          { className: "col" },
-          "CATCard"
-        )
-      )
-    );
-  }
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = CategoryCard;
-
-
-/***/ }),
-/* 76 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__CommentList_Dimmer__ = __webpack_require__(84);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__CommentList_CommentHeader__ = __webpack_require__(85);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Shared_List__ = __webpack_require__(78);
-
-
-/*
-Displays a number of components depending on props
-
-  - CategoryCard (a square box representing a category of things)
-
-Relies on no store, but does rely on props:
-
-  - Expects an array of objects, each represneting a category, to be passed in
-
-Has no user interactions.
-
-Handles the entry animation of all the Cards:
-
-  - each Card will fly in swiftly fomr the screen bottom, with earlier/higher cards travelling faster
-
-*/
-
-
-
-
-
-class CommentList extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
-  render() {
-    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      'div',
-      { className: 'container-fluid spread' },
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'div',
-        { className: 'row' },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'div',
-          { className: 'col' },
-          'CommentList',
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__CommentList_CommentHeader__["a" /* default */], null),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__CommentList_Dimmer__["a" /* default */], null),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Shared_List__["a" /* default */], null)
-        )
-      )
-    );
-  }
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = CommentList;
-
-
-/***/ }),
-/* 77 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ThingDisplay_ThingContent__ = __webpack_require__(82);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ThingDisplay_ThingInteraction__ = __webpack_require__(83);
-
-
-/*
-Displays a number of components depending on props
-
-  - CategoryCard (a square box representing a category of things)
-
-Relies on no store, but does rely on props:
-
-  - Expects an array of objects, each represneting a category, to be passed in
-
-Has no user interactions.
-
-Handles the entry animation of all the Cards:
-
-  - each Card will fly in swiftly fomr the screen bottom, with earlier/higher cards travelling faster
-
-*/
-
-
-
-
-class ThingDisplay extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
-  render() {
-    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      'div',
-      { className: 'container-fluid spread' },
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'div',
-        { className: 'row' },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'div',
-          { className: 'col' },
-          'ThingDisplay',
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__ThingDisplay_ThingContent__["a" /* default */], null),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__ThingDisplay_ThingInteraction__["a" /* default */], null)
-        )
-      )
-    );
-  }
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = ThingDisplay;
-
-
-/***/ }),
-/* 78 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__List_ThingCard__ = __webpack_require__(79);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__List_Comment__ = __webpack_require__(81);
-
-
-/*
-Displays two of 3 possible components:
-
-  - Title (a simple display representing the title of the current category)
-
-  And one of either:
-
-  - Spread (a tableux-like list of all current subcategories)
-
-  - List (a list like list of all the things within the current category)
-
-Relies on one store:
-
-  - ThingStore: which provides a list of the current category's children as well as its title
-
-Has no user interactions.
-
-Handles no animations.
-*/
-
-
-
-
-class List extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
-  render() {
-    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      'div',
-      { className: 'container-fluid', id: 'list' },
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__List_ThingCard__["a" /* default */], null),
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__List_Comment__["a" /* default */], null)
-    );
-  }
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = List;
-
-
-/***/ }),
-/* 79 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ThingCard_Summary__ = __webpack_require__(80);
-
-
-/*
-Displays a number of components depending on props
-
-  - CategoryCard (a square box representing a category of things)
-
-Relies on no store, but does rely on props:
-
-  - Expects an array of objects, each represneting a category, to be passed in
-
-Has no user interactions.
-
-Handles the entry animation of all the Cards:
-
-  - each Card will fly in swiftly fomr the screen bottom, with earlier/higher cards travelling faster
-
-*/
-
-
-class ThingCard extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
-  render() {
-    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      'div',
-      { className: 'container-fluid spread' },
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'div',
-        { className: 'row' },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'div',
-          { className: 'col' },
-          'ThingCard',
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__ThingCard_Summary__["a" /* default */], null)
-        )
-      )
-    );
-  }
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = ThingCard;
-
-
-/***/ }),
-/* 80 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-
-
-/*
-Displays a number of components depending on props
-
-  - CategoryCard (a square box representing a category of things)
-
-Relies on no store, but does rely on props:
-
-  - Expects an array of objects, each represneting a category, to be passed in
-
-Has no user interactions.
-
-Handles the entry animation of all the Cards:
-
-  - each Card will fly in swiftly fomr the screen bottom, with earlier/higher cards travelling faster
-
-*/
-
-class Summary extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
-  render() {
-    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      "div",
-      { className: "container-fluid spread" },
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        "div",
-        { className: "row" },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          "div",
-          { className: "col" },
-          "Summary"
-        )
-      )
-    );
-  }
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = Summary;
-
-
-/***/ }),
-/* 81 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-
-
-/*
-Displays a number of components depending on props
-
-  - CategoryCard (a square box representing a category of things)
-
-Relies on no store, but does rely on props:
-
-  - Expects an array of objects, each represneting a category, to be passed in
-
-Has no user interactions.
-
-Handles the entry animation of all the Cards:
-
-  - each Card will fly in swiftly fomr the screen bottom, with earlier/higher cards travelling faster
-
-*/
-
-class Comment extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
-  render() {
-    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      "div",
-      { className: "container-fluid spread" },
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        "div",
-        { className: "row" },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          "div",
-          { className: "col" },
-          "Comment"
-        )
-      )
-    );
-  }
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = Comment;
-
-
-/***/ }),
-/* 82 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-
-
-/*
-Displays a number of components depending on props
-
-  - CategoryCard (a square box representing a category of things)
-
-Relies on no store, but does rely on props:
-
-  - Expects an array of objects, each represneting a category, to be passed in
-
-Has no user interactions.
-
-Handles the entry animation of all the Cards:
-
-  - each Card will fly in swiftly fomr the screen bottom, with earlier/higher cards travelling faster
-
-*/
-
-class ThingContent extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
-  render() {
-    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      "div",
-      { className: "container-fluid spread" },
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        "div",
-        { className: "row" },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          "div",
-          { className: "col" },
-          "ThingContent"
-        )
-      )
-    );
-  }
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = ThingContent;
-
-
-/***/ }),
-/* 83 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-
-
-/*
-Displays a number of components depending on props
-
-  - CategoryCard (a square box representing a category of things)
-
-Relies on no store, but does rely on props:
-
-  - Expects an array of objects, each represneting a category, to be passed in
-
-Has no user interactions.
-
-Handles the entry animation of all the Cards:
-
-  - each Card will fly in swiftly fomr the screen bottom, with earlier/higher cards travelling faster
-
-*/
-
-class ThingInteraction extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
-  render() {
-    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      "div",
-      { className: "container-fluid spread" },
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        "div",
-        { className: "row" },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          "div",
-          { className: "col" },
-          "ThingInteraction"
-        )
-      )
-    );
-  }
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = ThingInteraction;
-
-
-/***/ }),
-/* 84 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-
-
-/*
-Displays a number of components depending on props
-
-  - CategoryCard (a square box representing a category of things)
-
-Relies on no store, but does rely on props:
-
-  - Expects an array of objects, each represneting a category, to be passed in
-
-Has no user interactions.
-
-Handles the entry animation of all the Cards:
-
-  - each Card will fly in swiftly fomr the screen bottom, with earlier/higher cards travelling faster
-
-*/
-
-class Dimmer extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
-  render() {
-    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      "div",
-      { className: "container-fluid spread" },
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        "div",
-        { className: "row" },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          "div",
-          { className: "col" },
-          "Dimmer"
-        )
-      )
-    );
-  }
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = Dimmer;
-
-
-/***/ }),
-/* 85 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__CommentHeader_AddButton__ = __webpack_require__(86);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__CommentHeader_CommentEditor__ = __webpack_require__(87);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__CommentHeader_Header__ = __webpack_require__(88);
-
-
-/*
-Displays a number of components depending on props
-
-  - CategoryCard (a square box representing a category of things)
-
-Relies on no store, but does rely on props:
-
-  - Expects an array of objects, each represneting a category, to be passed in
-
-Has no user interactions.
-
-Handles the entry animation of all the Cards:
-
-  - each Card will fly in swiftly fomr the screen bottom, with earlier/higher cards travelling faster
-
-*/
-
-
-
-
-
-class CommentHeader extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
-  render() {
-    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      'div',
-      { className: 'container-fluid spread' },
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'div',
-        { className: 'row' },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'div',
-          { className: 'col' },
-          'CommentHeader',
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__CommentHeader_Header__["a" /* default */], null),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__CommentHeader_AddButton__["a" /* default */], null),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__CommentHeader_CommentEditor__["a" /* default */], null)
-        )
-      )
-    );
-  }
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = CommentHeader;
-
-
-/***/ }),
-/* 86 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-
-
-/*
-Displays a number of components depending on props
-
-  - CategoryCard (a square box representing a category of things)
-
-Relies on no store, but does rely on props:
-
-  - Expects an array of objects, each represneting a category, to be passed in
-
-Has no user interactions.
-
-Handles the entry animation of all the Cards:
-
-  - each Card will fly in swiftly fomr the screen bottom, with earlier/higher cards travelling faster
-
-*/
-
-class AddButton extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
-  render() {
-    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      "div",
-      { className: "container-fluid spread" },
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        "div",
-        { className: "row" },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          "div",
-          { className: "col" },
-          "AddButton"
-        )
-      )
-    );
-  }
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = AddButton;
-
-
-/***/ }),
-/* 87 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-
-
-/*
-Displays a number of components depending on props
-
-  - CategoryCard (a square box representing a category of things)
-
-Relies on no store, but does rely on props:
-
-  - Expects an array of objects, each represneting a category, to be passed in
-
-Has no user interactions.
-
-Handles the entry animation of all the Cards:
-
-  - each Card will fly in swiftly fomr the screen bottom, with earlier/higher cards travelling faster
-
-*/
-
-class CommentEditor extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
-  render() {
-    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      "div",
-      { className: "container-fluid spread" },
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        "div",
-        { className: "row" },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          "div",
-          { className: "col" },
-          "CommentEditor"
-        )
-      )
-    );
-  }
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = CommentEditor;
-
-
-/***/ }),
-/* 88 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-
-
-/*
-Displays a number of components depending on props
-
-  - CategoryCard (a square box representing a category of things)
-
-Relies on no store, but does rely on props:
-
-  - Expects an array of objects, each represneting a category, to be passed in
-
-Has no user interactions.
-
-Handles the entry animation of all the Cards:
-
-  - each Card will fly in swiftly fomr the screen bottom, with earlier/higher cards travelling faster
-
-*/
-
-class Header extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
-  render() {
-    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      "div",
-      { className: "container-fluid spread" },
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        "div",
-        { className: "row" },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          "div",
-          { className: "col" },
-          "Header"
-        )
-      )
-    );
-  }
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = Header;
-
 
 /***/ })
 /******/ ]);

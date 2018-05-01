@@ -1,7 +1,7 @@
 import React from 'react';
 
 /*
-Displays a number of components depending on props
+Displays a tableax of one component
 
   - CategoryCard (a square box representing a category of things)
 
@@ -20,13 +20,30 @@ Handles the entry animation of all the Cards:
 import CategoryCard from './Spread/CategoryCard';
 
 export default class Spread extends React.Component {
+
+    /**
+    INPUT: NONE
+    DOES: generates a CategoryCard component for each subcategory in props, displaying its data
+    OUTPUT: an array of CategoryCard Components
+    */
+    categoryCards() {
+      return this.props.subcategories.map(function(category) {
+        return (
+          <CategoryCard
+            key={ category.id }
+            id = { category. id }
+            name={ category.name }
+            image = { category.image } />
+        )
+      })
+    }
+
     render() {
       return (
         <div className="container-fluid spread">
           <div className="row">
             <div className="col">
-              <CategoryCard />
-              <CategoryCard />
+              { this.categoryCards() }
             </div>
           </div>
         </div>

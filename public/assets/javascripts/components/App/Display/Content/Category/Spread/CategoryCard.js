@@ -1,19 +1,20 @@
 import React from 'react';
 
 /*
-Displays a number of components depending on props
+Displays a no further components
 
-  - Card (a square box representing a category of things)
+Relies on no store, but does exepct the following from props:
 
-Relies on no store, but does rely on props:
+  - an id (integer) a name (string) and an image (string represneting a path)
 
-  - Expects an array of objects, each represneting a category, to be passed in
+Has 1 user interaction:
 
-Has no user interactions.
+  - clicking on a particular category will navigate the tree to that category (efectly reidrecting the user)
 
-Handles the entry animation of all the Cards:
+Handles card interaction animations:
 
-  - each Card will fly in swiftly fomr the screen bottom, with earlier/higher cards travelling faster
+  - each Card will appear to compress inwards when clicked
+  - additionally each card will appear to glow when hovered over
 
 */
 
@@ -23,7 +24,10 @@ export default class CategoryCard extends React.Component {
         <div className="container-fluid spread">
           <div className="row">
             <div className="col">
-              CATCard
+              <a href={ this.id }>
+              <h4>{ this.props.name }</h4>
+              <p>{ this.props.image }</p>
+              </a>
             </div>
           </div>
         </div>

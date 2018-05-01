@@ -24,11 +24,12 @@ class ThingStore extends EventEmitter {
     // stores current category/thing id (starting at 1)
     // stores whether or not it is a thing
     this.id = 1;
-    this.thing = true;
+    this.thing = false;
 
     // stores the current category/thing as an object (so like, JSON compatible)
     // stores all it's children (if it has any) in an array of like objetcs
     // stores an array of all the previously navigated-to categories
+    this.children = [];
 
     // PERMENENTLY stores some sort of identifier that is used to check whether or not the current category/thing is the root
 
@@ -48,9 +49,12 @@ class ThingStore extends EventEmitter {
 
   getCategoryInfo() {
     // returns a state represneting the information on the current category and all the information on it's child nodes
-    return {category: {
-      title: 'root'
-    }};
+    return {
+      category: {
+        title: 'root'
+      },
+      children: this.children
+    };
   }
 
   handleActions(action) {
@@ -100,11 +104,15 @@ class ThingStore extends EventEmitter {
     request.open('GET', '/subcategories/1', true);
     request.send();
 
+    const self = this;
     request.onreadystatechange = function(){
       if (request.readyState == 4) {
-        console.log(JSON.parse(request.responseText).rows);
+        self.children = JSON.parse(request.responseText).rows;
+        self.emit('change');
       }
     };
+
+
 
   }
 }

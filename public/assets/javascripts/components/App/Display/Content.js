@@ -3,7 +3,7 @@ import React from 'react';
 /*
 Displays one of two possible components:
 
-  - Thing (a display represneitng all the information about a given thing)
+  - Thing (a display represenitng all the information about a given thing)
   - Category (A single category. The display will be a menu containing links to all of the categories, or things within that category)
 
 Relies on one store:
