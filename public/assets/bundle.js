@@ -618,12 +618,13 @@ class ThingStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
   }
 
   getCategoryInfo() {
-    // returns a state represneting the information on the current category and all the information on it's child nodes
+    // returns a state represneting the information on the current category and all the information on it's child node
     return {
       category: {
         title: this.node.name,
         id: this.node.id
       },
+      thingCategory: this.node.thing_category,
       children: this.children
     };
   }
@@ -687,6 +688,9 @@ class ThingStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
   }
 
   getNode() {
+    // makes an ajax request to the server with the current category or thing id
+    // the request should return some json data with the details of the current node plus the details of its children
+    // the returned data is saved to this store
     const request = new XMLHttpRequest();
     request.open('GET', '/category/1', true);
     request.send();
@@ -25890,8 +25894,13 @@ class Category extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
   //                              RENDERING
   // +-------------------------------------------------------------------+
 
-  children() {
+  subcategories() {
     return this.state.children;
+  }
+
+  displayType() {
+    // returns a spread or a list depending on whether the current category is a thing category or a category category
+    return this.state.thingCategory ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__Shared_List__["a" /* default */], null) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Category_Spread__["a" /* default */], { subcategories: this.subcategories() });
   }
 
   render() {
@@ -25899,8 +25908,7 @@ class Category extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
       'div',
       { className: 'container-fluid', id: 'app' },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Category_CategoryTitle__["a" /* default */], { title: this.state.category.title }),
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Category_Spread__["a" /* default */], { subcategories: this.children() }),
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__Shared_List__["a" /* default */], null)
+      this.displayType()
     );
   }
 }

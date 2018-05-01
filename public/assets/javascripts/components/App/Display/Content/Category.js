@@ -59,16 +59,20 @@ export default class Category extends React.Component {
     //                              RENDERING
     // +-------------------------------------------------------------------+
 
-    children() {
+    subcategories() {
       return this.state.children;
+    }
+
+    displayType() {
+      // returns a spread or a list depending on whether the current category is a thing category or a category category
+      return this.state.thingCategory ? <List /> : <Spread subcategories={ this.subcategories() } />
     }
 
     render() {
       return (
         <div className="container-fluid" id="app">
           <CategoryTitle title={ this.state.category.title } />
-          <Spread subcategories={ this.children() } />
-          <List />
+          { this.displayType() }
         </div>
       );
     }

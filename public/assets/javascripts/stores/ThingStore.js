@@ -50,12 +50,13 @@ class ThingStore extends EventEmitter {
   }
 
   getCategoryInfo() {
-    // returns a state represneting the information on the current category and all the information on it's child nodes
+    // returns a state represneting the information on the current category and all the information on it's child node
     return {
       category: {
         title: this.node.name,
         id: this.node.id
       },
+      thingCategory: this.node.thing_category,
       children: this.children
     };
   }
@@ -117,6 +118,9 @@ class ThingStore extends EventEmitter {
   }
 
   getNode() {
+    // makes an ajax request to the server with the current category or thing id
+    // the request should return some json data with the details of the current node plus the details of its children
+    // the returned data is saved to this store
     const request = new XMLHttpRequest();
     request.open('GET', '/category/1', true);
     request.send();

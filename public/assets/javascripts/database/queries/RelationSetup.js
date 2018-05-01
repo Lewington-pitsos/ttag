@@ -1,3 +1,8 @@
+/*
+TODO: categories and things must have times
+TODO: things can have multiple categroeis, so we need to make a CategoryContents relatiom
+*/
+
 const SCategories = `CREATE TABLE Categories (
   id serial,
   name VARCHAR(100) NOT NULL,
