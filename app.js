@@ -45,4 +45,11 @@ app.get('/subcategories/1', function(req, res) {
   })
 })
 
+app.get('/category/1', function(req, res) {
+  const archivist = new backend.Archivist();
+  archivist.getCurrentCategory(1).then(function() {
+    res.send(archivist.result);
+  })
+})
+
 app.listen(3000, () => console.log('Example app listening on port 3000!'))

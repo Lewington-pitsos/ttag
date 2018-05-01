@@ -29,11 +29,13 @@ class ThingStore extends EventEmitter {
     // stores the current category/thing as an object (so like, JSON compatible)
     // stores all it's children (if it has any) in an array of like objetcs
     // stores an array of all the previously navigated-to categories
+    this.node = {};
     this.children = [];
 
     // PERMENENTLY stores some sort of identifier that is used to check whether or not the current category/thing is the root
 
     // on instantiation, retrives all the data for the roto node
+    this.getChildren();
     this.getNode();
   }
 
@@ -51,7 +53,8 @@ class ThingStore extends EventEmitter {
     // returns a state represneting the information on the current category and all the information on it's child nodes
     return {
       category: {
-        title: 'root'
+        title: this.node.name,
+        id: this.node.id
       },
       children: this.children
     };
@@ -96,7 +99,7 @@ class ThingStore extends EventEmitter {
   //                 RETRIVING DATA FROM SERVER
   // +-------------------------------------------------------------------+
 
-  getNode() {
+  getChildren() {
     // makes an ajax request to the server with the current category or thing id
     // the request should return some json data with the details of the current node plus the details of its children
     // the returned data is saved to this store
@@ -111,11 +114,24 @@ class ThingStore extends EventEmitter {
         self.emit('change');
       }
     };
+  }
 
+  getNode() {
+    const request = new XMLHttpRequest();
+    request.open('GET', '/category/1', true);
+    request.send();
 
-
+    const self = this;
+    request.onreadystatechange = function(){
+      if (request.readyState == 4) {
+        self.node = JSON.parse(request.responseText).rows[0];
+        self.emit('change');
+      }
+    };
   }
 }
+
+
 
 const thingStore = new ThingStore;
 

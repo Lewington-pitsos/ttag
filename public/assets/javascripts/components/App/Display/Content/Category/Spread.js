@@ -40,12 +40,8 @@ export default class Spread extends React.Component {
 
     render() {
       return (
-        <div className="container-fluid spread">
-          <div className="row">
-            <div className="col">
-              { this.categoryCards() }
-            </div>
-          </div>
+        <div className="container-fluid d-flex justify-content-center flex-wrap spread">
+          { this.categoryCards() }
         </div>
       );
     }
