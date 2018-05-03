@@ -55,7 +55,6 @@ app.get('/category/1', function(req, res) {
 app.get('/node/1', function(req, res) {
   const archivist = new backend.Archivist();
   archivist.getNodeData(1).then(function() {
-    console.log(archivist.result);
     res.send(archivist.result);
   })
 })

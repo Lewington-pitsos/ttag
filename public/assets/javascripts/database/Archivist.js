@@ -91,12 +91,12 @@ module.exports = function Archivist() {
     // creates a node data object
     // executes the query for the current category's data and then the query for it's children, saving the results of each to the node data object
     // finally the result object on Archivist is set to the node data object
-    
+
     const self = this;
     const nodeData = {};
     return new Promise(function(resolve, reject) {
       self.getCurrentCategory(id).then(function() {
-        nodeData.node = self.result.rows;
+        nodeData.node = self.result.rows[0];
 
         self.getSubcategories(id).then(function() {
           nodeData.children = self.result.fields;

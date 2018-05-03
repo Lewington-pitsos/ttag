@@ -34,9 +34,8 @@ class ThingStore extends EventEmitter {
 
     // PERMENENTLY stores some sort of identifier that is used to check whether or not the current category/thing is the root
 
-    // on instantiation, retrives all the data for the roto node
-    this.getChildren();
-    this.getNode();
+    // on instantiation, retrives all the data for the current node (and children)
+    this.getNodeData();
   }
 
   getRootInfo() {
@@ -71,7 +70,7 @@ class ThingStore extends EventEmitter {
         this.goRoot();
         break;
       } case "SWITCH_ABOUT": {
-        this.getNode();
+        this.getNodeData();
       }
     }
   }
@@ -117,7 +116,7 @@ class ThingStore extends EventEmitter {
     };
   }
 
-  getNode() {
+  getNodeData() {
     // makes an ajax request to the server with the current category or thing id
     // the request should return some json data with the details of the current node plus the details of its children
     // the returned data is saved to this store
@@ -128,7 +127,10 @@ class ThingStore extends EventEmitter {
     const self = this;
     request.onreadystatechange = function(){
       if (request.readyState == 4) {
-        self.node = JSON.parse(request.responseText).rows[0];
+        const response = JSON.parse(request.responseText);
+        self.node = response.node;
+        self.children = response.children;
+        console.log(response);
         self.emit('change');
       }
     };
