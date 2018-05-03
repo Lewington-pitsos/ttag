@@ -80,15 +80,27 @@ module.exports = function Archivist() {
     return this.executeQuery(id, this.catContents.bind(this));
   }
 
-  this.currentNodeData = function(id) {
+  /*
+  INPUT: an id representing the id of some categroy
+
+  DOES: executes Archivist methods to retrive thet data of that category and also the data of its children
+
+  OUTPUT: a promise that will be fulfilled when both of these queires have been executed and their data saved
+  */
+  this.getNodeData = function(id) {
+    // creates a node data object
+    // executes the query for the current category's data and then the query for it's children, saving the results of each to the node data object
+    // finally the result object on Archivist is set to the node data object
+    
     const self = this;
     const nodeData = {};
     return new Promise(function(resolve, reject) {
       self.getCurrentCategory(id).then(function() {
-        nodeData.node = self.result;
+        nodeData.node = self.result.rows;
 
         self.getSubcategories(id).then(function() {
-          nodeData.children = self.result;
+          nodeData.children = self.result.fields;
+          self.result = nodeData;
           resolve();
         });
       });
