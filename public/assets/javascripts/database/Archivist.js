@@ -80,4 +80,18 @@ module.exports = function Archivist() {
     return this.executeQuery(id, this.catContents.bind(this));
   }
 
+  this.currentNodeData = function(id) {
+    const self = this;
+    const nodeData = {};
+    return new Promise(function(resolve, reject) {
+      self.getCurrentCategory(id).then(function() {
+        nodeData.node = self.result;
+
+        self.getSubcategories(id).then(function() {
+          nodeData.children = self.result;
+          resolve();
+        });
+      });
+    });
+  }
 }
