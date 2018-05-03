@@ -99,8 +99,9 @@ module.exports = function Archivist() {
         nodeData.node = self.result.rows[0];
 
         self.getSubcategories(id).then(function() {
-          nodeData.children = self.result.fields;
+          nodeData.children = self.result.rows;
           self.result = nodeData;
+          console.log(nodeData);
           resolve();
         });
       });

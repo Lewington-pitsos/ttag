@@ -691,16 +691,17 @@ class ThingStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
     // the request should return some json data with the details of the current node plus the details of its children
     // the returned data is saved to this store
     const request = new XMLHttpRequest();
-    request.open('GET', '/category/1', true);
+    request.open('GET', '/node/1', true);
     request.send();
 
     const self = this;
     request.onreadystatechange = function () {
       if (request.readyState == 4) {
+        console.log(request.responseText);
         const response = JSON.parse(request.responseText);
         self.node = response.node;
         self.children = response.children;
-        console.log(response);
+        console.log(self.children);
         self.emit('change');
       }
     };

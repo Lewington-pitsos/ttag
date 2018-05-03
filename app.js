@@ -38,23 +38,9 @@ app.get('/data/test', function(req, res) {
   res.send(true);
 })
 
-app.get('/subcategories/1', function(req, res) {
+app.get('/node/:id', function(req, res) {
   const archivist = new backend.Archivist();
-  archivist.getSubcategories(1).then(function() {
-    res.send(archivist.result);
-  })
-})
-
-app.get('/category/1', function(req, res) {
-  const archivist = new backend.Archivist();
-  archivist.getCurrentCategory(1).then(function() {
-    res.send(archivist.result);
-  })
-})
-
-app.get('/node/1', function(req, res) {
-  const archivist = new backend.Archivist();
-  archivist.getNodeData(1).then(function() {
+  archivist.getNodeData(req.params.id).then(function() {
     res.send(archivist.result);
   })
 })
