@@ -99,29 +99,12 @@ class ThingStore extends EventEmitter {
   //                 RETRIVING DATA FROM SERVER
   // +-------------------------------------------------------------------+
 
-  getChildren() {
-    // makes an ajax request to the server with the current category or thing id
-    // the request should return some json data with the details of the current node plus the details of its children
-    // the returned data is saved to this store
-    const request = new XMLHttpRequest();
-    request.open('GET', '/subcategories/1', true);
-    request.send();
-
-    const self = this;
-    request.onreadystatechange = function(){
-      if (request.readyState == 4) {
-        self.children = JSON.parse(request.responseText).rows;
-        self.emit('change');
-      }
-    };
-  }
-
   getNodeData() {
     // makes an ajax request to the server with the current category or thing id
     // the request should return some json data with the details of the current node plus the details of its children
     // the returned data is saved to this store
     const request = new XMLHttpRequest();
-    request.open('GET', '/node/2', true);
+    request.open('GET', '/node/1', true);
     request.send();
 
     const self = this;
