@@ -11,16 +11,15 @@ module.exports = {
   Archivist: Archivist
 }
 
-/*
+
 const rel = new RelationSetup;
 
 //rel.dropIfNeeded();
 
-rel.setupIfNeeded();
+//rel.setupIfNeeded();
 
-console.log('lol');
+//console.log('lol');
 
 const lib = new Librarian
 
 lib.insertTestData();
-*/

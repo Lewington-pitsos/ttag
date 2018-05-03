@@ -68,6 +68,20 @@ module.exports = function Archivist() {
 
   OUTPUT: a promise that will be fulfilled when the result of that query is saved
   */
+  this.getContents = function(id, callback) {
+    // triggers the execution of the appropriate query
+    // once it has been executed and its result saved to the result property we return that property
+    return this.executeQuery(id, cal)
+  }
+
+
+  /*
+  INPUT: an id representing the id of some categroy
+
+  DOES: executes a SELECT query to return the data of all subcategories of that category
+
+  OUTPUT: a promise that will be fulfilled when the result of that query is saved
+  */
   this.getSubcategories = function(id) {
     // triggers the execution of the appropriate query
     // once it has been executed and its result saved to the result property we return that property
@@ -90,15 +104,25 @@ module.exports = function Archivist() {
   this.getNodeData = function(id) {
     // creates a node data object
     // executes the query for the current category's data and then the query for it's children, saving the results of each to the node data object
+    // depending on the contents of the first category we either query for categories or things in the second query
     // finally the result object on Archivist is set to the node data object
 
+    var callback;
     const self = this;
     const nodeData = {};
+
     return new Promise(function(resolve, reject) {
       self.getCurrentCategory(id).then(function() {
-        nodeData.node = self.result.rows[0];
+        const node = self.result.rows[0];
+        nodeData.node = node;
 
-        self.getSubcategories(id).then(function() {
+        if (node.thing_category) {
+          callback = self.childThings.bind(self);
+        } else {
+          callback = self.childCats.bind(self);
+        }
+
+        self.executeQuery(id, callback).then(function() {
           nodeData.children = self.result.rows;
           self.result = nodeData;
           console.log(nodeData);

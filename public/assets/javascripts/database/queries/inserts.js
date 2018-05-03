@@ -5,7 +5,8 @@ const testData = {
       name: 'Books',
       intro: 'You read them...',
       image: 'books.jpg',
-      category_id: 1
+      category_id: 1,
+      thing_category: true
     },
     {
       name: 'Movies',
