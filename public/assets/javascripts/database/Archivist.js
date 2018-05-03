@@ -61,33 +61,6 @@ module.exports = function Archivist() {
   //                         EXPOSED METHODS
   // +-------------------------------------------------------------------+
 
-  /*
-  INPUT: an id representing the id of some categroy
-
-  DOES: executes a SELECT query to return the data of all subcategories of that category
-
-  OUTPUT: a promise that will be fulfilled when the result of that query is saved
-  */
-  this.getContents = function(id, callback) {
-    // triggers the execution of the appropriate query
-    // once it has been executed and its result saved to the result property we return that property
-    return this.executeQuery(id, cal)
-  }
-
-
-  /*
-  INPUT: an id representing the id of some categroy
-
-  DOES: executes a SELECT query to return the data of all subcategories of that category
-
-  OUTPUT: a promise that will be fulfilled when the result of that query is saved
-  */
-  this.getSubcategories = function(id) {
-    // triggers the execution of the appropriate query
-    // once it has been executed and its result saved to the result property we return that property
-    return this.executeQuery(id, this.childCats.bind(this))
-  }
-
   this.getCurrentCategory = function(id) {
     // triggers the execution of the appropriate query
     // once it has been executed and its result saved to the result property we return that property

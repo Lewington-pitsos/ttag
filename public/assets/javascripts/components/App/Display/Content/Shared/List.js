@@ -1,35 +1,49 @@
 import React from 'react';
 
 /*
-Displays two of 3 possible components:
+Displays a vertical list of one of two components:
 
-  - Title (a simple display representing the title of the current category)
+  - Comment (represnts a comment made by a user)
+  - ThingSummary(summary info about a thing)
 
-  And one of either:
-
-  - Spread (a tableux-like list of all current subcategories)
-
-  - List (a list like list of all the things within the current category)
-
-Relies on one store:
-
-  - ThingStore: which provides a list of the current category's children as well as its title
+Relies on no stores
 
 Has no user interactions.
 
-Handles no animations.
+Handles the entrance animation of every component in the list:
+
+  - regardless of the specific component type, they al float in from the bottom of the screen
 */
 
-import ThingCard from './List/ThingCard';
+import ThingSummary from './List/ThingSummary';
 import Comment from './List/Comment';
 
 export default class List extends React.Component {
-    render() {
-      return (
-        <div className="container-fluid" id="list">
-          <ThingCard />
-          <Comment />
-        </div>
-      );
-    }
+
+  // +-------------------------------------------------------------------+
+  //                              RENDERING
+  // +-------------------------------------------------------------------+
+
+  /**
+  * INPUT: NONE
+  * DOES: creates a bunch of either ThingSummary or Comment components depending on what props says and adds them to an array
+  * OUTPUT: that array dawg
+  */
+  children() {
+    return this.props.things ? this.things() : this.comments();
+  }
+
+  things() {
+    return this.props.allThings.map(function(thingInfo) {
+      return <ThingSummary info={thingInfo} key={thingInfo.id}/>
+    })
+  }
+
+  render() {
+    return (
+      <div className="container-fluid" id="list">
+        { this.children() }
+      </div>
+    );
+  }
 }

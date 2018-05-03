@@ -121,7 +121,7 @@ class ThingStore extends EventEmitter {
     // the request should return some json data with the details of the current node plus the details of its children
     // the returned data is saved to this store
     const request = new XMLHttpRequest();
-    request.open('GET', '/node/1', true);
+    request.open('GET', '/node/2', true);
     request.send();
 
     const self = this;

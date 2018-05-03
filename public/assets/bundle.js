@@ -691,7 +691,7 @@ class ThingStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
     // the request should return some json data with the details of the current node plus the details of its children
     // the returned data is saved to this store
     const request = new XMLHttpRequest();
-    request.open('GET', '/node/1', true);
+    request.open('GET', '/node/2', true);
     request.send();
 
     const self = this;
@@ -1940,40 +1940,54 @@ function isUndefined(arg) {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__List_ThingCard__ = __webpack_require__(61);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__List_ThingSummary__ = __webpack_require__(88);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__List_Comment__ = __webpack_require__(63);
 
 
 /*
-Displays two of 3 possible components:
+Displays a vertical list of one of two components:
 
-  - Title (a simple display representing the title of the current category)
+  - Comment (represnts a comment made by a user)
+  - ThingSummary(summary info about a thing)
 
-  And one of either:
-
-  - Spread (a tableux-like list of all current subcategories)
-
-  - List (a list like list of all the things within the current category)
-
-Relies on one store:
-
-  - ThingStore: which provides a list of the current category's children as well as its title
+Relies on no stores
 
 Has no user interactions.
 
-Handles no animations.
+Handles the entrance animation of every component in the list:
+
+  - regardless of the specific component type, they al float in from the bottom of the screen
 */
 
 
 
 
 class List extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+
+  // +-------------------------------------------------------------------+
+  //                              RENDERING
+  // +-------------------------------------------------------------------+
+
+  /**
+  * INPUT: NONE
+  * DOES: creates a bunch of either ThingSummary or Comment components depending on what props says and adds them to an array
+  * OUTPUT: that array dawg
+  */
+  children() {
+    return this.props.things ? this.things() : this.comments();
+  }
+
+  things() {
+    return this.props.allThings.map(function (thingInfo) {
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__List_ThingSummary__["a" /* default */], { info: thingInfo, key: thingInfo.id });
+    });
+  }
+
   render() {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
       { className: 'container-fluid', id: 'list' },
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__List_ThingCard__["a" /* default */], null),
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__List_Comment__["a" /* default */], null)
+      this.children()
     );
   }
 }
@@ -25540,101 +25554,8 @@ class Header extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 
 
 /***/ }),
-/* 61 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ThingCard_Summary__ = __webpack_require__(62);
-
-
-/*
-Displays a number of components depending on props
-
-  - CategoryCard (a square box representing a category of things)
-
-Relies on no store, but does rely on props:
-
-  - Expects an array of objects, each represneting a category, to be passed in
-
-Has no user interactions.
-
-Handles the entry animation of all the Cards:
-
-  - each Card will fly in swiftly fomr the screen bottom, with earlier/higher cards travelling faster
-
-*/
-
-
-class ThingCard extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
-  render() {
-    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      'div',
-      { className: 'container-fluid spread' },
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'div',
-        { className: 'row' },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'div',
-          { className: 'col' },
-          'ThingCard',
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__ThingCard_Summary__["a" /* default */], null)
-        )
-      )
-    );
-  }
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = ThingCard;
-
-
-/***/ }),
-/* 62 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-
-
-/*
-Displays a number of components depending on props
-
-  - CategoryCard (a square box representing a category of things)
-
-Relies on no store, but does rely on props:
-
-  - Expects an array of objects, each represneting a category, to be passed in
-
-Has no user interactions.
-
-Handles the entry animation of all the Cards:
-
-  - each Card will fly in swiftly fomr the screen bottom, with earlier/higher cards travelling faster
-
-*/
-
-class Summary extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
-  render() {
-    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      "div",
-      { className: "container-fluid spread" },
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        "div",
-        { className: "row" },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          "div",
-          { className: "col" },
-          "Summary"
-        )
-      )
-    );
-  }
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = Summary;
-
-
-/***/ }),
+/* 61 */,
+/* 62 */,
 /* 63 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -25677,7 +25598,7 @@ class Comment extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
     );
   }
 }
-/* harmony export (immutable) */ __webpack_exports__["a"] = Comment;
+/* unused harmony export default */
 
 
 /***/ }),
@@ -25897,13 +25818,9 @@ class Category extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
   //                              RENDERING
   // +-------------------------------------------------------------------+
 
-  subcategories() {
-    return this.state.children;
-  }
-
   displayType() {
     // returns a spread or a list depending on whether the current category is a thing category or a category category
-    return this.state.thingCategory ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__Shared_List__["a" /* default */], null) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Category_Spread__["a" /* default */], { subcategories: this.subcategories() });
+    return this.state.thingCategory ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__Shared_List__["a" /* default */], { things: true, allThings: this.state.children }) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Category_Spread__["a" /* default */], { subcategories: this.state.children });
   }
 
   render() {
@@ -27715,6 +27632,111 @@ function getTransitionProperties() {
 
   return { animationEnd: animationEnd, transitionEnd: transitionEnd, prefix: prefix };
 }
+
+/***/ }),
+/* 88 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ThingSummary_Summary__ = __webpack_require__(89);
+
+
+/*
+Displays no further components
+
+Relies on no store, but does rely on props:
+
+  - Expects an object represneting all the infromation assocaited with a thing to be passed in
+
+Has one user interaction:
+
+  - when clicked on a bunch of animations trigger to redirect the user to a page represnting in more detail the information of this thing PLUS its comments
+
+Handles no animations.
+
+*/
+
+
+class ThingSummary extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+  render() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'div',
+      { className: 'container-fluid spread' },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'div',
+        { className: 'row' },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'div',
+          { className: 'col' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'a',
+            { href: '{this.props.info.id}' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'h1',
+              null,
+              this.props.info.name
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__ThingSummary_Summary__["a" /* default */], { text: this.props.info.text }),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              this.props.info.image
+            )
+          )
+        )
+      )
+    );
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = ThingSummary;
+
+
+/***/ }),
+/* 89 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+
+
+/*
+Displays no further components
+
+Relies on no store, but does rely on props:
+
+  - Expects an strign representing the explenation text of a thing to be passed in
+
+Has no user interactions.
+
+Handles no animations.
+*/
+
+class Summary extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+  render() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      "div",
+      { className: "container-fluid spread" },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        "div",
+        { className: "row" },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          "div",
+          { className: "col" },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            "p",
+            null,
+            this.props.text
+          )
+        )
+      )
+    );
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = Summary;
+
 
 /***/ })
 /******/ ]);
