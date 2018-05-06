@@ -13,11 +13,11 @@ export default {
     });
   },
 
-  goToNode(id, thing) {
+  goToCategory(id, thing) {
     dispatcher.dispatch({
       type: 'GOTO',
       id: id,
-      thing: thing
+      thing: false
     })
   }
 }

@@ -21,7 +21,7 @@ Handles card interaction animations:
 export default class CategoryCard extends React.Component {
     render() {
       return (
-        <div className="container-fluid spread">
+        <div className="container-fluid spread" onClick = { this.props.method }>
           <div className="row">
             <div className="col">
               <a href={ this.id }>

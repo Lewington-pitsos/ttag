@@ -15,13 +15,11 @@ Relies on one store:
 
   - ThingStore: which provides a list of the current category's children as well as its title
 
-Has one user interaction:
-
-  - whenever one of the spread items or list entries is clicked, a navigation method on the Category componrnt is triggered.
+Has no user interactions.
 
 Handles no animations.
 */
-import navActions from '../../../../actions/navActions';
+
 import thingStore from '../../../../stores/ThingStore';
 
 import CategoryTitle from './Category/CategoryTitle';
@@ -36,19 +34,6 @@ export default class Category extends React.Component {
 
       this.state = thingStore.getCategoryInfo();
       this.updateState = this.updateState.bind(this);
-    }
-
-    // +-------------------------------------------------------------------+
-    //                       NAVIGATION METHODS
-    // +-------------------------------------------------------------------+
-
-    /**
-    * INPUT: id (integer, representing the id of the node)
-    * INPUT: thing (boolean, representing whether or not the node is a thing)
-    * DOES: triggers an action on navActions, passing in the values.
-    */
-    goToNode(id, thing) {
-      this.navActions.goToNode(id, thing);
     }
 
     // +-------------------------------------------------------------------+

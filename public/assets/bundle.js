@@ -25843,11 +25843,10 @@ class ThingInteraction extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Com
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions_navActions__ = __webpack_require__(72);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__stores_ThingStore__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Category_CategoryTitle__ = __webpack_require__(68);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Category_Spread__ = __webpack_require__(69);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Shared_List__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Category_CategoryTitle__ = __webpack_require__(68);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Category_Spread__ = __webpack_require__(69);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Shared_List__ = __webpack_require__(23);
 
 
 /*
@@ -25865,9 +25864,7 @@ Relies on one store:
 
   - ThingStore: which provides a list of the current category's children as well as its title
 
-Has one user interaction:
-
-  - whenever one of the spread items or list entries is clicked, a navigation method on the Category componrnt is triggered.
+Has no user interactions.
 
 Handles no animations.
 */
@@ -25884,21 +25881,8 @@ class Category extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
     // innitially sets the current state according to the state of the aboutStore
     // we also want to keep track of the listener on the aboutStore so that we can get rid of it when we un-mount App
 
-    this.state = __WEBPACK_IMPORTED_MODULE_2__stores_ThingStore__["a" /* default */].getCategoryInfo();
+    this.state = __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__["a" /* default */].getCategoryInfo();
     this.updateState = this.updateState.bind(this);
-  }
-
-  // +-------------------------------------------------------------------+
-  //                       NAVIGATION METHODS
-  // +-------------------------------------------------------------------+
-
-  /**
-  * INPUT: id (integer, representing the id of the node)
-  * INPUT: thing (boolean, representing whether or not the node is a thing)
-  * DOES: triggers an action on navActions, passing in the values.
-  */
-  goToNode(id, thing) {
-    this.navActions.goToNode(id, thing);
   }
 
   // +-------------------------------------------------------------------+
@@ -25907,17 +25891,17 @@ class Category extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 
   componentWillMount() {
     // when this component is first mounted we want to add a listener to the aboutStore
-    __WEBPACK_IMPORTED_MODULE_2__stores_ThingStore__["a" /* default */].on('change', this.updateState);
+    __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__["a" /* default */].on('change', this.updateState);
   }
 
   componentWillUnmount() {
     // when this component gets removed from the dom we want to remove the listener to the store.
-    __WEBPACK_IMPORTED_MODULE_2__stores_ThingStore__["a" /* default */].removeListener('change', this.updateState);
+    __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__["a" /* default */].removeListener('change', this.updateState);
   }
 
   updateState() {
     // this is a listener to the aboutStore. Whenever the latter undergoes a change we want to update the state of App to match.
-    this.setState(__WEBPACK_IMPORTED_MODULE_2__stores_ThingStore__["a" /* default */].getCategoryInfo());
+    this.setState(__WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__["a" /* default */].getCategoryInfo());
   }
 
   // +-------------------------------------------------------------------+
@@ -25926,14 +25910,14 @@ class Category extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 
   displayType() {
     // returns a spread or a list depending on whether the current category is a thing category or a category category
-    return this.state.thingCategory ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__Shared_List__["a" /* default */], { things: true, allThings: this.state.children }) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__Category_Spread__["a" /* default */], { subcategories: this.state.children });
+    return this.state.thingCategory ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__Shared_List__["a" /* default */], { things: true, allThings: this.state.children }) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Category_Spread__["a" /* default */], { subcategories: this.state.children });
   }
 
   render() {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
       { className: 'container-fluid', id: 'app' },
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Category_CategoryTitle__["a" /* default */], { title: this.state.category.title }),
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Category_CategoryTitle__["a" /* default */], { title: this.state.category.title }),
       this.displayType()
     );
   }
@@ -25999,7 +25983,8 @@ class CategoryTitle extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Compon
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Spread_CategoryCard__ = __webpack_require__(70);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions_navActions__ = __webpack_require__(72);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Spread_CategoryCard__ = __webpack_require__(70);
 
 
 /*
@@ -26011,7 +25996,9 @@ Relies on no store, but does rely on props:
 
   - Expects an array of objects, each represneting a category, to be passed in
 
-Has no user interactions.
+  Has one user interaction:
+
+    - whenever one of the spread items or list entries is clicked, a navigation method on the Category componrnt is triggered.
 
 Handles the entry animation of all the Cards:
 
@@ -26021,7 +26008,25 @@ Handles the entry animation of all the Cards:
 
 
 
+
 class Spread extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+
+  // +-------------------------------------------------------------------+
+  //                       NAVIGATION METHODS
+  // +-------------------------------------------------------------------+
+
+  /**
+  * INPUT: id (integer, representing the id of the node)
+  * DOES: triggers an action on navActions, passing in the id
+  */
+  goToCategory(id) {
+    console.log(__WEBPACK_IMPORTED_MODULE_1__actions_navActions__["a" /* default */]);
+    this.navActions.goToCategory(id);
+  }
+
+  // +-------------------------------------------------------------------+
+  //                       RENDERING METHODS
+  // +-------------------------------------------------------------------+
 
   /**
   INPUT: NONE
@@ -26029,12 +26034,14 @@ class Spread extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
   OUTPUT: an array of CategoryCard Components
   */
   categoryCards() {
+    const self = this;
     return this.props.subcategories.map(function (category) {
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__Spread_CategoryCard__["a" /* default */], {
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Spread_CategoryCard__["a" /* default */], {
         key: category.id,
         id: category.id,
         name: category.name,
-        image: category.image });
+        image: category.image,
+        method: self.goToCategory.bind(self, category.id) });
     });
   }
 
@@ -26080,7 +26087,7 @@ class CategoryCard extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Compone
   render() {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       "div",
-      { className: "container-fluid spread" },
+      { className: "container-fluid spread", onClick: this.props.method },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         "div",
         { className: "row" },
@@ -26193,11 +26200,11 @@ class Nav extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
     });
   },
 
-  goToNode(id, thing) {
+  goToCategory(id, thing) {
     __WEBPACK_IMPORTED_MODULE_0__dispatcher__["a" /* default */].dispatch({
       type: 'GOTO',
       id: id,
-      thing: thing
+      thing: false
     });
   }
 });

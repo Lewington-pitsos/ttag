@@ -9,7 +9,9 @@ Relies on no store, but does rely on props:
 
   - Expects an array of objects, each represneting a category, to be passed in
 
-Has no user interactions.
+  Has one user interaction:
+
+    - whenever one of the spread items or list entries is clicked, a navigation method on the Category componrnt is triggered.
 
 Handles the entry animation of all the Cards:
 
@@ -17,32 +19,53 @@ Handles the entry animation of all the Cards:
 
 */
 
+import navActions from '../../../../../actions/navActions';
 import CategoryCard from './Spread/CategoryCard';
 
 export default class Spread extends React.Component {
 
-    /**
-    INPUT: NONE
-    DOES: generates a CategoryCard component for each subcategory in props, displaying its data
-    OUTPUT: an array of CategoryCard Components
-    */
-    categoryCards() {
-      return this.props.subcategories.map(function(category) {
-        return (
-          <CategoryCard
-            key={ category.id }
-            id = { category. id }
-            name={ category.name }
-            image = { category.image } />
-        )
-      })
-    }
 
-    render() {
+  // +-------------------------------------------------------------------+
+  //                       NAVIGATION METHODS
+  // +-------------------------------------------------------------------+
+
+  /**
+  * INPUT: id (integer, representing the id of the node)
+  * DOES: triggers an action on navActions, passing in the id
+  */
+  goToCategory(id) {
+    console.log(navActions);
+    this.navActions.goToCategory(id);
+  }
+
+  // +-------------------------------------------------------------------+
+  //                       RENDERING METHODS
+  // +-------------------------------------------------------------------+
+
+  /**
+  INPUT: NONE
+  DOES: generates a CategoryCard component for each subcategory in props, displaying its data
+  OUTPUT: an array of CategoryCard Components
+  */
+  categoryCards() {
+    const self = this;
+    return this.props.subcategories.map(function(category) {
       return (
-        <div className="container-fluid d-flex justify-content-center flex-wrap spread">
-          { this.categoryCards() }
-        </div>
-      );
-    }
+        <CategoryCard
+          key={ category.id }
+          id = { category. id }
+          name={ category.name }
+          image = { category.image }
+          method = {self.goToCategory.bind(self, category.id)} />
+      )
+    })
+  }
+
+  render() {
+    return (
+      <div className="container-fluid d-flex justify-content-center flex-wrap spread">
+        { this.categoryCards() }
+      </div>
+    );
+  }
 }
