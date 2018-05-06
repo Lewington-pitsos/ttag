@@ -63,14 +63,16 @@ class ThingStore extends EventEmitter {
   handleActions(action) {
     // only ever responds to category tree navigating actions
     switch(action.type) {
-      case "UP": {
+      case 'UP': {
         this.goUp();
         break;
-      } case "ROOT": {
+      } case 'ROOT': {
         this.goRoot();
         break;
-      } case "SWITCH_ABOUT": {
+      } case 'SWITCH_ABOUT': {
         this.getNodeData();
+      } case 'GOTO': {
+        this.goTo(action.id, action.thing);
       }
     }
   }
@@ -89,7 +91,8 @@ class ThingStore extends EventEmitter {
     // empties the array of previous categories.
   }
 
-  goTo(id) {
+  goTo(id, thing) {
+    console.log('working');
     // sets the current node to the child of the current node that matches the passed in id
     // adds the previous node to the array of previous nodes
   }

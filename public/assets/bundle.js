@@ -631,17 +631,20 @@ class ThingStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
   handleActions(action) {
     // only ever responds to category tree navigating actions
     switch (action.type) {
-      case "UP":
+      case 'UP':
         {
           this.goUp();
           break;
-        }case "ROOT":
+        }case 'ROOT':
         {
           this.goRoot();
           break;
-        }case "SWITCH_ABOUT":
+        }case 'SWITCH_ABOUT':
         {
           this.getNodeData();
+        }case 'GOTO':
+        {
+          this.goTo(action.id, action.thing);
         }
     }
   }
@@ -660,10 +663,11 @@ class ThingStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
     // empties the array of previous categories.
   }
 
-  goTo(id) {}
-  // sets the current node to the child of the current node that matches the passed in id
-  // adds the previous node to the array of previous nodes
-
+  goTo(id, thing) {
+    console.log('working');
+    // sets the current node to the child of the current node that matches the passed in id
+    // adds the previous node to the array of previous nodes
+  }
 
   // +-------------------------------------------------------------------+
   //                 RETRIVING DATA FROM SERVER
@@ -1923,7 +1927,7 @@ function isUndefined(arg) {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__List_ThingSummary__ = __webpack_require__(88);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__List_ThingSummary__ = __webpack_require__(61);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__List_Comment__ = __webpack_require__(63);
 
 
@@ -25537,8 +25541,111 @@ class Header extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 
 
 /***/ }),
-/* 61 */,
-/* 62 */,
+/* 61 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ThingSummary_Summary__ = __webpack_require__(62);
+
+
+/*
+Displays no further components
+
+Relies on no store, but does rely on props:
+
+  - Expects an object represneting all the infromation assocaited with a thing to be passed in
+
+Has one user interaction:
+
+  - when clicked on a bunch of animations trigger to redirect the user to a page represnting in more detail the information of this thing PLUS its comments
+
+Handles no animations.
+
+*/
+
+
+class ThingSummary extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+  render() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'div',
+      { className: 'container-fluid spread' },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'div',
+        { className: 'row' },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'div',
+          { className: 'col' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'a',
+            { href: '{this.props.info.id}' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'h1',
+              null,
+              this.props.info.name
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__ThingSummary_Summary__["a" /* default */], { text: this.props.info.text }),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              this.props.info.image
+            )
+          )
+        )
+      )
+    );
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = ThingSummary;
+
+
+/***/ }),
+/* 62 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+
+
+/*
+Displays no further components
+
+Relies on no store, but does rely on props:
+
+  - Expects an strign representing the explenation text of a thing to be passed in
+
+Has no user interactions.
+
+Handles no animations.
+*/
+
+class Summary extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+  render() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      "div",
+      { className: "container-fluid spread" },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        "div",
+        { className: "row" },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          "div",
+          { className: "col" },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            "p",
+            null,
+            this.props.text
+          )
+        )
+      )
+    );
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = Summary;
+
+
+/***/ }),
 /* 63 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -25736,10 +25843,11 @@ class ThingInteraction extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Com
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Category_CategoryTitle__ = __webpack_require__(68);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Category_Spread__ = __webpack_require__(69);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Shared_List__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions_navActions__ = __webpack_require__(72);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__stores_ThingStore__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Category_CategoryTitle__ = __webpack_require__(68);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Category_Spread__ = __webpack_require__(69);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Shared_List__ = __webpack_require__(23);
 
 
 /*
@@ -25757,7 +25865,9 @@ Relies on one store:
 
   - ThingStore: which provides a list of the current category's children as well as its title
 
-Has no user interactions.
+Has one user interaction:
+
+  - whenever one of the spread items or list entries is clicked, a navigation method on the Category componrnt is triggered.
 
 Handles no animations.
 */
@@ -25774,8 +25884,21 @@ class Category extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
     // innitially sets the current state according to the state of the aboutStore
     // we also want to keep track of the listener on the aboutStore so that we can get rid of it when we un-mount App
 
-    this.state = __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__["a" /* default */].getCategoryInfo();
+    this.state = __WEBPACK_IMPORTED_MODULE_2__stores_ThingStore__["a" /* default */].getCategoryInfo();
     this.updateState = this.updateState.bind(this);
+  }
+
+  // +-------------------------------------------------------------------+
+  //                       NAVIGATION METHODS
+  // +-------------------------------------------------------------------+
+
+  /**
+  * INPUT: id (integer, representing the id of the node)
+  * INPUT: thing (boolean, representing whether or not the node is a thing)
+  * DOES: triggers an action on navActions, passing in the values.
+  */
+  goToNode(id, thing) {
+    this.navActions.goToNode(id, thing);
   }
 
   // +-------------------------------------------------------------------+
@@ -25784,17 +25907,17 @@ class Category extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 
   componentWillMount() {
     // when this component is first mounted we want to add a listener to the aboutStore
-    __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__["a" /* default */].on('change', this.updateState);
+    __WEBPACK_IMPORTED_MODULE_2__stores_ThingStore__["a" /* default */].on('change', this.updateState);
   }
 
   componentWillUnmount() {
     // when this component gets removed from the dom we want to remove the listener to the store.
-    __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__["a" /* default */].removeListener('change', this.updateState);
+    __WEBPACK_IMPORTED_MODULE_2__stores_ThingStore__["a" /* default */].removeListener('change', this.updateState);
   }
 
   updateState() {
     // this is a listener to the aboutStore. Whenever the latter undergoes a change we want to update the state of App to match.
-    this.setState(__WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__["a" /* default */].getCategoryInfo());
+    this.setState(__WEBPACK_IMPORTED_MODULE_2__stores_ThingStore__["a" /* default */].getCategoryInfo());
   }
 
   // +-------------------------------------------------------------------+
@@ -25803,14 +25926,14 @@ class Category extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 
   displayType() {
     // returns a spread or a list depending on whether the current category is a thing category or a category category
-    return this.state.thingCategory ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__Shared_List__["a" /* default */], { things: true, allThings: this.state.children }) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Category_Spread__["a" /* default */], { subcategories: this.state.children });
+    return this.state.thingCategory ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__Shared_List__["a" /* default */], { things: true, allThings: this.state.children }) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__Category_Spread__["a" /* default */], { subcategories: this.state.children });
   }
 
   render() {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
       { className: 'container-fluid', id: 'app' },
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Category_CategoryTitle__["a" /* default */], { title: this.state.category.title }),
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Category_CategoryTitle__["a" /* default */], { title: this.state.category.title }),
       this.displayType()
     );
   }
@@ -26067,6 +26190,14 @@ class Nav extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
   root() {
     __WEBPACK_IMPORTED_MODULE_0__dispatcher__["a" /* default */].dispatch({
       type: 'ROOT'
+    });
+  },
+
+  goToNode(id, thing) {
+    __WEBPACK_IMPORTED_MODULE_0__dispatcher__["a" /* default */].dispatch({
+      type: 'GOTO',
+      id: id,
+      thing: thing
     });
   }
 });
@@ -27615,111 +27746,6 @@ function getTransitionProperties() {
 
   return { animationEnd: animationEnd, transitionEnd: transitionEnd, prefix: prefix };
 }
-
-/***/ }),
-/* 88 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ThingSummary_Summary__ = __webpack_require__(89);
-
-
-/*
-Displays no further components
-
-Relies on no store, but does rely on props:
-
-  - Expects an object represneting all the infromation assocaited with a thing to be passed in
-
-Has one user interaction:
-
-  - when clicked on a bunch of animations trigger to redirect the user to a page represnting in more detail the information of this thing PLUS its comments
-
-Handles no animations.
-
-*/
-
-
-class ThingSummary extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
-  render() {
-    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      'div',
-      { className: 'container-fluid spread' },
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'div',
-        { className: 'row' },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'div',
-          { className: 'col' },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'a',
-            { href: '{this.props.info.id}' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'h1',
-              null,
-              this.props.info.name
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__ThingSummary_Summary__["a" /* default */], { text: this.props.info.text }),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'p',
-              null,
-              this.props.info.image
-            )
-          )
-        )
-      )
-    );
-  }
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = ThingSummary;
-
-
-/***/ }),
-/* 89 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-
-
-/*
-Displays no further components
-
-Relies on no store, but does rely on props:
-
-  - Expects an strign representing the explenation text of a thing to be passed in
-
-Has no user interactions.
-
-Handles no animations.
-*/
-
-class Summary extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
-  render() {
-    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      "div",
-      { className: "container-fluid spread" },
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        "div",
-        { className: "row" },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          "div",
-          { className: "col" },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            "p",
-            null,
-            this.props.text
-          )
-        )
-      )
-    );
-  }
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = Summary;
-
 
 /***/ })
 /******/ ]);

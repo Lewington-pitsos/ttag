@@ -11,5 +11,13 @@ export default {
     dispatcher.dispatch({
       type: 'ROOT'
     });
+  },
+
+  goToNode(id, thing) {
+    dispatcher.dispatch({
+      type: 'GOTO',
+      id: id,
+      thing: thing
+    })
   }
 }
