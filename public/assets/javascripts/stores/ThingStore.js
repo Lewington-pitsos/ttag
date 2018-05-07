@@ -45,6 +45,7 @@ class ThingStore extends EventEmitter {
   }
 
   getRootDistance() {
+    console.log(this.breadcrumbs);
     return { rootDistance: this.breadcrumbs.length }
   }
 
@@ -74,10 +75,9 @@ class ThingStore extends EventEmitter {
       } case 'ROOT': {
         this.goRoot();
         break;
-      } case 'SWITCH_ABOUT': {
-        this.getNodeData();
       } case 'GOTO': {
         this.goTo(action.id, action.thing);
+        break;
       }
     }
   }
@@ -97,12 +97,16 @@ class ThingStore extends EventEmitter {
   goRoot() {
     // sets the current category to the root category and the children to the root's children.
     // empties the array of previous categories.
+    this.id = 1;
+    this.breadcrumbs = [];
+    this.getNodeData();
   }
 
   goTo(id, thing) {
     // passes the old id into breadcrumbs and sets the current id to the passed in node
     // executes a query to set the node an children properties of this store to the correct values, given the current id
     // the exact queries vary depending on whether we are at a thing or a category
+    console.log('went');
     this.breadcrumbs.push(this.id);
     this.id = id;
     if (thing) {
