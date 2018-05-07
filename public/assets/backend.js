@@ -11,14 +11,15 @@ module.exports = {
   Archivist: Archivist
 }
 
+const db = new DbSetup;
+
+//db.setupIfNeeded();
 
 const rel = new RelationSetup;
 
 //rel.dropIfNeeded();
 
 //rel.setupIfNeeded();
-
-//console.log('lol');
 
 const lib = new Librarian
 

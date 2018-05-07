@@ -34,8 +34,7 @@ export default class Spread extends React.Component {
   * DOES: triggers an action on navActions, passing in the id
   */
   goToCategory(id) {
-    console.log(navActions);
-    this.navActions.goToCategory(id);
+    navActions.goToCategory(id);
   }
 
   // +-------------------------------------------------------------------+

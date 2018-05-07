@@ -92,9 +92,15 @@ class ThingStore extends EventEmitter {
   }
 
   goTo(id, thing) {
-    console.log('working');
-    // sets the current node to the child of the current node that matches the passed in id
-    // adds the previous node to the array of previous nodes
+    // sets the current id to the passed in node
+    // executes a query to set the node an children properties of this store to the correct values, given the current id
+    // the exact queries vary depending on whether we are at a thing or a category
+    this.id = id;
+    if (thing) {
+      console.log('we need to retrive the data for a thing');
+    } else {
+      this.getNodeData();
+    }
   }
 
 
@@ -107,7 +113,7 @@ class ThingStore extends EventEmitter {
     // the request should return some json data with the details of the current node plus the details of its children
     // the returned data is saved to this store
     const request = new XMLHttpRequest();
-    request.open('GET', '/node/1', true);
+    request.open('GET', '/node/' + this.id, true);
     request.send();
 
     const self = this;
