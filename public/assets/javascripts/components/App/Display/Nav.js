@@ -19,9 +19,43 @@ This is a very standard, fixed-top page navigation bar. It allows the user to na
 
 */
 
-import navActions from '../../../actions/navActions'
+import navActions from '../../../actions/navActions';
+import thingStore from '../../../stores/ThingStore';
+
+import Arrow from './Nav/Arrow';
 
 export default class Nav extends React.Component {
+  constructor() {
+    super();
+    // innitially sets the current state according to the state of the aboutStore
+    // we also want to keep track of the listener on the aboutStore so that we can get rid of it when we un-mount App
+
+    this.state = thingStore.getRootDistance();
+    this.updateState = this.updateState.bind(this);
+  }
+
+  // +-------------------------------------------------------------------+
+  //                       GENERIC STORE LISTENING
+  // +-------------------------------------------------------------------+
+
+  componentWillMount() {
+    // when this component is first mounted we want to add a listener to the aboutStore
+    thingStore.on('change', this.updateState);
+  }
+
+  componentWillUnmount() {
+    // when this component gets removed from the dom we want to remove the listener to the store.
+    thingStore.removeListener('change', this.updateState);
+  }
+
+  updateState() {
+    // this is a listener to the aboutStore. Whenever the latter undergoes a change we want to update the state of App to match.
+    this.setState(thingStore.getRootDistance());
+  }
+
+  // +-------------------------------------------------------------------+
+  //                       ACTION WRAPPERS
+  // +-------------------------------------------------------------------+
 
   up() {
     // a wrapper that just triggers the up action on navActions
@@ -38,15 +72,19 @@ export default class Nav extends React.Component {
   //                              RENDERING
   // +-------------------------------------------------------------------+
 
+  upButton() {
+    return this.state.rootDistance >= 1 ? <Arrow method={this.up.bind(this)} />: '';
+  }
 
-  buttons() {
-    // calculates and returns an array of Arrow elements based on passed in props (either 1 or two it looks like)
+  rootButton() {
+    return this.state.rootDistance >= 2 ? <Arrow method={this.root.bind(this)} /> : '';
   }
 
   render() {
     return (
       <div className="d-flex justify-content-around" id="nav">
-        Nav
+        { this.upButton() }
+        { this.rootButton() }
       </div>
     );
   }

@@ -593,6 +593,7 @@ class ThingStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
     // stores whether or not it is a thing
     this.id = 1;
     this.thing = false;
+    this.breadcrumbs = [];
 
     // stores the current category/thing as an object (so like, JSON compatible)
     // stores all it's children (if it has any) in an array of like objetcs
@@ -609,6 +610,10 @@ class ThingStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
   getRootInfo() {
     // returns a state containing just an indicator of whether or not we are at the root category
     return { atRoot: this.id == 1 };
+  }
+
+  getRootDistance() {
+    return { rootDistance: this.breadcrumbs.length };
   }
 
   getTypeInfo() {
@@ -655,7 +660,10 @@ class ThingStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
 
   goUp() {
     // this can only ever be called if we're not at the root
-    // sets the current category/thing to the previous one, sets the current children to its children (archivist finds them for us) and removes it from the list of previous categories
+    // sets the current node id to the previous id (through breadcrumbs) and removes that id from breadcrumbs
+    // uses the database to get the current node's data and that of its children
+    this.id = this.breadcrumbs.pop();
+    this.getNodeData();
   }
 
   goRoot() {
@@ -664,9 +672,10 @@ class ThingStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
   }
 
   goTo(id, thing) {
-    // sets the current id to the passed in node
+    // passes the old id into breadcrumbs and sets the current id to the passed in node
     // executes a query to set the node an children properties of this store to the correct values, given the current id
     // the exact queries vary depending on whether we are at a thing or a category
+    this.breadcrumbs.push(this.id);
     this.id = id;
     if (thing) {
       console.log('we need to retrive the data for a thing');
@@ -26159,6 +26168,8 @@ class CategoryCard extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Compone
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions_navActions__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__stores_ThingStore__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Nav_Arrow__ = __webpack_require__(88);
 
 
 /*
@@ -26182,7 +26193,41 @@ This is a very standard, fixed-top page navigation bar. It allows the user to na
 
 
 
+
+
+
 class Nav extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+  constructor() {
+    super();
+    // innitially sets the current state according to the state of the aboutStore
+    // we also want to keep track of the listener on the aboutStore so that we can get rid of it when we un-mount App
+
+    this.state = __WEBPACK_IMPORTED_MODULE_2__stores_ThingStore__["a" /* default */].getRootDistance();
+    this.updateState = this.updateState.bind(this);
+  }
+
+  // +-------------------------------------------------------------------+
+  //                       GENERIC STORE LISTENING
+  // +-------------------------------------------------------------------+
+
+  componentWillMount() {
+    // when this component is first mounted we want to add a listener to the aboutStore
+    __WEBPACK_IMPORTED_MODULE_2__stores_ThingStore__["a" /* default */].on('change', this.updateState);
+  }
+
+  componentWillUnmount() {
+    // when this component gets removed from the dom we want to remove the listener to the store.
+    __WEBPACK_IMPORTED_MODULE_2__stores_ThingStore__["a" /* default */].removeListener('change', this.updateState);
+  }
+
+  updateState() {
+    // this is a listener to the aboutStore. Whenever the latter undergoes a change we want to update the state of App to match.
+    this.setState(__WEBPACK_IMPORTED_MODULE_2__stores_ThingStore__["a" /* default */].getRootDistance());
+  }
+
+  // +-------------------------------------------------------------------+
+  //                       ACTION WRAPPERS
+  // +-------------------------------------------------------------------+
 
   up() {
     // a wrapper that just triggers the up action on navActions
@@ -26198,16 +26243,20 @@ class Nav extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
   //                              RENDERING
   // +-------------------------------------------------------------------+
 
+  upButton() {
+    return this.state.rootDistance >= 1 ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Nav_Arrow__["a" /* default */], { method: this.up.bind(this) }) : '';
+  }
 
-  buttons() {
-    // calculates and returns an array of Arrow elements based on passed in props (either 1 or two it looks like)
+  rootButton() {
+    return this.state.rootDistance >= 2 ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Nav_Arrow__["a" /* default */], { method: this.root.bind(this) }) : '';
   }
 
   render() {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
       { className: 'd-flex justify-content-around', id: 'nav' },
-      'Nav'
+      this.upButton(),
+      this.rootButton()
     );
   }
 }
@@ -27758,6 +27807,52 @@ function getTransitionProperties() {
 
   return { animationEnd: animationEnd, transitionEnd: transitionEnd, prefix: prefix };
 }
+
+/***/ }),
+/* 88 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+
+
+/*
+Displays a number of components depending on props
+
+  - CategoryCard (a square box representing a category of things)
+
+Relies on no store, but does rely on props:
+
+  - Expects an array of objects, each represneting a category, to be passed in
+
+Has no user interactions.
+
+Handles the entry animations of all the Cards:
+
+  - each Card will fly in swiftly fomr the screen bottom, with earlier/higher cards travelling faster
+
+*/
+
+class Arrow extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+  render() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      "div",
+      { className: "container-fluid", onClick: this.props.method },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        "div",
+        { className: "row" },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          "div",
+          { className: "col" },
+          "Arrow"
+        )
+      )
+    );
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = Arrow;
+
 
 /***/ })
 /******/ ]);

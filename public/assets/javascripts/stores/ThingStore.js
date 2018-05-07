@@ -25,6 +25,7 @@ class ThingStore extends EventEmitter {
     // stores whether or not it is a thing
     this.id = 1;
     this.thing = false;
+    this.breadcrumbs = [];
 
     // stores the current category/thing as an object (so like, JSON compatible)
     // stores all it's children (if it has any) in an array of like objetcs
@@ -41,6 +42,10 @@ class ThingStore extends EventEmitter {
   getRootInfo() {
     // returns a state containing just an indicator of whether or not we are at the root category
     return { atRoot: this.id == 1 };
+  }
+
+  getRootDistance() {
+    return { rootDistance: this.breadcrumbs.length }
   }
 
   getTypeInfo() {
@@ -83,7 +88,10 @@ class ThingStore extends EventEmitter {
 
   goUp() {
     // this can only ever be called if we're not at the root
-    // sets the current category/thing to the previous one, sets the current children to its children (archivist finds them for us) and removes it from the list of previous categories
+    // sets the current node id to the previous id (through breadcrumbs) and removes that id from breadcrumbs
+    // uses the database to get the current node's data and that of its children
+    this.id = this.breadcrumbs.pop();
+    this.getNodeData();
   }
 
   goRoot() {
@@ -92,9 +100,10 @@ class ThingStore extends EventEmitter {
   }
 
   goTo(id, thing) {
-    // sets the current id to the passed in node
+    // passes the old id into breadcrumbs and sets the current id to the passed in node
     // executes a query to set the node an children properties of this store to the correct values, given the current id
     // the exact queries vary depending on whether we are at a thing or a category
+    this.breadcrumbs.push(this.id);
     this.id = id;
     if (thing) {
       console.log('we need to retrive the data for a thing');
