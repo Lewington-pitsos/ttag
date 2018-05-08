@@ -1,14 +1,15 @@
 import React from 'react';
 
 /*
-Displays one of two possible components:
+Displays one of two components:
 
-  - Thing (a display represneitng all the information about a given thing)
-  - Category (A single category. The display will be a menu containing links to all of the categories, or things within that category)
+  - ThingDisplay (a layout representing all the information about a given thing)
+  - CommentList (a list of all comments associated with that thing)
 
 Relies on one store:
 
-  - ThingStore: which tracks the current category or thing to be displayed, and all its children
+  - ThingStore: gathers all the information about the current Thing being displayed
+  - 
 
 Has no user interactions.
 

@@ -1,19 +1,20 @@
 import React from 'react';
 
 /*
-Displays a number of components depending on props
+Displays two components:
 
-  - CategoryCard (a square box representing a category of things)
+  - ThingContent (a layout of infromation regarding the current thing)
+  - ThingInteraction ( some buttons for interacting with the thing )
 
 Relies on no store, but does rely on props:
 
-  - Expects an array of objects, each represneting a category, to be passed in
+  -
 
 Has no user interactions.
 
-Handles the entry animation of all the Cards:
+Handles the entry animation of all ThingContent.
 
-  - each Card will fly in swiftly fomr the screen bottom, with earlier/higher cards travelling faster
+  - 
 
 */
 

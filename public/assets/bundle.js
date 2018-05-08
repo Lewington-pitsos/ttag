@@ -25261,14 +25261,15 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 
 
 /*
-Displays one of two possible components:
+Displays one of two components:
 
-  - Thing (a display represneitng all the information about a given thing)
-  - Category (A single category. The display will be a menu containing links to all of the categories, or things within that category)
+  - ThingDisplay (a layout representing all the information about a given thing)
+  - CommentList (a list of all comments associated with that thing)
 
 Relies on one store:
 
-  - ThingStore: which tracks the current category or thing to be displayed, and all its children
+  - ThingStore: gathers all the information about the current Thing being displayed
+  - 
 
 Has no user interactions.
 
@@ -25751,19 +25752,20 @@ class Comment extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 
 
 /*
-Displays a number of components depending on props
+Displays two components:
 
-  - CategoryCard (a square box representing a category of things)
+  - ThingContent (a layout of infromation regarding the current thing)
+  - ThingInteraction ( some buttons for interacting with the thing )
 
 Relies on no store, but does rely on props:
 
-  - Expects an array of objects, each represneting a category, to be passed in
+  -
 
 Has no user interactions.
 
-Handles the entry animation of all the Cards:
+Handles the entry animation of all ThingContent.
 
-  - each Card will fly in swiftly fomr the screen bottom, with earlier/higher cards travelling faster
+  - 
 
 */
 
