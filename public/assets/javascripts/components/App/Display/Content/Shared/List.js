@@ -35,7 +35,7 @@ export default class List extends React.Component {
 
   things() {
     return this.props.allThings.map(function(thingInfo) {
-      return <ThingSummary info={thingInfo} key={thingInfo.id}/>
+      return <ThingSummary info={thingInfo} key={thingInfo.id} />
     })
   }
 

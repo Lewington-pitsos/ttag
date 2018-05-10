@@ -14,17 +14,23 @@ Has one user interaction:
 Handles no animations.
 
 */
+import navActions from '../../../../../../actions/navActions';
 import Summary from './ThingSummary/Summary';
 
 export default class ThingSummary extends React.Component {
+
+  visit(id) {
+    navActions.visitThing(id);
+  }
+
   render() {
     return (
-      <div className="container-fluid spread">
+      <div className="container-fluid spread" onClick={this.visit.bind(this, this.props.info.id)}>
         <div className="row">
           <div className="col">
-          <a href="{this.props.info.id}"><h1>{this.props.info.name}</h1>
+          <h1>{this.props.info.name}</h1>
           <Summary text={ this.props.info.text } />
-          <p>{this.props.info.image}</p></a>
+          <p>{this.props.info.image}</p>
           </div>
         </div>
       </div>

@@ -13,11 +13,19 @@ export default {
     });
   },
 
-  goToCategory(id, thing) {
+  goToCategory(id) {
     dispatcher.dispatch({
       type: 'GOTO',
       id: id,
       thing: false
+    })
+  },
+
+  visitThing(id) {
+    dispatcher.dispatch({
+      type: 'GOTO',
+      id: id,
+      thing: true
     })
   }
 }

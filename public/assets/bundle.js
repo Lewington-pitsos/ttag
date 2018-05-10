@@ -2020,11 +2020,19 @@ class List extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
     });
   },
 
-  goToCategory(id, thing) {
+  goToCategory(id) {
     __WEBPACK_IMPORTED_MODULE_0__dispatcher__["a" /* default */].dispatch({
       type: 'GOTO',
       id: id,
       thing: false
+    });
+  },
+
+  visitThing(id) {
+    __WEBPACK_IMPORTED_MODULE_0__dispatcher__["a" /* default */].dispatch({
+      type: 'GOTO',
+      id: id,
+      thing: true
     });
   }
 });
@@ -25596,7 +25604,8 @@ class Header extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ThingSummary_Summary__ = __webpack_require__(63);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions_navActions__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ThingSummary_Summary__ = __webpack_require__(63);
 
 
 /*
@@ -25615,11 +25624,17 @@ Handles no animations.
 */
 
 
+
 class ThingSummary extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+
+  visit(id) {
+    __WEBPACK_IMPORTED_MODULE_1__actions_navActions__["a" /* default */].visitThing(id);
+  }
+
   render() {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
-      { className: 'container-fluid spread' },
+      { className: 'container-fluid spread', onClick: this.visit.bind(this, this.props.info.id) },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
         { className: 'row' },
@@ -25627,19 +25642,15 @@ class ThingSummary extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Compone
           'div',
           { className: 'col' },
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'a',
-            { href: '{this.props.info.id}' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'h1',
-              null,
-              this.props.info.name
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__ThingSummary_Summary__["a" /* default */], { text: this.props.info.text }),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'p',
-              null,
-              this.props.info.image
-            )
+            'h1',
+            null,
+            this.props.info.name
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__ThingSummary_Summary__["a" /* default */], { text: this.props.info.text }),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'p',
+            null,
+            this.props.info.image
           )
         )
       )
