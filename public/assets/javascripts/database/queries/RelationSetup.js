@@ -11,6 +11,7 @@ const SCategories = `CREATE TABLE Categories (
   category_id INTEGER REFERENCES Categories(id) ON DELETE CASCADE DEFAULT 1,
   CONSTRAINT unique_name UNIQUE(name),
   thing_category BOOLEAN NOT NULL DEFAULT FALSE,
+  timestamp TIMESTAMP DEFAULT NOW(),
   PRIMARY KEY(id)
 );`;
 
@@ -33,6 +34,7 @@ const SThings = `CREATE TABLE Things (
   approval INTEGER NOT NULL DEFAULT 0,
   good BOOLEAN NOT NULL DEFAULT TRUE,
   category_id INTEGER REFERENCES Categories(id) ON DELETE CASCADE,
+  timestamp TIMESTAMP DEFAULT NOW(),
   PRIMARY KEY(id)
 );`;
 
@@ -53,6 +55,7 @@ const SUsers = `CREATE TABLE Users (
   image VARCHAR(100),
   email VARCHAR(40),
   CONSTRAINT unique_username UNIQUE(username),
+  timestamp TIMESTAMP DEFAULT NOW(),
   PRIMARY KEY(username)
 );`;
 
@@ -61,7 +64,7 @@ const DUsers = 'DROP TABLE Users;';
 const SComments = `CREATE TABLE Comments (
   id serial,
   text VARCHAR(600),
-  time TIMESTAMP DEFAULT NOW(),
+  timestamp TIMESTAMP DEFAULT NOW(),
   PRIMARY KEY(id)
 );`;
 
