@@ -118,9 +118,7 @@ module.exports = function RelationSetup() {
     // otherwise goes ahead and drops every table
     const self = this;
     this.allRelationsExist().then(function() {
-      if (!self.relationMissing) {
-        self.dropRelations();
-      }
+      self.dropRelations();
     })
   }
 

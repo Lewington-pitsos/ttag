@@ -16,6 +16,15 @@ const SCategories = `CREATE TABLE Categories (
 
 const DCategories = 'DROP TABLE Categories;';
 
+const SThingCategories = `CREATE TABLE ThingCategories (
+  id serial,
+  category_id INTEGER REFERENCES Categories(id) ON DELETE CASCADE,
+  thing_id INTEGER REFERENCES Things(id) ON DELETE CASCADE,
+  PRIMARY KEY(id)
+);`;
+
+const DThingCategories = 'DROP TABLE ThingCategories;';
+
 const SThings = `CREATE TABLE Things (
   id serial,
   name VARCHAR(100) NOT NULL,
@@ -78,23 +87,25 @@ module.exports = {
     DComments,
     DUsers,
     DSimilarThings,
+    DThingCategories,
     DThings,
     DCategories
   ],
   setup: [
     SCategories,
     SThings,
+    SThingCategories,
     SSimilarThings,
     SUsers,
     SComments,
     SThingComments,
-
     SAddRoot,
     SAddAnon
   ],
   relationNames: [
     'Categories',
     'Things',
+    'ThingCategories',
     'SimilarThings',
     'Comments',
     'ThingComments',
