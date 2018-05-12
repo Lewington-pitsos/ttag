@@ -67,6 +67,16 @@ module.exports = function Archivist() {
     return this.executeQuery(id, this.catContents.bind(this));
   }
 
+
+  /**
+  * INPUT: id (intger) the id of the thing whose info you want
+  * DOES: executes a single query to retrive all of the information about the comments and similar things for the given thing, and saves that data to the results object
+  * OUTPUT: a promise that is resolved as soon as the query results have been saved
+  */
+  this.getThingInfo = function(id) {
+    return this.executeQuery(id, this.thingInfo.bind(this));
+  }
+
   /*
   INPUT: an id representing the id of some categroy
 

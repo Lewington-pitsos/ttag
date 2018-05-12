@@ -11,6 +11,10 @@ function childCats(id) {
   return `SELECT * FROM Categories WHERE category_id = ${id} AND NOT id = 1;`;
 }
 
+function thingInfo(id) {
+  return `SELECT comments.*, users.* FROM thingcomments JOIN comments ON comments.id = thingComments.id JOIN users ON users.id = comments.user_id WHERE thing_id = ${id}`
+}
+
 function comments(id) {
   return `SELECT * FROM Comments WHERE comment_id = ${id};`;
 }
@@ -19,5 +23,6 @@ module.exports = {
   catContents: catContents,
   childThings: childThings,
   childCats: childCats,
-  comments: comments
+  comments: comments,
+  thingInfo: thingInfo
 }

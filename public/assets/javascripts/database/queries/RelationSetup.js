@@ -50,19 +50,21 @@ const SSimilarThings = `CREATE TABLE SimilarThings (
 const DSimilarThings = 'DROP TABLE SimilarThings;';
 
 const SUsers = `CREATE TABLE Users (
+  id serial,
   username VARCHAR(30) NOT NULL,
   password VARCHAR(30),
-  image VARCHAR(100),
+  image VARCHAR(100) DEFAULT NULL,
   email VARCHAR(40),
-  CONSTRAINT unique_username UNIQUE(username),
   timestamp TIMESTAMP DEFAULT NOW(),
-  PRIMARY KEY(username)
+  CONSTRAINT unique_username UNIQUE(username),
+  PRIMARY KEY(id)
 );`;
 
 const DUsers = 'DROP TABLE Users;';
 
 const SComments = `CREATE TABLE Comments (
   id serial,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
   text VARCHAR(600),
   timestamp TIMESTAMP DEFAULT NOW(),
   PRIMARY KEY(id)
@@ -74,7 +76,6 @@ const SThingComments = `CREATE TABLE ThingComments (
   id serial,
   thing_id INTEGER REFERENCES Things(id) ON DELETE CASCADE,
   comment_id INTEGER REFERENCES Comments(id) ON DELETE CASCADE,
-  user_username VARCHAR(30) REFERENCES Users(username) ON DELETE CASCADE,
   PRIMARY KEY(id)
 );`;
 

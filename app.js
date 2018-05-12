@@ -45,4 +45,11 @@ app.get('/node/:id', function(req, res) {
   })
 })
 
+app.get('/thing/info/:id', function(req, res) {
+  const archivist = new backend.Archivist();
+  archivist.getThingInfo(req.params.id).then(function() {
+    res.send(archivist.result);
+  })
+})
+
 app.listen(3000, () => console.log('Example app listening on port 3000!'))
