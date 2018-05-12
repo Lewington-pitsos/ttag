@@ -40,7 +40,9 @@ export default class List extends React.Component {
   }
 
   comments() {
-    return <h1>comment</h1>
+    return this.props.comments.map(function(comment) {
+      return <Comment info={comment} />;
+    })
   }
 
   render() {

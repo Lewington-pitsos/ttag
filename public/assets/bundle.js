@@ -502,11 +502,12 @@ class ThingStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
     // stores an array of all the previously navigated-to categories
     this.node = {};
     this.children = [];
+    this.thingInfo = [];
 
     // PERMENENTLY stores some sort of identifier that is used to check whether or not the current category/thing is the root
 
     // on instantiation, retrives all the data for the current node (and children)
-    this.getNodeData();
+    this.fetchNodeData();
   }
 
   // +-------------------------------------------------------------------+
@@ -519,7 +520,6 @@ class ThingStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
   }
 
   getRootDistance() {
-    console.log(this.breadcrumbs);
     return { rootDistance: this.breadcrumbs.length };
   }
 
@@ -542,7 +542,8 @@ class ThingStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
 
   getThingInfo() {
     return {
-      'thing': this.node
+      'thing': this.node,
+      'comments': this.thingInfo
     };
   }
 
@@ -578,7 +579,7 @@ class ThingStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
     // sets the current node id to the previous id (through breadcrumbs) and removes that id from breadcrumbs
     // uses the database to get the current node's data and that of its children
     this.id = this.breadcrumbs.pop();
-    this.getNodeData();
+    this.fetchNodeData();
   }
 
   goRoot() {
@@ -586,7 +587,7 @@ class ThingStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
     // empties the array of previous categories.
     this.id = 1;
     this.breadcrumbs = [];
-    this.getNodeData();
+    this.fetchNodeData();
   }
 
   goTo(id, thing) {
@@ -598,7 +599,7 @@ class ThingStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
     if (thing) {
       this.goToChild(id);
     } else {
-      this.getNodeData();
+      this.fetchNodeData();
     }
   }
 
@@ -610,12 +611,15 @@ class ThingStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
   goToChild(id) {
     // sets the current node to the child whose id matches id
     // resets the children array
+    // gathers all the info (comments and similar things) on the current thing and saves it
     // sets the tracker of whether we're currently at a thing to true
     this.thing = true;
     this.node = this.children[0];
-    console.log(this.node);
     this.children = [];
-    this.emit('change');
+    const self = this;
+    this.fetchThingInfo(id).then(function () {
+      self.emit('change');
+    });
   }
 
   findThing() {
@@ -626,7 +630,7 @@ class ThingStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
   //                 RETRIVING DATA FROM SERVER
   // +-------------------------------------------------------------------+
 
-  getNodeData() {
+  fetchNodeData() {
     // makes an ajax request to the server with the current category or thing id
     // the request should return some json data with the details of the current node plus the details of its children
     // the returned data is saved to this store
@@ -637,14 +641,30 @@ class ThingStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
     const self = this;
     request.onreadystatechange = function () {
       if (request.readyState == 4) {
-        console.log(request.responseText);
         const response = JSON.parse(request.responseText);
         self.node = response.node;
         self.children = response.children;
-        console.log(self.children);
         self.emit('change');
       }
     };
+  }
+
+  fetchThingInfo() {
+    const self = this;
+    return new Promise(function (resolve, error) {
+      const request = new XMLHttpRequest();
+      request.open('GET', '/thing/info/' + 1000, true);
+      request.send();
+
+      request.onreadystatechange = function () {
+        if (request.readyState == 4) {
+          const response = JSON.parse(request.responseText);
+          self.thingInfo = response.rows;
+          console.log(response);
+          resolve();
+        }
+      };
+    });
   }
 }
 
@@ -2055,11 +2075,9 @@ class List extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
   }
 
   comments() {
-    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      'h1',
-      null,
-      'comment'
-    );
+    return this.props.comments.map(function (comment) {
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__List_Comment__["a" /* default */], { info: comment });
+    });
   }
 
   render() {
@@ -25363,7 +25381,7 @@ class Thing extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
       'div',
       { id: 'thing' },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Thing_ThingDisplay__["a" /* default */], { info: this.state.thing }),
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Thing_CommentList__["a" /* default */], null)
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Thing_CommentList__["a" /* default */], { comments: this.state.comments })
     );
   }
 }
@@ -25405,6 +25423,9 @@ Handles the entry animation of all the Cards:
 
 class CommentList extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
   render() {
+
+    console.log(this.props);
+
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
       { className: 'container-fluid spread' },
@@ -25414,10 +25435,9 @@ class CommentList extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Componen
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'div',
           { className: 'col' },
-          'CommentList',
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__CommentList_CommentHeader__["a" /* default */], null),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__CommentList_Dimmer__["a" /* default */], null),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Shared_List__["a" /* default */], { thing: false })
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Shared_List__["a" /* default */], { things: false, comments: this.props.comments })
         )
       )
     );
@@ -25810,14 +25830,28 @@ class Comment extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
         { className: "row" },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           "div",
-          { className: "col" },
-          "Comment"
+          { className: "col-5 d-flex flex-column align-items-center" },
+          this.props.info.image,
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            "h4",
+            null,
+            this.props.info.username
+          )
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          "div",
+          { className: "col-7" },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            "p",
+            null,
+            this.props.info.text
+          )
         )
       )
     );
   }
 }
-/* unused harmony export default */
+/* harmony export (immutable) */ __webpack_exports__["a"] = Comment;
 
 
 /***/ }),

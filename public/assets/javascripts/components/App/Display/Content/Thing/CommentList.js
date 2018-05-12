@@ -23,14 +23,16 @@ import List from '../Shared/List';
 
 export default class CommentList extends React.Component {
     render() {
+
+      console.log(this.props);
+
       return (
         <div className="container-fluid spread">
           <div className="row">
             <div className="col">
-            CommentList
             <CommentHeader />
             <Dimmer />
-            <List thing={false}/>
+            <List things={false} comments={this.props.comments} />
             </div>
           </div>
         </div>

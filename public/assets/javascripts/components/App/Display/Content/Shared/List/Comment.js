@@ -22,8 +22,12 @@ export default class Comment extends React.Component {
       return (
         <div className="container-fluid spread">
           <div className="row">
-            <div className="col">
-            Comment
+            <div className="col-5 d-flex flex-column align-items-center">
+              { this.props.info.image }
+              <h4>{ this.props.info.username }</h4>
+            </div>
+            <div className="col-7">
+              <p>{ this.props.info.text }</p>
             </div>
           </div>
         </div>

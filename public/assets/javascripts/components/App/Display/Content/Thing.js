@@ -52,8 +52,8 @@ export default class Thing extends React.Component {
   render() {
     return (
       <div id="thing">
-        <ThingDisplay info={this.state.thing}/>
-        <CommentList />
+        <ThingDisplay info={this.state.thing} />
+        <CommentList comments={this.state.comments} />
       </div>
     );
   }
