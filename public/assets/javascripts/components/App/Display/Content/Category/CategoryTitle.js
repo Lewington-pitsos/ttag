@@ -17,7 +17,7 @@ export default class CategoryTitle extends React.Component {
 
     render() {
       return (
-        <div className="row justify-content-center" id="category-title">
+        <div className="row justify-content-center p-0" id="category-title">
           <div className="row">
             <div className="col-12">
               {this.titleDisplay()}

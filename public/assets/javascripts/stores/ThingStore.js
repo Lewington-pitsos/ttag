@@ -14,11 +14,6 @@ import {EventEmitter} from 'events'; // 'events is like, part of nodejs'
 import dispatcher from '../dispatcher';
 
 class ThingStore extends EventEmitter {
-
-  // +-------------------------------------------------------------------+
-  //                      GENERIC FLUX STUFF
-  // +-------------------------------------------------------------------+
-
   constructor() {
     super();
     // stores current category/thing id (starting at 1)
@@ -38,6 +33,11 @@ class ThingStore extends EventEmitter {
     // on instantiation, retrives all the data for the current node (and children)
     this.getNodeData();
   }
+
+
+  // +-------------------------------------------------------------------+
+  //                   COMPONENT UPDATING
+  // +-------------------------------------------------------------------+
 
   getRootInfo() {
     // returns a state containing just an indicator of whether or not we are at the root category
@@ -65,6 +65,17 @@ class ThingStore extends EventEmitter {
       children: this.children
     };
   }
+
+  getThingInfo() {
+    return {
+      'thing': this.node
+    }
+  }
+
+
+  // +-------------------------------------------------------------------+
+  //                      ACTIONS
+  // +-------------------------------------------------------------------+
 
   handleActions(action) {
     // only ever responds to category tree navigating actions
@@ -106,16 +117,34 @@ class ThingStore extends EventEmitter {
     // passes the old id into breadcrumbs and sets the current id to the passed in node
     // executes a query to set the node an children properties of this store to the correct values, given the current id
     // the exact queries vary depending on whether we are at a thing or a category
-    console.log('went');
     this.breadcrumbs.push(this.id);
     this.id = id;
     if (thing) {
-      console.log('we need to retrive the data for a thing');
+      this.goToChild(id)
     } else {
       this.getNodeData();
     }
   }
 
+  /**
+  * INPUT: (integer) the id of the child that the user wantrs to navigate to
+  * DOES: sets the current node to that child, clears all the other children and gets the comments associates with that child. Emits a change.
+  * OUTPUT: NONE
+  */
+  goToChild(id) {
+    // sets the current node to the child whose id matches id
+    // resets the children array
+    // sets the tracker of whether we're currently at a thing to true
+    this.thing = true;
+    this.node = this.children[0];
+    console.log(this.node);
+    this.children = [];
+    this.emit('change');
+  }
+
+  findThing() {
+    return this.children[0];
+  }
 
   // +-------------------------------------------------------------------+
   //                 RETRIVING DATA FROM SERVER

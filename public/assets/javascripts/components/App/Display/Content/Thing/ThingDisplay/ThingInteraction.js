@@ -20,7 +20,7 @@ Handles the entry animation of all the Cards:
 export default class ThingInteraction extends React.Component {
     render() {
       return (
-        <div className="container-fluid spread">
+        <div className="container-fluid p-0 spread">
           <div className="row">
             <div className="col">
             ThingInteraction

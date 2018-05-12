@@ -25,7 +25,7 @@ export default class ThingSummary extends React.Component {
 
   render() {
     return (
-      <div className="container-fluid spread" onClick={this.visit.bind(this, this.props.info.id)}>
+      <div className="thing-summary" onClick={this.visit.bind(this, this.props.info.id)}>
         <div className="row">
           <div className="col">
           <h1>{this.props.info.name}</h1>

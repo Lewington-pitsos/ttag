@@ -20,10 +20,39 @@ Handles the entry animation of all the Cards:
 export default class ThingContent extends React.Component {
     render() {
       return (
-        <div className="container-fluid spread">
+        <div className="container-fluid p-0">
           <div className="row">
-            <div className="col">
-            ThingContent
+            <div className="col-4">
+              IMAGE
+            </div>
+            <div className="col-8">
+              <div className="container-fluid p-0">
+                <div className='row'>
+                  <div className="col-4 p-0">
+                    <h4>{ this.props.content.name }</h4>
+                  </div>
+                  <div className="col-7 p-0">
+                    <table>
+                      <thead></thead>
+                      <tbody>
+                        <tr>
+                          <td>Approval: </td>
+                          <td>{ this.props.content.approval }</td>
+                        </tr>
+                        <tr>
+                          <td>Similar Things: </td>
+                          <td>a, b and c</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-12">
+                    <p>{this.props.content.text} </p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

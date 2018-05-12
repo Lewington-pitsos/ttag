@@ -30,7 +30,7 @@ export default class CommentList extends React.Component {
             CommentList
             <CommentHeader />
             <Dimmer />
-            <List />
+            <List thing={false}/>
             </div>
           </div>
         </div>

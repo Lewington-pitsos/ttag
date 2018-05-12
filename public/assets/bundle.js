@@ -470,7 +470,7 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_events__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_events__ = __webpack_require__(22);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_events___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_events__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__dispatcher__ = __webpack_require__(8);
 /*
@@ -489,11 +489,6 @@ Retrives from the database and stores the currently viewable category (and all i
 
 
 class ThingStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
-
-  // +-------------------------------------------------------------------+
-  //                      GENERIC FLUX STUFF
-  // +-------------------------------------------------------------------+
-
   constructor() {
     super();
     // stores current category/thing id (starting at 1)
@@ -513,6 +508,10 @@ class ThingStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
     // on instantiation, retrives all the data for the current node (and children)
     this.getNodeData();
   }
+
+  // +-------------------------------------------------------------------+
+  //                   COMPONENT UPDATING
+  // +-------------------------------------------------------------------+
 
   getRootInfo() {
     // returns a state containing just an indicator of whether or not we are at the root category
@@ -540,6 +539,16 @@ class ThingStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
       children: this.children
     };
   }
+
+  getThingInfo() {
+    return {
+      'thing': this.node
+    };
+  }
+
+  // +-------------------------------------------------------------------+
+  //                      ACTIONS
+  // +-------------------------------------------------------------------+
 
   handleActions(action) {
     // only ever responds to category tree navigating actions
@@ -584,14 +593,33 @@ class ThingStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
     // passes the old id into breadcrumbs and sets the current id to the passed in node
     // executes a query to set the node an children properties of this store to the correct values, given the current id
     // the exact queries vary depending on whether we are at a thing or a category
-    console.log('went');
     this.breadcrumbs.push(this.id);
     this.id = id;
     if (thing) {
-      console.log('we need to retrive the data for a thing');
+      this.goToChild(id);
     } else {
       this.getNodeData();
     }
+  }
+
+  /**
+  * INPUT: (integer) the id of the child that the user wantrs to navigate to
+  * DOES: sets the current node to that child, clears all the other children and gets the comments associates with that child. Emits a change.
+  * OUTPUT: NONE
+  */
+  goToChild(id) {
+    // sets the current node to the child whose id matches id
+    // resets the children array
+    // sets the tracker of whether we're currently at a thing to true
+    this.thing = true;
+    this.node = this.children[0];
+    console.log(this.node);
+    this.children = [];
+    this.emit('change');
+  }
+
+  findThing() {
+    return this.children[0];
   }
 
   // +-------------------------------------------------------------------+
@@ -1305,6 +1333,44 @@ module.exports = ReactPropTypesSecret;
 
 /***/ }),
 /* 14 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__dispatcher__ = __webpack_require__(8);
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+  up() {
+    __WEBPACK_IMPORTED_MODULE_0__dispatcher__["a" /* default */].dispatch({
+      type: 'UP'
+    });
+  },
+
+  root() {
+    __WEBPACK_IMPORTED_MODULE_0__dispatcher__["a" /* default */].dispatch({
+      type: 'ROOT'
+    });
+  },
+
+  goToCategory(id) {
+    __WEBPACK_IMPORTED_MODULE_0__dispatcher__["a" /* default */].dispatch({
+      type: 'GOTO',
+      id: id,
+      thing: false
+    });
+  },
+
+  visitThing(id) {
+    __WEBPACK_IMPORTED_MODULE_0__dispatcher__["a" /* default */].dispatch({
+      type: 'GOTO',
+      id: id,
+      thing: true
+    });
+  }
+});
+
+/***/ }),
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1346,7 +1412,7 @@ if (process.env.NODE_ENV === 'production') {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1385,7 +1451,7 @@ var ExecutionEnvironment = {
 module.exports = ExecutionEnvironment;
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1466,7 +1532,7 @@ module.exports = EventListener;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1509,7 +1575,7 @@ function getActiveElement(doc) /*?DOMElement*/{
 module.exports = getActiveElement;
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1580,7 +1646,7 @@ function shallowEqual(objA, objB) {
 module.exports = shallowEqual;
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1623,7 +1689,7 @@ function containsNode(outerNode, innerNode) {
 module.exports = containsNode;
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1653,7 +1719,7 @@ function focusNode(node) {
 module.exports = focusNode;
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports) {
 
 // Copyright Joyent, Inc. and other Node contributors.
@@ -1923,7 +1989,7 @@ function isUndefined(arg) {
 }
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1939,7 +2005,7 @@ function isUndefined(arg) {
 });
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1988,6 +2054,14 @@ class List extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
     });
   }
 
+  comments() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'h1',
+      null,
+      'comment'
+    );
+  }
+
   render() {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
@@ -1998,44 +2072,6 @@ class List extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = List;
 
-
-/***/ }),
-/* 24 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__dispatcher__ = __webpack_require__(8);
-
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-  up() {
-    __WEBPACK_IMPORTED_MODULE_0__dispatcher__["a" /* default */].dispatch({
-      type: 'UP'
-    });
-  },
-
-  root() {
-    __WEBPACK_IMPORTED_MODULE_0__dispatcher__["a" /* default */].dispatch({
-      type: 'ROOT'
-    });
-  },
-
-  goToCategory(id) {
-    __WEBPACK_IMPORTED_MODULE_0__dispatcher__["a" /* default */].dispatch({
-      type: 'GOTO',
-      id: id,
-      thing: false
-    });
-  },
-
-  visitThing(id) {
-    __WEBPACK_IMPORTED_MODULE_0__dispatcher__["a" /* default */].dispatch({
-      type: 'GOTO',
-      id: id,
-      thing: true
-    });
-  }
-});
 
 /***/ }),
 /* 25 */
@@ -18146,7 +18182,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! tether 1.4
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_App_js__ = __webpack_require__(50);
 
@@ -19651,14 +19687,14 @@ if (process.env.NODE_ENV !== "production") {
 */
 
 var aa = __webpack_require__(0),
-    l = __webpack_require__(15),
+    l = __webpack_require__(16),
     B = __webpack_require__(4),
     C = __webpack_require__(2),
-    ba = __webpack_require__(16),
-    da = __webpack_require__(17),
-    ea = __webpack_require__(18),
-    fa = __webpack_require__(19),
-    ia = __webpack_require__(20),
+    ba = __webpack_require__(17),
+    da = __webpack_require__(18),
+    ea = __webpack_require__(19),
+    fa = __webpack_require__(20),
+    ia = __webpack_require__(21),
     D = __webpack_require__(6);
 function E(a) {
   for (var b = arguments.length - 1, c = "Minified React error #" + a + "; visit http://facebook.github.io/react/docs/error-decoder.html?invariant\x3d" + a, d = 0; d < b; d++) c += "\x26args[]\x3d" + encodeURIComponent(arguments[d + 1]);b = Error(c + " for the full message or use the non-minified dev environment for full errors and additional helpful warnings.");b.name = "Invariant Violation";b.framesToPop = 1;throw b;
@@ -21567,7 +21603,7 @@ module.exports = isNode;
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- */if(process.env.NODE_ENV!=="production"){(function(){'use strict';var React=__webpack_require__(0);var invariant=__webpack_require__(3);var warning=__webpack_require__(7);var ExecutionEnvironment=__webpack_require__(15);var _assign=__webpack_require__(4);var emptyFunction=__webpack_require__(2);var EventListener=__webpack_require__(16);var getActiveElement=__webpack_require__(17);var shallowEqual=__webpack_require__(18);var containsNode=__webpack_require__(19);var focusNode=__webpack_require__(20);var emptyObject=__webpack_require__(6);var checkPropTypes=__webpack_require__(12);var hyphenateStyleName=__webpack_require__(46);var camelizeStyleName=__webpack_require__(48);/**
+ */if(process.env.NODE_ENV!=="production"){(function(){'use strict';var React=__webpack_require__(0);var invariant=__webpack_require__(3);var warning=__webpack_require__(7);var ExecutionEnvironment=__webpack_require__(16);var _assign=__webpack_require__(4);var emptyFunction=__webpack_require__(2);var EventListener=__webpack_require__(17);var getActiveElement=__webpack_require__(18);var shallowEqual=__webpack_require__(19);var containsNode=__webpack_require__(20);var focusNode=__webpack_require__(21);var emptyObject=__webpack_require__(6);var checkPropTypes=__webpack_require__(12);var hyphenateStyleName=__webpack_require__(46);var camelizeStyleName=__webpack_require__(48);/**
  * WARNING: DO NOT manually require this module.
  * This is a replacement for `invariant(...)` used by the error code system
  * and will _only_ be required by the corresponding babel pass.
@@ -24768,7 +24804,7 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
   render() {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
-      { className: 'container-fluid', id: 'app' },
+      { className: 'container-fluid p-0', id: 'app' },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         __WEBPACK_IMPORTED_MODULE_4_react_transition_group__["CSSTransitionGroup"],
         {
@@ -24792,7 +24828,7 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__actions_aboutActions__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__actions_aboutActions__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Display_Content__ = __webpack_require__(54);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Display_Nav__ = __webpack_require__(72);
 
@@ -24890,7 +24926,7 @@ class Display extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
         { className: 'row justify-content-center' },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'div',
-          { className: 'col-12 d-flex align-items-center flex-column' },
+          { className: 'col-12 p-0' },
           this.nav()
         )
       ),
@@ -24899,7 +24935,12 @@ class Display extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
         { className: 'row justify-content-center' },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'div',
-          { className: 'col-8 d-flex align-items-center flex-column' },
+          { className: 'col-8 p-0' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'h3',
+            null,
+            'sdasdasd'
+          ),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Display_Content__["a" /* default */], null)
         )
       ),
@@ -24908,7 +24949,7 @@ class Display extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
         { className: 'row justify-content-center' },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'div',
-          { className: 'col-8 d-flex align-items-center flex-column' },
+          { className: 'col-8 p-0' },
           this.about()
         )
       )
@@ -25248,7 +25289,7 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
   render() {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
-      { className: 'container-fluid', id: 'content' },
+      { id: 'content' },
       this.content()
     );
   }
@@ -25277,7 +25318,7 @@ Displays one of two components:
 Relies on one store:
 
   - ThingStore: gathers all the information about the current Thing being displayed
-  - 
+  -
 
 Has no user interactions.
 
@@ -25289,11 +25330,39 @@ Handles no animations.
 
 
 class Thing extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+  constructor() {
+    super();
+    // innitially sets the current state according to the state of the aboutStore
+    // we also want to keep track of the listener on the aboutStore so that we can get rid of it when we un-mount App
+
+    this.state = __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__["a" /* default */].getThingInfo();
+    this.updateState = this.updateState.bind(this);
+  }
+
+  // +-------------------------------------------------------------------+
+  //                       GENERIC STORE LISTENING
+  // +-------------------------------------------------------------------+
+
+  componentWillMount() {
+    // when this component is first mounted we want to add a listener to the aboutStore
+    __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__["a" /* default */].on('change', this.updateState);
+  }
+
+  componentWillUnmount() {
+    // when this component gets removed from the dom we want to remove the listener to the store.
+    __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__["a" /* default */].removeListener('change', this.updateState);
+  }
+
+  updateState() {
+    // this is a listener to the aboutStore. Whenever the latter undergoes a change we want to update the state of App to match.
+    this.setState(__WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__["a" /* default */].getThingInfo());
+  }
+
   render() {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
-      { className: 'container-fluid', id: 'app' },
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Thing_ThingDisplay__["a" /* default */], null),
+      { id: 'thing' },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Thing_ThingDisplay__["a" /* default */], { info: this.state.thing }),
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Thing_CommentList__["a" /* default */], null)
     );
   }
@@ -25310,7 +25379,7 @@ class Thing extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__CommentList_Dimmer__ = __webpack_require__(57);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__CommentList_CommentHeader__ = __webpack_require__(58);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Shared_List__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Shared_List__ = __webpack_require__(24);
 
 
 /*
@@ -25348,7 +25417,7 @@ class CommentList extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Componen
           'CommentList',
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__CommentList_CommentHeader__["a" /* default */], null),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__CommentList_Dimmer__["a" /* default */], null),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Shared_List__["a" /* default */], null)
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Shared_List__["a" /* default */], { thing: false })
         )
       )
     );
@@ -25604,7 +25673,7 @@ class Header extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions_navActions__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions_navActions__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ThingSummary_Summary__ = __webpack_require__(63);
 
 
@@ -25634,7 +25703,7 @@ class ThingSummary extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Compone
   render() {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
-      { className: 'container-fluid spread', onClick: this.visit.bind(this, this.props.info.id) },
+      { className: 'thing-summary', onClick: this.visit.bind(this, this.props.info.id) },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
         { className: 'row' },
@@ -25770,13 +25839,13 @@ Displays two components:
 
 Relies on no store, but does rely on props:
 
-  -
+  - info (object) containg ALL the information about the current thing
 
 Has no user interactions.
 
 Handles the entry animation of all ThingContent.
 
-  - 
+  -
 
 */
 
@@ -25785,6 +25854,10 @@ Handles the entry animation of all ThingContent.
 
 class ThingDisplay extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
   render() {
+    const info = this.props.info;
+
+    console.log(info);
+
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
       { className: 'container-fluid spread' },
@@ -25794,9 +25867,8 @@ class ThingDisplay extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Compone
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'div',
           { className: 'col' },
-          'ThingDisplay',
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__ThingDisplay_ThingContent__["a" /* default */], null),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__ThingDisplay_ThingInteraction__["a" /* default */], null)
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__ThingDisplay_ThingContent__["a" /* default */], { content: info }),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__ThingDisplay_ThingInteraction__["a" /* default */], { approval: info.approval })
         )
       )
     );
@@ -25835,14 +25907,90 @@ class ThingContent extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Compone
   render() {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       "div",
-      { className: "container-fluid spread" },
+      { className: "container-fluid p-0" },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         "div",
         { className: "row" },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           "div",
-          { className: "col" },
-          "ThingContent"
+          { className: "col-4" },
+          "IMAGE"
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          "div",
+          { className: "col-8" },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            "div",
+            { className: "container-fluid p-0" },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              "div",
+              { className: "row" },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                "div",
+                { className: "col-4 p-0" },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  "h4",
+                  null,
+                  this.props.content.name
+                )
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                "div",
+                { className: "col-7 p-0" },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  "table",
+                  null,
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("thead", null),
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    "tbody",
+                    null,
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      "tr",
+                      null,
+                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        "td",
+                        null,
+                        "Approval: "
+                      ),
+                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        "td",
+                        null,
+                        this.props.content.approval
+                      )
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      "tr",
+                      null,
+                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        "td",
+                        null,
+                        "Similar Things: "
+                      ),
+                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        "td",
+                        null,
+                        "a, b and c"
+                      )
+                    )
+                  )
+                )
+              )
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              "div",
+              { className: "row" },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                "div",
+                { className: "col-12" },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  "p",
+                  null,
+                  this.props.content.text,
+                  " "
+                )
+              )
+            )
+          )
         )
       )
     );
@@ -25881,7 +26029,7 @@ class ThingInteraction extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Com
   render() {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       "div",
-      { className: "container-fluid spread" },
+      { className: "container-fluid p-0 spread" },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         "div",
         { className: "row" },
@@ -25907,7 +26055,7 @@ class ThingInteraction extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Com
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__stores_ThingStore__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Category_CategoryTitle__ = __webpack_require__(69);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Category_Spread__ = __webpack_require__(70);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Shared_List__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Shared_List__ = __webpack_require__(24);
 
 
 /*
@@ -25977,7 +26125,7 @@ class Category extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
   render() {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
-      { className: 'container-fluid', id: 'app' },
+      { id: 'category' },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Category_CategoryTitle__["a" /* default */], { title: this.state.category.title }),
       this.displayType()
     );
@@ -26021,7 +26169,7 @@ class CategoryTitle extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Compon
   render() {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
-      { className: 'row justify-content-center', id: 'category-title' },
+      { className: 'row justify-content-center p-0', id: 'category-title' },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
         { className: 'row' },
@@ -26044,7 +26192,7 @@ class CategoryTitle extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Compon
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions_navActions__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions_navActions__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Spread_CategoryCard__ = __webpack_require__(71);
 
 
@@ -26108,7 +26256,7 @@ class Spread extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
   render() {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
-      { className: 'container-fluid d-flex justify-content-center flex-wrap spread' },
+      { className: 'container-fluid p-0 d-flex justify-content-center flex-wrap spread' },
       this.categoryCards()
     );
   }
@@ -26183,7 +26331,7 @@ class CategoryCard extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Compone
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions_navActions__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions_navActions__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__stores_ThingStore__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Nav_Arrow__ = __webpack_require__(73);
 
@@ -26332,7 +26480,7 @@ class Arrow extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions_aboutActions__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions_aboutActions__ = __webpack_require__(23);
 
 
 /*
@@ -26405,7 +26553,7 @@ class About extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_events__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_events__ = __webpack_require__(22);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_events___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_events__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__dispatcher__ = __webpack_require__(8);
 /*
@@ -27421,7 +27569,7 @@ var _propTypes = __webpack_require__(9);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _reactDom = __webpack_require__(14);
+var _reactDom = __webpack_require__(15);
 
 var _PropTypes = __webpack_require__(27);
 

@@ -66,7 +66,7 @@ export default class Category extends React.Component {
 
     render() {
       return (
-        <div className="container-fluid" id="app">
+        <div id="category">
           <CategoryTitle title={ this.state.category.title } />
           { this.displayType() }
         </div>

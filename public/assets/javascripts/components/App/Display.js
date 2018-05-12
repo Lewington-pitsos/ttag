@@ -86,20 +86,21 @@ export default class Display extends React.Component {
 
         {/* this will display the Nav component unless we are at the root */}
         <div className="row justify-content-center">
-          <div className="col-12 d-flex align-items-center flex-column">
+          <div className="col-12 p-0">
             { this.nav() }
           </div>
         </div>
 
         <div className="row justify-content-center">
-          <div className="col-8 d-flex align-items-center flex-column">
+          <div className="col-8 p-0">
+            <h3>sdasdasd</h3>
             <Content />
           </div>
         </div>
 
         {/* this will display nothing to the user unless we are at the root */}
         <div className="row justify-content-center">
-          <div className="col-8 d-flex align-items-center flex-column">
+          <div className="col-8 p-0">
             { this.about() }
           </div>
         </div>

@@ -39,6 +39,10 @@ export default class List extends React.Component {
     })
   }
 
+  comments() {
+    return <h1>comment</h1>
+  }
+
   render() {
     return (
       <div className="container-fluid" id="list">

@@ -58,7 +58,7 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <div className="container-fluid" id="app">
+      <div className="container-fluid p-0" id="app">
         <CSSTransitionGroup
          transitionName="app"
          transitionEnterTimeout={800}
