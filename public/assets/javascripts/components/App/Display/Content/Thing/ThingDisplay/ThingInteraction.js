@@ -1,20 +1,19 @@
 import React from 'react';
 
 /*
-Displays a number of components depending on props
+Basically it's a small form for udpating small bits of info on the current thing.
 
-  - CategoryCard (a square box representing a category of things)
+Displays no further components
 
 Relies on no store, but does rely on props:
 
-  - Expects an array of objects, each represneting a category, to be passed in
+  - Expects an id to be passed in.
 
-Has no user interactions.
+Has a number of user intercations:
 
-Handles the entry animation of all the Cards:
+  - if the user clicks the approve button, an update action is sent to the thingStore
 
-  - each Card will fly in swiftly fomr the screen bottom, with earlier/higher cards travelling faster
-
+Handles no animations
 */
 
 export default class ThingInteraction extends React.Component {
@@ -23,7 +22,7 @@ export default class ThingInteraction extends React.Component {
         <div className="container-fluid p-0 spread">
           <div className="row">
             <div className="col">
-            ThingInteraction
+              <button>Approve</button>
             </div>
           </div>
         </div>

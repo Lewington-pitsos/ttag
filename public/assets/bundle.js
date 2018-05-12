@@ -26009,20 +26009,19 @@ class ThingContent extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Compone
 
 
 /*
-Displays a number of components depending on props
+Basically it's a small form for udpating small bits of info on the current thing.
 
-  - CategoryCard (a square box representing a category of things)
+Displays no further components
 
 Relies on no store, but does rely on props:
 
-  - Expects an array of objects, each represneting a category, to be passed in
+  - Expects an id to be passed in.
 
-Has no user interactions.
+Has a number of user intercations:
 
-Handles the entry animation of all the Cards:
+  - if the user clicks the approve button, an update action is sent to the thingStore
 
-  - each Card will fly in swiftly fomr the screen bottom, with earlier/higher cards travelling faster
-
+Handles no animations
 */
 
 class ThingInteraction extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
@@ -26036,7 +26035,11 @@ class ThingInteraction extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Com
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           "div",
           { className: "col" },
-          "ThingInteraction"
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            "button",
+            null,
+            "Approve"
+          )
         )
       )
     );
