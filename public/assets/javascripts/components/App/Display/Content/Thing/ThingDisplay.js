@@ -30,7 +30,7 @@ export default class ThingDisplay extends React.Component {
           <div className="row">
             <div className="col">
             <ThingContent content={info} similarThings={this.props.similarThings}/>
-            <ThingInteraction approval={info.approval}/>
+            <ThingInteraction id={info.id}/>
             </div>
           </div>
         </div>

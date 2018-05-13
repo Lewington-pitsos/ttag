@@ -16,16 +16,24 @@ Has a number of user intercations:
 Handles no animations
 */
 
+import thingActions from '../../../../../../actions/thingActions';
+
 export default class ThingInteraction extends React.Component {
-    render() {
-      return (
-        <div className="container-fluid p-0 spread">
-          <div className="row">
-            <div className="col">
-              <button>Approve</button>
-            </div>
+
+  approve() {
+    // TODO: impliment a user system
+    thingActions.approve(this.props.id, 1);
+  }
+
+  render() {
+    return (
+      <div className="container-fluid p-0 spread">
+        <div className="row">
+          <div className="col">
+            <button onClick={ this.approve.bind(this) }>Approve</button>
           </div>
         </div>
-      );
-    }
+      </div>
+    );
+  }
 }

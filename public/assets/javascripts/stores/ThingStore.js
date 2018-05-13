@@ -90,6 +90,9 @@ class ThingStore extends EventEmitter {
       } case 'GOTO': {
         this.goTo(action.id, action.thing);
         break;
+      } case 'APPROVE': {
+        this.approve(action.thingId);
+        break;
       }
     }
   }
@@ -184,7 +187,6 @@ class ThingStore extends EventEmitter {
   }
 
   fetchThingInfo(id) {
-    console.log(id);
     const self = this;
     return new Promise(function(resolve, error) {
       const request = new XMLHttpRequest();
@@ -199,6 +201,18 @@ class ThingStore extends EventEmitter {
         }
       };
     })
+  }
+
+  // +-------------------------------------------------------------------+
+  //                        UPDATEING DATA
+  // +-------------------------------------------------------------------+
+
+  approve(thingId) {
+    const request = new XMLHttpRequest();
+    request.open('POST', `/thing/${thingId}/approve/`, true);
+    request.send();
+    this.node.approval += 1;
+    this.emit('change');
   }
 }
 
