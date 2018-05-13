@@ -579,6 +579,7 @@ class ThingStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
     // sets the current node id to the previous id (through breadcrumbs) and removes that id from breadcrumbs
     // uses the database to get the current node's data and that of its children
     this.id = this.breadcrumbs.pop();
+    this.thing = false;
     this.fetchNodeData();
   }
 
@@ -586,6 +587,7 @@ class ThingStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
     // sets the current category to the root category and the children to the root's children.
     // empties the array of previous categories.
     this.id = 1;
+    this.thing = false;
     this.breadcrumbs = [];
     this.fetchNodeData();
   }
@@ -614,7 +616,7 @@ class ThingStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
     // gathers all the info (comments and similar things) on the current thing and saves it
     // sets the tracker of whether we're currently at a thing to true
     this.thing = true;
-    this.node = this.children[0];
+    this.node = this.currentThing(id);
     this.children = [];
     const self = this;
     this.fetchThingInfo(id).then(function () {
@@ -622,8 +624,15 @@ class ThingStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
     });
   }
 
-  findThing() {
-    return this.children[0];
+  currentThing(id) {
+    // iterates through all current children and returns the one whose id matches the passed in id.
+    for (var i = 0; i < this.children.length; i++) {
+      if (this.children[i].id == id) {
+        return this.children[i];
+      }
+    }
+
+    return null;
   }
 
   // +-------------------------------------------------------------------+
@@ -643,24 +652,25 @@ class ThingStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
       if (request.readyState == 4) {
         const response = JSON.parse(request.responseText);
         self.node = response.node;
+        console.log(response.children);
         self.children = response.children;
         self.emit('change');
       }
     };
   }
 
-  fetchThingInfo() {
+  fetchThingInfo(id) {
+    console.log(id);
     const self = this;
     return new Promise(function (resolve, error) {
       const request = new XMLHttpRequest();
-      request.open('GET', '/thing/info/' + 1000, true);
+      request.open('GET', '/thing/info/' + id, true);
       request.send();
 
       request.onreadystatechange = function () {
         if (request.readyState == 4) {
           const response = JSON.parse(request.responseText);
           self.thingInfo = response.rows;
-          console.log(response);
           resolve();
         }
       };
@@ -2076,7 +2086,7 @@ class List extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 
   comments() {
     return this.props.comments.map(function (comment) {
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__List_Comment__["a" /* default */], { info: comment });
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__List_Comment__["a" /* default */], { info: comment, key: comment.id });
     });
   }
 
