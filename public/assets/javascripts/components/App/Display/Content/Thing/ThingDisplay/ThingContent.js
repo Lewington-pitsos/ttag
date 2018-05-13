@@ -18,6 +18,14 @@ Handles the entry animation of all the Cards:
 */
 
 export default class ThingContent extends React.Component {
+
+    similarThings() {
+      console.log(this.props.similarThings);
+      return this.props.similarThings.map(function(thing) {
+        return <span key={thing.id}>{ thing.name }</span>;
+      })
+    }
+
     render() {
       return (
         <div className="container-fluid p-0">
@@ -41,7 +49,7 @@ export default class ThingContent extends React.Component {
                         </tr>
                         <tr>
                           <td>Similar Things: </td>
-                          <td>a, b and c</td>
+                          <td>{ this.similarThings() }</td>
                         </tr>
                       </tbody>
                     </table>

@@ -40,8 +40,9 @@ export default class List extends React.Component {
   }
 
   comments() {
+    console.log(this.props.comments);
     return this.props.comments.map(function(comment) {
-      return <Comment info={comment} key={comment.id} />;
+      return <Comment info={comment} key={comment.comment_id} />;
     })
   }
 

@@ -69,7 +69,7 @@ class ThingStore extends EventEmitter {
   getThingInfo() {
     return {
       'thing': this.node,
-      'comments': this.thingInfo
+      'info': this.thingInfo
     }
   }
 
@@ -194,7 +194,7 @@ class ThingStore extends EventEmitter {
       request.onreadystatechange = function(){
         if (request.readyState == 4) {
           const response = JSON.parse(request.responseText);
-          self.thingInfo = response.rows;
+          self.thingInfo = response;
           resolve();
         }
       };

@@ -11,8 +11,12 @@ function childCats(id) {
   return `SELECT * FROM Categories WHERE category_id = ${id} AND NOT id = 1;`;
 }
 
-function thingInfo(id) {
-  return `SELECT comments.*, users.* FROM thingcomments JOIN comments ON comments.id = thingComments.id JOIN users ON users.id = comments.user_id WHERE thing_id = ${id}`
+function thingComments(id) {
+  return `SELECT comments.id AS comment_id, comments.*, users.* FROM thingcomments JOIN comments ON comments.id = thingComments.id JOIN users ON users.id = comments.user_id WHERE thing_id = ${id}`
+}
+
+function similarThings(id) {
+  return `SELECT t3.name, t3.id FROM things AS t1 JOIN SimilarThings AS t2 ON t1.id = t2.thing_id JOIN things AS t3 ON t3.id = t2.similar_id WHERE t1.id = ${id};`;
 }
 
 function comments(id) {
@@ -24,5 +28,6 @@ module.exports = {
   childThings: childThings,
   childCats: childCats,
   comments: comments,
-  thingInfo: thingInfo
+  thingComments: thingComments,
+  similarThings: similarThings
 }

@@ -11,6 +11,7 @@ module.exports = {
   Archivist: Archivist
 }
 
+/*
 const db = new DbSetup;
 
 //db.setupIfNeeded();
@@ -23,4 +24,5 @@ const rel = new RelationSetup;
 
 const lib = new Librarian
 
-lib.insertTestData();
+//lib.insertTestData();
+*/

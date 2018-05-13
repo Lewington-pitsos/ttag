@@ -543,7 +543,7 @@ class ThingStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
   getThingInfo() {
     return {
       'thing': this.node,
-      'comments': this.thingInfo
+      'info': this.thingInfo
     };
   }
 
@@ -670,7 +670,7 @@ class ThingStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
       request.onreadystatechange = function () {
         if (request.readyState == 4) {
           const response = JSON.parse(request.responseText);
-          self.thingInfo = response.rows;
+          self.thingInfo = response;
           resolve();
         }
       };
@@ -2085,8 +2085,9 @@ class List extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
   }
 
   comments() {
+    console.log(this.props.comments);
     return this.props.comments.map(function (comment) {
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__List_Comment__["a" /* default */], { info: comment, key: comment.id });
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__List_Comment__["a" /* default */], { info: comment, key: comment.comment_id });
     });
   }
 
@@ -25390,8 +25391,8 @@ class Thing extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
       { id: 'thing' },
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Thing_ThingDisplay__["a" /* default */], { info: this.state.thing }),
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Thing_CommentList__["a" /* default */], { comments: this.state.comments })
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Thing_ThingDisplay__["a" /* default */], { info: this.state.thing, similarThings: this.state.info.similarThings }),
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Thing_CommentList__["a" /* default */], { comments: this.state.info.comments })
     );
   }
 }
@@ -25900,8 +25901,6 @@ class ThingDisplay extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Compone
   render() {
     const info = this.props.info;
 
-    console.log(info);
-
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
       { className: 'container-fluid spread' },
@@ -25911,7 +25910,7 @@ class ThingDisplay extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Compone
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'div',
           { className: 'col' },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__ThingDisplay_ThingContent__["a" /* default */], { content: info }),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__ThingDisplay_ThingContent__["a" /* default */], { content: info, similarThings: this.props.similarThings }),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__ThingDisplay_ThingInteraction__["a" /* default */], { approval: info.approval })
         )
       )
@@ -25948,6 +25947,18 @@ Handles the entry animation of all the Cards:
 */
 
 class ThingContent extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+
+  similarThings() {
+    console.log(this.props.similarThings);
+    return this.props.similarThings.map(function (thing) {
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        "span",
+        { key: thing.id },
+        thing.name
+      );
+    });
+  }
+
   render() {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       "div",
@@ -26013,7 +26024,7 @@ class ThingContent extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Compone
                       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         "td",
                         null,
-                        "a, b and c"
+                        this.similarThings()
                       )
                     )
                   )

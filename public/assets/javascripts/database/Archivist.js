@@ -74,8 +74,36 @@ module.exports = function Archivist() {
   * OUTPUT: a promise that is resolved as soon as the query results have been saved
   */
   this.getThingInfo = function(id) {
-    return this.executeQuery(id, this.thingInfo.bind(this));
+    // initialises an object and returns a promise
+    // executes a query to return all the comments for the current thing, and once this is finished, saves them to the data object
+    // executes a query to return all the similar things, and saves this to data once it is done
+    // finially, saves data as the overall result of the query and resolves the promise
+    const data = {};
+    const self = this;
+
+    return new Promise(function(resolve, reject) {
+      self.getThingComments(id).then(function() {
+        data.comments = self.result.rows;
+
+        self.getSimilarThings(id).then(function() {
+          data.similarThings = self.result.rows;
+          self.result = data;
+          resolve();
+
+        })
+      })
+    })
   }
+
+  this.getThingComments = function(id) {
+    return this.executeQuery(id, this.thingComments.bind(this));
+  }
+
+
+  this.getSimilarThings = function(id) {
+    return this.executeQuery(id, this.similarThings.bind(this));
+  }
+
 
   /*
   INPUT: an id representing the id of some categroy

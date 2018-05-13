@@ -25,13 +25,11 @@ export default class ThingDisplay extends React.Component {
     render() {
       const info = this.props.info;
 
-      console.log(info);
-
       return (
         <div className="container-fluid spread">
           <div className="row">
             <div className="col">
-            <ThingContent content={info}/>
+            <ThingContent content={info} similarThings={this.props.similarThings}/>
             <ThingInteraction approval={info.approval}/>
             </div>
           </div>

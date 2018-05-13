@@ -33,7 +33,6 @@ const SThings = `CREATE TABLE Things (
   text VARCHAR(1000),
   approval INTEGER NOT NULL DEFAULT 0,
   good BOOLEAN NOT NULL DEFAULT TRUE,
-  category_id INTEGER REFERENCES Categories(id) ON DELETE CASCADE,
   timestamp TIMESTAMP DEFAULT NOW(),
   PRIMARY KEY(id)
 );`;

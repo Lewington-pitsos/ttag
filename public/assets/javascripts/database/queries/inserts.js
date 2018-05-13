@@ -54,21 +54,28 @@ const testData = {
     },
     {
       id: 1001,
-      name: 'Black Adder',
+      name: 'The Color of Magic',
       text: 'great book',
       image: 'black_adder.jpg'
     },
     {
       id: 1002,
-      name: 'Black Adder',
+      name: 'Odysseus',
       text: 'great book',
       image: 'black_adder.jpg'
     },
     {
       id: 1003,
-      name: 'Black Adder',
+      name: 'Tomorrow when the war began',
       text: 'great book',
       image: 'black_adder.jpg'
+    },
+    {
+      id: 1004,
+      name: 'The Name of the Wind',
+      text: 'terrible book',
+      image: 'black_adder.jpg',
+      good: false
     },
   ],
   'ThingCategories' : [
@@ -155,6 +162,18 @@ const testData = {
       id: 1004,
       thing_id: 1000,
       comment_id: 1004
+    }
+  ],
+  'SimilarThings': [
+    {
+      id: 1000,
+      thing_id: 1000,
+      similar_id: 1001
+    },
+    {
+      id: 1001,
+      thing_id: 1000,
+      similar_id: 1004
     }
   ]
 }
