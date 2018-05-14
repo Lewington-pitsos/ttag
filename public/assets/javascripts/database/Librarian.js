@@ -147,6 +147,11 @@ module.exports = function Librarian() {
     // yje root category is never removed
   }
 
+  this.approveThing = function(id, approval) {
+    // builds the query, executes it and returns the promise
+    const query = this.approve(id, approval);
+    return this.executeQuery(query);
+  }
 
 }
 

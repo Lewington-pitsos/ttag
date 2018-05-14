@@ -568,7 +568,11 @@ class ThingStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
           break;
         }case 'APPROVE':
         {
-          this.approve(action.thingId);
+          this.changeApproval(action.thingId, 1);
+          break;
+        }case 'DISAPPROVE':
+        {
+          this.changeApproval(action.thingId, -1);
           break;
         }
     }
@@ -684,11 +688,12 @@ class ThingStore extends __WEBPACK_IMPORTED_MODULE_0_events__["EventEmitter"] {
   //                        UPDATEING DATA
   // +-------------------------------------------------------------------+
 
-  approve(thingId) {
+  changeApproval(thingId, modifier) {
     const request = new XMLHttpRequest();
+    var newApproval = this.node.approval + modifier;
+    this.node.approval = newApproval;
     request.open('POST', `/thing/${thingId}/approve/`, true);
     request.send();
-    this.node.approval += 1;
     this.emit('change');
   }
 }
@@ -25926,7 +25931,7 @@ class ThingDisplay extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Compone
           'div',
           { className: 'col' },
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__ThingDisplay_ThingContent__["a" /* default */], { content: info, similarThings: this.props.similarThings }),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__ThingDisplay_ThingInteraction__["a" /* default */], { id: info.id })
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__ThingDisplay_ThingInteraction__["a" /* default */], { info: info })
         )
       )
     );
@@ -26101,7 +26106,12 @@ class ThingInteraction extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Com
 
   approve() {
     // TODO: impliment a user system
-    __WEBPACK_IMPORTED_MODULE_1__actions_thingActions__["a" /* default */].approve(this.props.id, 1);
+    __WEBPACK_IMPORTED_MODULE_1__actions_thingActions__["a" /* default */].approve(this.props.info.id);
+  }
+
+  disapprove() {
+    // TODO: impliment a user system
+    __WEBPACK_IMPORTED_MODULE_1__actions_thingActions__["a" /* default */].disapprove(this.props.info.id);
   }
 
   render() {
@@ -26118,6 +26128,11 @@ class ThingInteraction extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Com
             'button',
             { onClick: this.approve.bind(this) },
             'Approve'
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'button',
+            { onClick: this.disapprove.bind(this) },
+            'Disapprove'
           )
         )
       )
@@ -26139,6 +26154,14 @@ class ThingInteraction extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Com
   approve(thingId, userId) {
     __WEBPACK_IMPORTED_MODULE_0__dispatcher__["a" /* default */].dispatch({
       type: 'APPROVE',
+      user: userId,
+      thing: thingId
+    });
+  },
+
+  disapprove(thingId, userId) {
+    __WEBPACK_IMPORTED_MODULE_0__dispatcher__["a" /* default */].dispatch({
+      type: 'DISAPPROVE',
       user: userId,
       thing: thingId
     });

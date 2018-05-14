@@ -53,7 +53,10 @@ app.get('/thing/info/:id', function(req, res) {
 })
 
 app.post('/thing/:id/approve/', function(req, res) {
-
+  const librarian = new backend.Librarian();
+  librarian.approveThing(req.params.id, 1).then(function() {
+    res.send(200);
+  })
 })
 
 app.listen(3000, () => console.log('Example app listening on port 3000!'))

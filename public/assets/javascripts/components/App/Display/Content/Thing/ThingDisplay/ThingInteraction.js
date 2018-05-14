@@ -22,8 +22,14 @@ export default class ThingInteraction extends React.Component {
 
   approve() {
     // TODO: impliment a user system
-    thingActions.approve(this.props.id, 1);
+    thingActions.approve(this.props.info.id);
   }
+
+  disapprove() {
+    // TODO: impliment a user system
+    thingActions.disapprove(this.props.info.id);
+  }
+
 
   render() {
     return (
@@ -31,6 +37,7 @@ export default class ThingInteraction extends React.Component {
         <div className="row">
           <div className="col">
             <button onClick={ this.approve.bind(this) }>Approve</button>
+            <button onClick={ this.disapprove.bind(this) }>Disapprove</button>
           </div>
         </div>
       </div>

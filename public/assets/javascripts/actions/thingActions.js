@@ -7,5 +7,13 @@ export default {
       user: userId,
       thing: thingId
     });
+  },
+
+  disapprove(thingId, userId) {
+    dispatcher.dispatch({
+      type: 'DISAPPROVE',
+      user: userId,
+      thing: thingId
+    });
   }
 }

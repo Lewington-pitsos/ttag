@@ -91,7 +91,10 @@ class ThingStore extends EventEmitter {
         this.goTo(action.id, action.thing);
         break;
       } case 'APPROVE': {
-        this.approve(action.thingId);
+        this.changeApproval(action.thingId, 1);
+        break;
+      } case 'DISAPPROVE': {
+        this.changeApproval(action.thingId, -1);
         break;
       }
     }
@@ -207,11 +210,12 @@ class ThingStore extends EventEmitter {
   //                        UPDATEING DATA
   // +-------------------------------------------------------------------+
 
-  approve(thingId) {
+  changeApproval(thingId, modifier) {
     const request = new XMLHttpRequest();
+    var newApproval = this.node.approval + modifier;
+    this.node.approval = newApproval;
     request.open('POST', `/thing/${thingId}/approve/`, true);
     request.send();
-    this.node.approval += 1;
     this.emit('change');
   }
 }

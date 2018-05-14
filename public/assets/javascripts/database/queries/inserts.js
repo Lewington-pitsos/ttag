@@ -178,9 +178,14 @@ const testData = {
   ]
 }
 
+function approve(id, approval) {
+  return `UPDATE things SET approval = ${approval + 1} WHERE id = ${id};`;
+}
+
 
 module.exports = {
-  testData: testData
+  testData: testData,
+  approve: approve
 }
 
 /*
