@@ -179,9 +179,8 @@ const testData = {
 }
 
 function setApproval(id, approval) {
-  return `UPDATE things SET approval = ${approval} WHERE id = ${id};`;
+  return `UPDATE things SET approval = ${approval} WHERE id = ${id} RETURNING id;`;
 }
-
 
 module.exports = {
   testData: testData,

@@ -16,6 +16,9 @@ module.exports = function Librarian() {
     database: 'ttag'
   });
 
+  // stores the result of each query just after execution
+  this.results = {};
+
   // creates a database connection as the ttag user
 
   /*
@@ -24,7 +27,7 @@ module.exports = function Librarian() {
 
   OUTPUT: a string representing a query which, if executed in the right database, will insert the right values to the specified relation.
   */
-  this.generateQuery = function(relation, inserts) {
+  this.generateQuery = function(relation, inserts, returnName = 'id') {
     // create empty arrays for the keys and values to be inserted
     var names = [];
     var values = [];
@@ -39,7 +42,7 @@ module.exports = function Librarian() {
 
     // formats the arrays into a query which is then returned
     names = names.join(', ');
-    return `INSERT INTO ${relation} (${names}) VALUES(${values});`
+    return `INSERT INTO ${relation} (${names}) VALUES(${values}) RETURNING ${returnName};`
   }
 
 
@@ -128,6 +131,7 @@ module.exports = function Librarian() {
     const self = this;
     return new Promise(function(resolve, error) {
       self.pool.query(query, (err, res) => {
+        self.result = res;
         resolve();
       });
     });
@@ -153,6 +157,38 @@ module.exports = function Librarian() {
     return this.executeQuery(query);
   }
 
+  /* INPUT: (values) an object
+    -> keys: attribute names
+    -> values: attribute values
+    INPUT: (category_id) the id of the thing's parent category
+
+    DOES: inserts the new values to the things relation
+    DOES: adds a new assocaition to thingcategories between the new thing and the parent category
+
+    OUTPUT: a promise which is resolves as soon as the associations are created
+  */
+  this.insertNewThing = function(values, category_id) {
+
+    // returns a promise
+    // inserts the new values to 'things' and returns the id of the new tuple
+    // inserts that id and category_id to 'ThingCategories' and THEN resolves the promise
+    const self = this;
+    return new Promise(function(resolve, reject) {
+      console.log(values);
+
+      self.insertTo('things', [values]).then(function() {
+        console.log(self.result);
+        const id = self.result.rows[0].id;
+
+        self.insertTo('ThingCategories', [{
+          category_id: category_id,
+          thing_id: id
+        }]).then(function() {
+          resolve();
+        })
+      })
+    })
+  }
 }
 
 

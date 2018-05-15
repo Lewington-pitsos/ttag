@@ -8,7 +8,8 @@ console.log(RelationSetup);
 module.exports = {
   DbSetup: DbSetup,
   RelationSetup: RelationSetup,
-  Archivist: Archivist
+  Archivist: Archivist,
+  Librarian: Librarian
 }
 
 /*

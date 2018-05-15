@@ -59,4 +59,18 @@ app.post('/thing/:id/approve/', function(req, res) {
   })
 })
 
+app.get('/thing/new/', function(req, res) {
+  const values = {
+    name: 'Meditations',
+    image: 'marcus.jpg',
+    text: 'thid book is really good. it teaches you a lot of funyk shit',
+    approval: 10
+  }
+
+  const librarian = new backend.Librarian();
+  librarian.insertNewThing(values, 1000).then(function() {
+    res.send(200);
+  })
+})
+
 app.listen(3000, () => console.log('Example app listening on port 3000!'))
