@@ -70,7 +70,14 @@ app.get('/thing/new/', function(req, res) {
   const librarian = new backend.Librarian();
   librarian.insertNewThing(values, 1000).then(function() {
     res.send(200);
-  })
+  });
+})
+
+app.get('/categories/:category_id/add/things/:thing_id', function(req, res) {
+  const librarian = new backend.Librarian();
+  librarian.addThingToCategory(req.params.category_id, req.params.thing_id).then(function() {
+    res.send(200);
+  });
 })
 
 app.listen(3000, () => console.log('Example app listening on port 3000!'))

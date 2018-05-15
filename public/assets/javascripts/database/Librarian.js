@@ -45,6 +45,9 @@ module.exports = function Librarian() {
     return `INSERT INTO ${relation} (${names}) VALUES(${values}) RETURNING ${returnName};`
   }
 
+  // +-------------------------------------------------------------------+
+  //                         GENERAL INSERTS
+  // +-------------------------------------------------------------------+
 
   /*
   INPUT: an array (inserts)
@@ -138,6 +141,16 @@ module.exports = function Librarian() {
   }
 
   // +-------------------------------------------------------------------+
+  //                              DELETION METHODS
+  // +-------------------------------------------------------------------+
+
+
+  // +-------------------------------------------------------------------+
+  //                         SPECIFIC INSERTS
+  // +-------------------------------------------------------------------+
+
+
+  // +-------------------------------------------------------------------+
   //                         EXPOSED METHODS
   // +-------------------------------------------------------------------+
 
@@ -180,14 +193,18 @@ module.exports = function Librarian() {
         console.log(self.result);
         const id = self.result.rows[0].id;
 
-        self.insertTo('ThingCategories', [{
-          category_id: category_id,
-          thing_id: id
-        }]).then(function() {
+        self.addThingToCategory(category_id, id).then(function() {
           resolve();
         })
       })
     })
+  }
+
+  this.addThingToCategory = function(category_id, thing_id) {
+    return this.insertTo('ThingCategories', [{
+      category_id: category_id,
+      thing_id: thing_id
+    }]);
   }
 }
 
