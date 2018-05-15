@@ -182,9 +182,34 @@ function setApproval(id, approval) {
   return `UPDATE things SET approval = ${approval} WHERE id = ${id} RETURNING id;`;
 }
 
+/*
+INPUT: (relation) the name of a relation
+INPUT: (conditions) an object
+  => keys: arribute names
+  => values: values for those attributes
+
+DOES: generates a query string to delete all tuples form (relation) where ALL the conditions in (conditions) are met
+
+OUTPUT: that query string
+*/
+function deleteFrom(relation, conditions) {
+
+  var conditionStrings = [];
+  Object.keys(conditions).forEach(function(key, _) {
+    conditionStrings.push(`${key} = '${conditions[key]}'`);
+  })
+
+  conditionStrings = conditionStrings.join(' AND ');
+
+  console.log(conditionStrings);
+
+  return `DELETE FROM ${relation} WHERE ${conditionStrings};`;
+}
+
 module.exports = {
   testData: testData,
-  setApproval: setApproval
+  setApproval: setApproval,
+  deleteFrom: deleteFrom
 }
 
 /*

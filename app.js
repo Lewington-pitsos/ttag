@@ -80,4 +80,12 @@ app.get('/categories/:category_id/add/things/:thing_id', function(req, res) {
   });
 })
 
+app.get('/categories/:category_id/remove/things/:thing_id', function(req, res) {
+  const librarian = new backend.Librarian();
+  librarian.removeThingFromCategory(req.params.category_id, req.params.thing_id).then(function() {
+    console.log(req.params);
+    res.send(200);
+  });
+})
+
 app.listen(3000, () => console.log('Example app listening on port 3000!'))

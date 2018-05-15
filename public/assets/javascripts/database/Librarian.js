@@ -10,6 +10,8 @@ const insertLib = require('./queries/inserts');
 
 module.exports = function Librarian() {
 
+  Object.assign(this, insertLib);
+
   this.pool = new Pool({
     user: secrets.ttagUser,
     password: secrets.ttagPass,
@@ -205,6 +207,14 @@ module.exports = function Librarian() {
       category_id: category_id,
       thing_id: thing_id
     }]);
+  }
+
+  this.removeThingFromCategory = function(category_id, thing_id) {
+    const query = this.deleteFrom('ThingCategories', {
+      thing_id: thing_id,
+      category_id: category_id
+    });
+    return this.executeQuery(query);
   }
 }
 
