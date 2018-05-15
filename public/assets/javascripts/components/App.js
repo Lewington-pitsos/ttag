@@ -22,6 +22,7 @@ This pretty much just a wrrapper to keep everything logically distinct.
 
 import Display from './App/Display';
 import About from './App/About';
+import Admin from './App/Admin';
 
 import aboutStore from '../stores/AboutStore';
 
@@ -59,6 +60,7 @@ export default class App extends React.Component {
   render() {
     return (
       <div className="container-fluid p-0" id="app">
+      <div id="app-main">
         <CSSTransitionGroup
          transitionName="app"
          transitionEnterTimeout={800}
@@ -68,6 +70,10 @@ export default class App extends React.Component {
          {this.state.about ? '' : <Display />}
 
         </CSSTransitionGroup>
+      </div>
+      <div id="app-admin">
+        <Admin />
+      </div>
       </div>
     );
   }

@@ -1,6 +1,9 @@
 const express = require('express');
-
 const app = express();
+
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 const backend = require('./public/assets/backend');
 
@@ -80,10 +83,13 @@ app.get('/categories/:category_id/add/things/:thing_id', function(req, res) {
   });
 })
 
-app.get('/categories/:category_id/remove/things/:thing_id', function(req, res) {
+app.post('/categories/things/remove', function(req, res) {
+  console.log(req);
+  console.log(req.body);
+  console.log(req.payload);
+
   const librarian = new backend.Librarian();
-  librarian.removeThingFromCategory(req.params.category_id, req.params.thing_id).then(function() {
-    console.log(req.params);
+  librarian.removeThingFromCategory(req.body.categoryId, req.body.thingId).then(function() {
     res.send(200);
   });
 })
